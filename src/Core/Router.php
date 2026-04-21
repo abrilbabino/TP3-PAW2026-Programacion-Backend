@@ -4,8 +4,8 @@ namespace Paw\Core;
 
 use Exception;
 use Paw\Core\Request;
-use Pawcore\Core\Exceptions\RouteNotFoundException;
-use Pae\Core\Traits\Loggable;
+use Paw\Core\Exceptions\RouteNotFoundException;
+use Paw\Core\Traits\Loggable;
 
 class Router{
 
