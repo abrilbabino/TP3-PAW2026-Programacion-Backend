@@ -10,13 +10,15 @@ class ErrorController extends Controller
     public function notFound()
     {
         http_response_code(404);
-        $titulo = 'Pagina encontrada';
+        $titulo = 'Pagina no encontrada';
+        $menu = $this->menu;
         require $this -> viewsDir . '/not-found.view.php';
     }
     public function internalError()
     {
         http_response_code(500);
         $titulo = "Error interno del servidor";
+        $menu = $this->menu;
         require $this->viewsDir . '/internal_error.view.php';
     }
 

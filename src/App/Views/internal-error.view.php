@@ -8,7 +8,7 @@
     <header>
         <h1>Error Interno del Servidor</h1>
          <?php 
-            require 'parts/nav.view.php'
+            require __DIR__ . '/nav.view.php'
         ?>
     </header>
 </body>

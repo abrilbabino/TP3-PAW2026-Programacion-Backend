@@ -8,7 +8,7 @@
     <header>
         <h1>Page Not Found</h1>
         <?php 
-            require 'parts/nav.view.php'
+            require __DIR__ .'/nav.view.php'
         ?>
     </header>
 </body>

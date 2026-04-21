@@ -8,7 +8,7 @@ use Paw\Core\Database\QueryBuilder;
 class Controller
 {
     public string $viewsDir;
-    private $menu;
+    protected $menu;
     private $model;
 
 
@@ -17,7 +17,7 @@ class Controller
     public function __construct()
     {
         global $connection, $log;
-        $this -> viewsDir = __DIR__ . "/../Views";
+        $this -> viewsDir = __DIR__ . "/../App/Views";
 
         $this -> menu = [
             [
