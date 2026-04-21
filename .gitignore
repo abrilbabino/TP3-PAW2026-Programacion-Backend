@@ -8,5 +8,5 @@
 .vscode/
 .DS_Store
 
-app.log
+/logs/*.log
 
