@@ -21,11 +21,12 @@ class PageController extends Controller
         $redes = $this->redes;
         require $this->viewsDir . '/reserva.view.php';
     }
-    
+
     public function sobreNosotros()
     {
         $menu = $this->menu;
         $redes = $this->redes;
         require $this->viewsDir . '/sobreNosotros.view.php';
     }
+
 }
