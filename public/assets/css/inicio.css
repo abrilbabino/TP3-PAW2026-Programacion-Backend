@@ -1,6 +1,6 @@
 /*  BANNER DE INICIO (Celular) */
 .Bienvenida {
-  background-image: url("../img/fondo-libreria.png");
+  background-image: url("/assets/img/fondo-libreria.png");
   background-size: cover;
   background-position: center;
   width: 100%;

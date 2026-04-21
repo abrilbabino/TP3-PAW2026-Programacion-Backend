@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="styles/style.css" />
-    <link rel="stylesheet" href="styles/print.css" media="print" />
+    <link rel="icon" type="image/png" href="/assets/img/icon.png">
+    <link rel="stylesheet" href="/assets/css//style.css" />
+    <link rel="stylesheet" href="/assets/css/print.css" media="print" />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
@@ -15,19 +16,19 @@
     <header class="Barra-navegacion">
       <label for="menu-hamburguesa" class="label-hamburguesa">
         <img
-          src="img/menu-hamburguesa.png"
+          src="/asseys/img/menu-hamburguesa.png"
           alt="Abrir menú"
           class="icono-header"
         />
       </label>
 
       <figure class="header-logo">
-        <img src="img/logo.png" alt="PAWPrints" />
+        <img src="/assets/img/logo.png" alt="PAWPrints" />
       </figure>
 
       <label for="mostrar-carrito" class="icono-carrito">
         <img
-          src="img/carrito-de-compras.png"
+          src="/assets/img/carrito-de-compras.png"
           alt="Abrir carrito"
           class="icono-header"
         />
@@ -110,13 +111,13 @@
         </p>
 
         <article>
-          <img src="img/nuevos-ingresos.png" alt="" />
+          <img src="/assets/img/nuevos-ingresos.png" alt="" />
           <h3>Nuevos Ingresos</h3>
           <p>Descubrí los últimos títulos agregados a nuestro catálogo.</p>
         </article>
 
         <article>
-          <img src="img/descuento-mes.png" alt="" />
+          <img src="/assets/img/descuento-mes.png" alt="" />
           <h3>Descuentos del Mes</h3>
           <p>
             Obtené hasta un 50% de descuento en artículos seleccionados este
@@ -125,7 +126,7 @@
         </article>
 
         <article>
-          <img src="img/eventos.png" alt="" />
+          <img src="/assets/img/eventos.png" alt="" />
           <h3>Eventos</h3>
           <p>¡Sumate a nuestros próximos eventos de firma de libros!</p>
         </article>
@@ -161,19 +162,19 @@
           <li>
             <a href="https://facebook.com" class="icono-red">
               <span class="texto-red">Facebook</span
-              ><img src="img/facebook.png" alt="Facebook" class="img-red"
+              ><img src="/assets/img/facebook.png" alt="Facebook" class="img-red"
             /></a>
           </li>
           <li>
             <a href="https://twitter.com" class="icono-red"
               ><span class="texto-red">Twitter</span
-              ><img src="img/twitter.png" alt="Twitter" class="img-red"
+              ><img src="/assets/img/twitter.png" alt="Twitter" class="img-red"
             /></a>
           </li>
           <li>
             <a href="https://instagram.com" class="icono-red"
               ><span class="texto-red">Instagram</span
-              ><img src="img/instagram.png" alt="Instagram" class="img-red"
+              ><img src="/assets/img/instagram.png" alt="Instagram" class="img-red"
             /></a>
           </li>
         </ul>

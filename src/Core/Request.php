@@ -5,7 +5,11 @@ namespace Paw\Core;
 class Request{
 	public function uri()
 	{
-		return parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+		$path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+		if (str_contains($path, 'index.php')) {
+        	$path = '/';
+    	}
+		return $path;
 	}
 
 	public function method()

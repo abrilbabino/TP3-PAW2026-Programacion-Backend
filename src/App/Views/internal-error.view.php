@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     <meta .charset="utf-8">
+    <link rel="icon" type="image/png" href="/assets/img/icon.png">
     <title> Error Interno del Servidor</title>
 </head>
 <body>
