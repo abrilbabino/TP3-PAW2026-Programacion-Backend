@@ -1,0 +1,34 @@
+{
+    "name": "paw/tp3-paw2026-programacion-backend",
+    "description": "Proyecto del grupo #4 para el TP3 de PAW Lujan 2026",
+    "keywords": ["php","mvc"],
+    "licence": "MIT",
+    "authors": [
+        {
+            "name": "Abril Babino",
+            "email": "abril.nadia.babino984@gmail.com",
+            "role": "Creator / Main Developer"
+        },
+        {
+            "name": "Naiara Collazo",
+            "email": "collazonaiara@gmail.com",
+            "role": "Creator / Main Developer"
+        },
+        {
+            "name": "Tobias Avila",
+            "email": "tobiasavila04@gmail.com",
+            "role": "Creator / Main Developer"
+        }
+    ],
+    "require": {
+        "php": ">=8.4.0",
+        "filp/whoops": "~2",
+        "monolog/monolog": "^3.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "Paw\\": "src/"
+        }
+    }
+
+}
