@@ -12,7 +12,7 @@ use Dotenv\Dotenv;
 use Paw\Core\Router;
 
 
-$dotenv = Dotenv::createUnsafeInmutable(__DIR__ . '/../');
+$dotenv = Dotenv::createUnsafeImmutable(__DIR__ . '/../');
 $dotenv→load();
 $config = new Config;
 
