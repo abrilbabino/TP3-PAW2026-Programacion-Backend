@@ -26,7 +26,6 @@ class Controller
                 "name" => "Inicio",
                 "icon" => "home",
                 "type" => "link",
-                "class" => "pagina actual"
             ],
             [
                 "name" => "Iniciar Sesión",

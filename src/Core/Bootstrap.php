@@ -12,6 +12,8 @@ use Dotenv\Dotenv;
 use Paw\Core\Router;
 use Paw\Core\Request;
 
+use Paw\Core\Database\ConnectionBuilder;
+
 $dotenv = Dotenv::createUnsafeImmutable(__DIR__ . '/../../');
 $dotenv->load();
 $config = new Config;
@@ -34,3 +36,8 @@ $router->get('/sobreNosotros', 'PageController@sobreNosotros');
 $router->get('not_found', 'ErrorController@notFound');
 $router->get('internal_error', 'ErrorController@internalError');
 $router->get('/reserva', 'PageController@reserva');
+
+$connectionBuilder = new ConnectionBuilder;
+$connectionBuilder->setLogger($log);
+$connection = $connectionBuilder->make($config);
+
