@@ -30,6 +30,7 @@ $whoops->register();
 $router=new Router;
 $router->setLogger($log);
 $router->get('/','PageController@index');
+$router->get('/sobreNosotros', 'PageController@sobreNosotros');
 $router->get('not_found', 'ErrorController@notFound');
 $router->get('internal_error', 'ErrorController@internalError');
 $router->get('/reserva', 'PageController@reserva');
