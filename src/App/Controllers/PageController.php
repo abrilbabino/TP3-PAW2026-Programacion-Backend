@@ -14,4 +14,11 @@ class PageController extends Controller
         require $this -> viewsDir . '/index.view.php';
     }
     /**ver si agregamos las otras function */
+
+    public function sobreNosotros()
+    {
+        $menu = $this->menu;
+        $redes = $this->redes;
+        require $this->viewsDir . '/sobreNosotros.view.php';
+    }
 }
