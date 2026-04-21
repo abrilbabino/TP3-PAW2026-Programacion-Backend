@@ -17,7 +17,7 @@ class Controller
     public function __construct()
     {
         global $connection, $log;
-        $this -> viewsDir = __DIR__ . "/../views";
+        $this -> viewsDir = __DIR__ . "/../Views";
 
         $this -> menu = [
             [

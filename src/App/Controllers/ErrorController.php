@@ -7,11 +7,11 @@ use Paw\Core\Controller;
 class ErrorController extends Controller
 {
 
-    public function notFaund()
+    public function notFound()
     {
         http_response_code(404);
         $titulo = 'Pagina encontrada';
-        require $this -> viewsDir . 'not-founs.view.php';
+        require $this -> viewsDir . '/not-found.view.php';
     }
     public function internalError()
     {

@@ -20,7 +20,7 @@ class Router{
     public string $notFound = 'not_found';
     public string $internalError = 'internal_error';
 
-    public function __contract()
+    public function __construct()
     {
         $this->get($this->notFound, 'ErrorController@notFound' );
         $this->get($this->internalError, 'ErrorController@internalError' );
@@ -49,7 +49,7 @@ class Router{
     public function getController($path, $http_method)
     {
         if (!$this->exists($path, $http_method)) {
-            return new RouteNotFoundException("No existe ruta para este Path: $path y método HTTP: $http_method");
+            throw new RouteNotFoundException("No existe ruta para este Path: $path y método HTTP: $http_method");
         }
         return explode('@', $this->routes[$http_method][$path]);
     }

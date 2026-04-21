@@ -4,13 +4,13 @@ namespace Paw\Core;
 
 class Config 
 {
-    private array $configs;
+    private array $configs = [];
 
     public function __construct()
     {
         $this->configs["LOG_LEVEL"] = getenv("LOG_LEVEL" , "INFO");
         $path =  getenv("LOG_PATH" , "\logs\app.log");
-        $this->configs["LOG_PATH"] = $this->joinPaths('..' , $path);
+        $this->configs["LOG_PATH"] = $this->joinPaths(__DIR__ . '/../../' , $path);
     }
 
     public function joinPaths()

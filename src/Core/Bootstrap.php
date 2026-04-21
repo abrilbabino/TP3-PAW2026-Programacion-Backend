@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 use Paw\Core\Config;
 
@@ -12,8 +12,8 @@ use Dotenv\Dotenv;
 use Paw\Core\Router;
 use Paw\Core\Request;
 
-$dotenv = Dotenv::createUnsafeImmutable(__DIR__ . '/../');
-$dotenv→load();
+$dotenv = Dotenv::createUnsafeImmutable(__DIR__ . '/../../');
+$dotenv->load();
 $config = new Config;
 
 $request = new Request;
