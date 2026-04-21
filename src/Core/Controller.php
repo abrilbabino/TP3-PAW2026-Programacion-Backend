@@ -9,6 +9,7 @@ class Controller
 {
     public string $viewsDir;
     protected $menu;
+    protected $redes;
     private $model;
 
 
@@ -22,25 +23,62 @@ class Controller
         $this -> menu = [
             [
                 "href" => "/",
-                "name" => "Home",
+                "name" => "Inicio",
+                "icon" => "home",
+                "type" => "link",
+                "class" => "pagina actual"
             ],
             [
-                "href" => "/about",
-                "name" => "Quienes Somos",
+                "name" => "Iniciar Sesión",
+                "for"   => "mostrar-login",
+                "icon"  => "login",
+                "type"  => "label"
+            ],
+            [
+                "href" => "/sobreNosotros",
+                "name" => "Sobre Nosotros",
+                "icon"  => "groups",
+                "type"  => "link"
             ],
             [
                 "href" => "/catalogo",
-                "name" => "Catalogo",
+                "name" => "Catálogo",
+                "icon"  => "menu_book",
+                "type"  => "link"
             ],
             [
-                "href" => "/reservalibros",
-                "name" => "Reserva Libros",
+                "href" => "/reserva",
+                "name" => "Reserva",
+                "icon"  => "event",
+                "type"  => "link"
             ],
             [
-                "href" => "/carrito",
                 "name" => "Carrito",
+                "for"   => "mostrar-carrito",
+                "icon"  => "shopping_cart",
+                "type"  => "label",
+                "li_class" => "item-carrito-texto"
             ],
         ];
+
+        $this->redes = [
+            [
+                'name' => 'Facebook', 
+                'url' => 'https://facebook.com', 
+                'img' => 'facebook.png'
+            ],
+            [
+                'name' => 'Twitter', 
+                'url' => 'https://twitter.com', 
+                'img' => 'twitter.png'
+            ],
+            [
+                'name' => 'Instagram', 
+                'url' => 'https://instagram.com', 
+                'img' => 'instagram.png'
+            ],
+        ];
+
         if (!is_null($this ->modelName)){
             $qb = new QueryBuilder($connection, $log);
             $model = new $this->modelName;

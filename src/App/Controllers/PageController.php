@@ -10,6 +10,7 @@ class PageController extends Controller
     {
         $titulo = htmlspecialchars($_GET["nombre"] ?? "Inicio-PawPrints");
         $menu = $this->menu;
+        $redes = $this->redes;
         require $this -> viewsDir . '/index.view.php';
     }
     /**ver si agregamos las otras function */
