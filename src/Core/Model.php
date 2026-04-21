@@ -7,7 +7,7 @@ use Paw\Core\Traits\Loggable;
 
 class Model
 {
-    private $queryBuilder;
+    protected $queryBuilder;
     use Loggable;
 
     public function setQueryBuilder(QueryBuilder $qb)
