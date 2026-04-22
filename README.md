@@ -20,7 +20,19 @@ Cree su archivo de configuración local a partir del ejemplo:
 cp .env.example .env
 ```
 
-### 4.Levantar el servidor
+### 4.Ejecutar Migrations
+Migre las tablas a la base de datos:
+```bash
+phinx migrate -e development
+```
+
+### 5.Ejecutar las semillas
+Ejecute las semillas para hacer pruebas:
+```bash
+phinx seed:run
+```
+
+### 6.Levantar el servidor
 Utilice el servidor embebido de PHP apuntando a la carpeta pública:
 ```bash
 php -S localhost:3000 -t public
