@@ -8,9 +8,13 @@ class LibroCollection extends Model
 {
     public $table = 'libro';
 
-    public function getAll()
+    public function getAll(array $filtros = [], int $limite = 0, int $offset = 0)
     {
-        $libros = $this->queryBuilder->select($this->table);
+        // Eliminamos los filtros vacíos que vienen del GET
+        $params = array_filter($filtros, fn($v) => $v !== null && $v !== '');
+
+        $libros = $this->queryBuilder->select($this->table, $params, $limite, $offset);
+
         $librosCollection = [];
         foreach ($libros as $libro) {
             $newLibro = new Libro;
@@ -18,6 +22,12 @@ class LibroCollection extends Model
             $librosCollection[] = $newLibro;
         }
         return $librosCollection;
+    }
+
+    public function count(array $filtros = [])
+    {
+        $params = array_filter($filtros, fn($v) => $v !== null && $v !== '');
+        return $this->queryBuilder->count($this->table, $params)['total'];
     }
 
     public function get($id){

@@ -35,40 +35,43 @@
               FILTRAR
             </summary>
 
-        <form method="GET">
+        <form method="GET" action="/catalogo">
 
           <p>Género</p>
           <select name="genero">
             <option value="">Todos</option>
-            <option value="Terr" <?= ($_GET['genero'] ?? '') == 'Terr' ? 'selected' : '' ?>>Terror</option>
-            <option value="Fic" <?= ($_GET['genero'] ?? '') == 'Fic' ? 'selected' : '' ?>>Ficción</option>
-            <option value="Rom" <?= ($_GET['genero'] ?? '') == 'Rom' ? 'selected' : '' ?>>Romance</option>
+            <option value="Terror" <?= ($_GET['genero'] ?? '') == 'Terror' ? 'selected' : '' ?>>Terror</option>
+            <option value="Ficción" <?= ($_GET['genero'] ?? '') == 'Ficción' ? 'selected' : '' ?>>Ficción</option>
+            <option value="Fantástico" <?= ($_GET['genero'] ?? '') == 'Fantástico' ? 'selected' : '' ?>>Fantástico</option>
+            <option value="Romance" <?= ($_GET['genero'] ?? '') == 'Romance' ? 'selected' : '' ?>>Romance</option>
+            <option value="Novela" <?= ($_GET['genero'] ?? '') == 'Novela' ? 'selected' : '' ?>>Novela</option>
+            <option value="Realismo Mágico" <?= ($_GET['genero'] ?? '') == 'Realismo Mágico' ? 'selected' : '' ?>>Realismo Mágico</option>
+
           </select>
 
           <p>Precio</p>
           <input type="number" name="precio_min" placeholder="Min" value="<?= $_GET['precio_min'] ?? '' ?>">
           <input type="number" name="precio_max" placeholder="Max" value="<?= $_GET['precio_max'] ?? '' ?>">
-          <button type="button">IR</button>
           <p>*Min. $1800.00 - Max. $900000.00</p>
 
           <p>Editorial</p>
           <select name="editorial">
             <option value="">Todas</option>
-            <option value="Terr" <?= ($_GET['editorial'] ?? '') == 'DeBol' ? 'selected' : '' ?>>DeBolsillo</option>
-            <option value="Fic" <?= ($_GET['editorial'] ?? '') == 'Sur' ? 'selected' : '' ?>>Sur</option>
-            <option value="Rom" <?= ($_GET['editorial'] ?? '') == 'Sud' ? 'selected' : '' ?>>Sudamericana</option>
-            <option value="Rom" <?= ($_GET['editorial'] ?? '') == 'Alfaguara' ? 'selected' : '' ?>>Alfaguara</option>
-            <option value="Rom" <?= ($_GET['editorial'] ?? '') == 'Diana' ? 'selected' : '' ?>>Diana</option>
-            <option value="Rom" <?= ($_GET['editorial'] ?? '') == 'OvejaNegra' ? 'selected' : '' ?>>OvejaNegra</option>
+            <option value="DeBolsillo" <?= ($_GET['editorial'] ?? '') == 'DeBolsillo' ? 'selected' : '' ?>>DeBolsillo</option>
+            <option value="Sur" <?= ($_GET['editorial'] ?? '') == 'Sur' ? 'selected' : '' ?>>Sur</option>
+            <option value="Sudamericana" <?= ($_GET['editorial'] ?? '') == 'Sudamericana' ? 'selected' : '' ?>>Sudamericana</option>
+            <option value="Alfaguara" <?= ($_GET['editorial'] ?? '') == 'Alfaguara' ? 'selected' : '' ?>>Alfaguara</option>
+            <option value="Diana" <?= ($_GET['editorial'] ?? '') == 'Diana' ? 'selected' : '' ?>>Diana</option>
+            <option value="Oveja Negra" <?= ($_GET['editorial'] ?? '') == 'Oveja Negra' ? 'selected' : '' ?>>Oveja Negra</option>
 
           </select>
 
           <p>Idioma</p>
           <select name="idioma">
             <option value="">Todos</option>
-            <option value="es" <?= ($_GET['idioma'] ?? '') == 'es' ? 'selected' : '' ?>>Español</option>
-            <option value="en" <?= ($_GET['idioma'] ?? '') == 'en' ? 'selected' : '' ?>>Inglés</option>
-            <option value="fr" <?= ($_GET['idioma'] ?? '') == 'fr' ? 'selected' : '' ?>>Francés</option>
+            <option value="Español" <?= ($_GET['idioma'] ?? '') == 'Español' ? 'selected' : '' ?>>Español</option>
+            <option value="Inglés" <?= ($_GET['idioma'] ?? '') == 'Inglés' ? 'selected' : '' ?>>Inglés</option>
+            <option value="Francés" <?= ($_GET['idioma'] ?? '') == 'Francés' ? 'selected' : '' ?>>Francés</option>
           </select>
 
           <p>Autor</p>
@@ -80,7 +83,9 @@
               </option>
             <?php endforeach; ?>
           </select>
-          <button type="submit">Filtrar</button>
+          <form method="GET" action="/catalogo">
+            <button type="submit">Filtrar</button>
+          </form>
         </form>
       </details>
     </section>

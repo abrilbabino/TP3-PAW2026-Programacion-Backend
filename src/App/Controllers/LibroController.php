@@ -13,9 +13,15 @@ class LibroController extends Controller
 
     public function catalogo()
     {
+        global $request;
         $menu = $this->menu;
         $redes = $this->redes;
-        $libros = $this->model->getAll();
+        $filtros = [
+            'genero'    => $request->get('genero'),
+            'idioma'    => $request->get('idioma'),
+            'autor_id'  => $request->get('autor'),
+            'editorial' => $request->get('editorial'),
+            ];
 
         $autorModel = new AutorCollection; 
         $autorModel->setQueryBuilder($this->model->getQueryBuilder());
@@ -27,7 +33,9 @@ class LibroController extends Controller
         $inicio = $paginacion['inicio'];
         $fin = $paginacion['fin'];
 
-        $totalLibros = $this->model->getQueryBuilder()->count('libro')['total'];
+        $libros = $this->model->getAll($filtros, $librosPorPagina, $inicio);
+
+        $totalLibros = $this->model->count($filtros);
         $totalPaginas = ceil($totalLibros / $librosPorPagina);
 
         require $this->viewsDir . '/catalogo.view.php';
