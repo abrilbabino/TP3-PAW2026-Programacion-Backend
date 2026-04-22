@@ -16,30 +16,20 @@ class QueryBuilder
         $this->logger = $logger;
     }
 
-    public function select($table, $params = [], $limite = 0, $offset = 0)
+    public function select($table, $params = [])
     {
         $conditions = [];
 
         foreach ($params as $campo => $valor) {
             $conditions[] = "{$campo} = :{$campo}";
         }
-
         $where = !empty($conditions) ? implode(" AND ", $conditions) : "1=1";
         $query = "SELECT * FROM {$table} WHERE {$where}";
-
-        if ($limite > 0) {
-            $query .= " LIMIT :limite OFFSET :offset";
-        }
 
         $sentencia = $this->pdo->prepare($query);
 
         foreach ($params as $campo => $valor) {
             $sentencia->bindValue(":{$campo}", $valor);
-        }
-
-        if ($limite > 0) {
-            $sentencia->bindValue(':limite', $limite, PDO::PARAM_INT);
-            $sentencia->bindValue(':offset', $offset, PDO::PARAM_INT);
         }
 
         $sentencia->setFetchMode(PDO::FETCH_ASSOC);

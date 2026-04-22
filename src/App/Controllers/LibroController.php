@@ -33,7 +33,7 @@ class LibroController extends Controller
         $inicio = $paginacion['inicio'];
         $fin = $paginacion['fin'];
 
-        $libros = $this->model->getAll($filtros, $librosPorPagina, $inicio);
+        $libros = $this->model->getAll($filtros);
 
         $totalLibros = $this->model->count($filtros);
         $totalPaginas = ceil($totalLibros / $librosPorPagina);
