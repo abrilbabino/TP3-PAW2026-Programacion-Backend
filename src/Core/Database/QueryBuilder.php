@@ -16,25 +16,34 @@ class QueryBuilder
         $this->logger = $logger;
     }
 
-    public function select($table, $params = [])
+    public function select($table, $params = [], $precios = [])
     {
         $conditions = [];
+        $binds = [];
 
         foreach ($params as $campo => $valor) {
             $conditions[] = "{$campo} = :{$campo}";
+            $binds[":{$campo}"] = $valor;
         }
+
+        if (!empty($precios['min'])) {
+            $conditions[] = "precio >= :pmin";
+            $binds[":pmin"] = $precios['min'];
+        }
+        if (!empty($precios['max'])) {
+            $conditions[] = "precio <= :pmax";
+            $binds[":pmax"] = $precios['max'];
+        }
+
         $where = !empty($conditions) ? implode(" AND ", $conditions) : "1=1";
         $query = "SELECT * FROM {$table} WHERE {$where}";
 
         $sentencia = $this->pdo->prepare($query);
-
-        foreach ($params as $campo => $valor) {
-            $sentencia->bindValue(":{$campo}", $valor);
+        foreach ($binds as $key => $val) {
+            $sentencia->bindValue($key, $val);
         }
-
-        $sentencia->setFetchMode(PDO::FETCH_ASSOC);
         $sentencia->execute();
-        return $sentencia->fetchAll();
+        return $sentencia->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function insert(){

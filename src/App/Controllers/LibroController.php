@@ -21,6 +21,8 @@ class LibroController extends Controller
             'idioma'    => $request->get('idioma'),
             'autor_id'  => $request->get('autor'),
             'editorial' => $request->get('editorial'),
+            'precio_min' => $request->get('precio_min'),
+            'precio_max' => $request->get('precio_max'),
             ];
 
         $autorModel = new AutorCollection; 
