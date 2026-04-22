@@ -39,4 +39,12 @@ class QueryBuilder
 
     public function delete(){
     }
+
+    public function count($table){
+        $query = "select count(*) as total from {$table}";
+        $sentencia = $this->pdo->prepare($query);
+        $sentencia->setFetchMode(PDO::FETCH_ASSOC);
+        $sentencia->execute();
+        return $sentencia->fetch();
+    }
 }

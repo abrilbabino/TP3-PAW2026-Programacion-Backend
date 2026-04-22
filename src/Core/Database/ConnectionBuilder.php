@@ -20,7 +20,7 @@ class ConnectionBuilder
             $charset = $config -> get('DB_CHARSET');
 
             return new PDO(
-                "{$adapter}:host{$hostname};dbname{$dbname};port{$port};charset={$charset}",
+                "{$adapter}:host={$hostname};dbname={$dbname};port={$port};charset={$charset}",
                 $config -> get('DB_USERNAME'),
                 $config -> get('DB_PASSWORD'),
                 [

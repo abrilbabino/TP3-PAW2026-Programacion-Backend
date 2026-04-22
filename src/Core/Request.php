@@ -24,4 +24,13 @@ class Request{
 			$this->method()
 		];
 	}
+	public function get($key)
+	{
+		return $_POST[$key] ?? $_GET[$key] ?? null;
+	}
+
+	public function paginaActual(){
+		return $_GET['pagina'] ?? 1;
+	}
+
 }

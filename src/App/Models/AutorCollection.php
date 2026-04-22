@@ -19,4 +19,11 @@ class AutorCollection extends Model
         }
         return $autoresCollection;
     }
+
+     public function get($id){
+        $autor = new Autor;
+        $autor -> setQueryBuilder($this->queryBuilder);
+        $autor->load($id);
+        return $autor;	
+    }
 }

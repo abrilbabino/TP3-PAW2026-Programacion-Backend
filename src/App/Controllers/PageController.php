@@ -13,7 +13,6 @@ class PageController extends Controller
         $redes = $this->redes;
         require $this -> viewsDir . '/index.view.php';
     }
-    /**ver si agregamos las otras function */
 
     public function reserva()
     {
@@ -28,5 +27,4 @@ class PageController extends Controller
         $redes = $this->redes;
         require $this->viewsDir . '/sobreNosotros.view.php';
     }
-
 }

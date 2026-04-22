@@ -10,7 +10,7 @@ class Controller
     public string $viewsDir;
     protected $menu;
     protected $redes;
-    private $model;
+    protected $model;
 
 
     public ?string $modelName = null; 

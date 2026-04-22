@@ -14,7 +14,8 @@ final class LibroMigration extends AbstractMigration
                    ->create();
 
         $tableLibro = $this->table('libro');
-        $tableLibro->addColumn('titulo','string',['limit' => 60])
+        $tableLibro->addColumn('imagen', 'string', ['limit' => 255, 'null' => true, 'default' => 'portada.png'])
+                   ->addColumn('titulo','string',['limit' => 60])
                    ->addColumn('descripcion','string',['null' => true])
                    ->addColumn('precio','decimal',['precision' => 10, 'scale' => 2])
                    ->addColumn('genero','string',['limit' => 60])

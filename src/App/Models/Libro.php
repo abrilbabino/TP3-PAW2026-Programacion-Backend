@@ -10,6 +10,8 @@ class Libro extends Model
     public $table = 'libro';
 
     public $fields = [
+        "id" => null,
+        "imagen" => null,
         "titulo" => null,
         "descripcion" => null,
         "precio" => null,
@@ -19,6 +21,14 @@ class Libro extends Model
         "stock" => null,
         "autor_id" => null,
     ];
+
+    public function setId($id){
+        $this->fields["id"] = $id;
+    }
+
+    public function setImagen(string $imagen){
+        $this->fields["imagen"] = $imagen ?? 'portada.png';
+    }
 
     public function setTitulo(string $titulo)
     {
@@ -79,7 +89,7 @@ class Libro extends Model
         $this->fields["stock"] = $stock;
     }
 
-    public function setAutorId(int $autorId)
+    public function setAutor_Id(int $autorId)
     {
         if ($autorId < 1) {
             throw new Exception("El ID del autor debe ser mayor a 0");
@@ -96,5 +106,11 @@ class Libro extends Model
             $method = "set" . ucfirst($field);
             $this->$method($values[$field]);
         }
+    }
+
+    public function load($id){
+        $params = ["id" => $id];
+        $record = current($this->queryBuilder->select($this->table, $params));
+        $this->set($record);
     }
 }

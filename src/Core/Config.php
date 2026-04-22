@@ -14,7 +14,7 @@ class Config
         
         $this->configs["DB_ADAPTER"] = getenv("DB_ADAPTER") ?? 'mysql';
         $this->configs["DB_HOSTNAME"] = getenv("DB_HOSTNAME") ?? 'localhost';
-        $this->configs["DB_NAME"] = getenv("DB_DBNAME") ?? 'database_name';
+        $this->configs["DB_DBNAME"] = getenv("DB_DBNAME") ?? 'database_name';
         $this->configs["DB_USERNAME"] = getenv("DB_USERNAME") ?? 'root';
         $this->configs["DB_PASSWORD"] = getenv("DB_PASSWORD") ?? '';
         $this->configs["DB_PORT"] = getenv("DB_PORT") ?? '3306';

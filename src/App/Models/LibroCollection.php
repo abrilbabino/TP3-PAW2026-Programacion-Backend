@@ -19,4 +19,11 @@ class LibroCollection extends Model
         }
         return $librosCollection;
     }
+
+    public function get($id){
+        $libro = new Libro;
+        $libro -> setQueryBuilder($this->queryBuilder);
+        $libro->load($id);
+        return $libro;	
+    }
 }

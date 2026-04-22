@@ -14,4 +14,8 @@ class Model
     {
         $this->queryBuilder = $qb;
     }
+
+    public function getQueryBuilder(){
+        return $this->queryBuilder;
+    }
 }

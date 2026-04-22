@@ -75,8 +75,8 @@
           <select name="autor">
             <option value="">Todos</option>
             <?php foreach ($autores as $a): ?>
-              <option value="<?= $a ?>" <?= ($_GET['autor'] ?? '') == $a ? 'selected' : '' ?>>
-                <?= $a ?>
+              <option value="<?= $a->fields['id'] ?>" <?= ($_GET['autor'] ?? '') == $a ? 'selected' : '' ?>>
+                <?= $a->fields['nombre'] ?>
               </option>
             <?php endforeach; ?>
           </select>
@@ -86,18 +86,17 @@
     </section>
 
     <section class="grilla-libros">
-
       <?php foreach ($libros as $libro): ?>
         <article>
-          <img src="/assets/img/<?= $libro['imagen'] ?>" alt="Portada">
+          <img src="/assets/img/<?= $libro->fields['imagen'] ?>" alt="Portada">
 
-          <p><strong><?= $libro['titulo'] ?></strong></p>
-          <p><em>Autor:</em> <?= $libro['autor'] ?></p>
-          <p><em>Precio:</em> $<?= $libro['precio'] ?></p>
+          <p><strong><?= $libro->fields['titulo'] ?></strong></p>
+          <p><em>Autor:</em> <?= $libro->fields['autor_id'] ?></p>
+          <p><em>Precio:</em> $<?= $libro->fields['precio'] ?></p>
 
           <div class="overlay">
-            <p><?= $libro['descripcion'] ?></p>
-            <a href="/libro?id=<?= $libro['id'] ?>">Ver más</a>
+            <p><?= $libro->fields['descripcion'] ?></p>
+            <a href="/libro?id=<?= $libro->fields['id'] ?>">Ver más</a>
           </div>
         </article>
       <?php endforeach; ?>
@@ -109,12 +108,12 @@
       <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
 
         <a href="?pagina=<?= $i ?>
-        &genero=<?= $_GET['genero'] ?? '' ?>
-        &precio_min=<?= $_GET['precio_min'] ?? '' ?>
-        &precio_max=<?= $_GET['precio_max'] ?? '' ?>
-        &idioma=<?= $_GET['idioma'] ?? '' ?>
-        &autor=<?= $_GET['autor'] ?? '' ?>
-        &editorial=<?= $_GET['editorial'] ?? '' ?>"
+        &genero=<?= $request->get('genero') ?>
+        &precio_min=<?= $request->get('precio_min') ?>
+        &precio_max=<?= $request->get('precio_max') ?>
+        &idioma=<?= $request->get('idioma') ?>
+        &autor=<?= $request->get('autor') ?>
+        &editorial=<?= $request->get('editorial') ?>"
 
         class="<?= $i == ($pagina ?? 1) ? 'activa' : '' ?>">
 
