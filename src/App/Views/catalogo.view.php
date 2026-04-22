@@ -95,7 +95,18 @@
           <img src="/assets/img/<?= $libro->fields['imagen'] ?>" alt="Portada">
 
           <p><strong><?= $libro->fields['titulo'] ?></strong></p>
-          <p><em>Autor:</em> <?= $libro->fields['autor_id'] ?></p>
+          <p><em>Autor:</em> 
+          <?php 
+            $nombreAutor = "Desconocido";
+            foreach ($autores as $a) {
+                if ($a->fields['id'] == $libro->fields['autor_id']) {
+                    $nombreAutor = $a->fields['nombre'];
+                    break; 
+                }
+            }
+            echo $nombreAutor;
+          ?>
+          </p>
           <p><em>Precio:</em> $<?= $libro->fields['precio'] ?></p>
 
           <div class="overlay">
