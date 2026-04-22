@@ -38,6 +38,7 @@ $router->get('internal_error', 'ErrorController@internalError');
 $router->get('/reserva', 'PageController@reserva');
 $router->get('/catalogo', 'LibroController@catalogo');
 $router->get('/detalle', 'LibroController@detalle');
+$router->get('/catalogo/csv', 'LibroController@csv');
 
 $connectionBuilder = new ConnectionBuilder;
 $connectionBuilder->setLogger($log);
