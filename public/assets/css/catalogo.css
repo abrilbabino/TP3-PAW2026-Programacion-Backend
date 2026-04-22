@@ -240,12 +240,49 @@ article:focus-within .overlay {
   max-width: 115px;
 }
 
+.paginacion{
+  grid-column: 1 / -1;
+  text-align: center;
+  margin: 2rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+}
+
+.paginacion a {
+  display: inline-flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  color: var(--color-magenta);
+  text-decoration: none;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.paginacion a.pagina-activa {
+    background-color: var(--color-magenta);
+    color: var(--color-fondo);
+    font-weight: bold;
+}
+
+.paginacion a.Boton{
+    background-color: var(--color-magenta);
+    color: var(--color-fondo);
+    font-weight: bold;
+    min-width: 120px;
+}
+
 /* DISEÑO PC (Más de 768px) */
 @media screen and (min-width: 994px) {
   .catalogo-main {
     grid-template-areas:
       "hero hero hero hero"
-      ". filtros libros .";
+      ". filtros libros ."
+      ". . paginacion .";
     display: grid;
     grid-template-columns: 1fr minmax(auto, 300px) minmax(auto, 1000px) 1fr;
     gap: 1rem;
@@ -298,5 +335,9 @@ article:focus-within .overlay {
   .grilla-libros article p:nth-of-type(3) {
     font-size: 0.9rem;
     font-weight: 700;
+  }
+
+  .paginacion {
+    grid-area: paginacion;
   }
 }

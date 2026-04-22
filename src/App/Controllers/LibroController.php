@@ -20,10 +20,15 @@ class LibroController extends Controller
         $autorModel->setQueryBuilder($this->model->getQueryBuilder());
         $autores = $autorModel->getAll();
 
+        $pagina = $request->paginaActual();
         $librosPorPagina = 6;
+
+        $inicio = ($pagina - 1) * $librosPorPagina;
+        $fin = $inicio + $librosPorPagina;
+
         $totalLibros = $this->model->getQueryBuilder()->count('libro')['total'];
         $totalPaginas = ceil($totalLibros / $librosPorPagina);
-        $pagina = $request->paginaActual();
+
         require $this->viewsDir . '/catalogo.view.php';
     }
 

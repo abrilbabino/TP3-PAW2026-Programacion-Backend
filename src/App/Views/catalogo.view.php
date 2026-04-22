@@ -86,7 +86,11 @@
     </section>
 
     <section class="grilla-libros">
-      <?php foreach ($libros as $libro): ?>
+      <?php 
+      $i=0;
+      foreach ($libros as $libro): 
+        if($i>=$inicio && $i<$fin):
+      ?>
         <article>
           <img src="/assets/img/<?= $libro->fields['imagen'] ?>" alt="Portada">
 
@@ -99,30 +103,27 @@
             <a href="/libro?id=<?= $libro->fields['id'] ?>">Ver más</a>
           </div>
         </article>
-      <?php endforeach; ?>
-
+      <?php 
+        endif;
+        $i++;
+        endforeach; 
+      ?>
     </section>
 
     <div class="paginacion">
-
-      <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
-
-        <a href="?pagina=<?= $i ?>
-        &genero=<?= $request->get('genero') ?>
-        &precio_min=<?= $request->get('precio_min') ?>
-        &precio_max=<?= $request->get('precio_max') ?>
-        &idioma=<?= $request->get('idioma') ?>
-        &autor=<?= $request->get('autor') ?>
-        &editorial=<?= $request->get('editorial') ?>"
-
-        class="<?= $i == ($pagina ?? 1) ? 'activa' : '' ?>">
-
-          <?= $i ?>
-
+    <?php if ($pagina > 1): ?>
+        <a href="?pagina=<?= $pagina - 1 ?>" class="Boton">Atrás</a>
+    <?php endif; ?>
+    
+    <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
+        <a href="?pagina=<?= $i ?>" class="<?= $i == $pagina ? 'pagina-activa' : '' ?>">
+            <?= $i ?>
         </a>
+    <?php endfor; ?>
 
-      <?php endfor; ?>
-
+    <?php if ($fin < $totalLibros): ?>
+        <a href="?pagina=<?= $pagina + 1 ?>" class="Boton">Siguiente</a>
+    <?php endif; ?>
     </div>
 
 </main>
