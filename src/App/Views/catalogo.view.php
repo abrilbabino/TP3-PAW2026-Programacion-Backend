@@ -80,7 +80,7 @@
               </option>
             <?php endforeach; ?>
           </select>
-
+          <button type="submit">Filtrar</button>
         </form>
       </details>
     </section>
@@ -102,6 +102,9 @@
             <p><?= $libro->fields['descripcion'] ?></p>
             <a href="/libro?id=<?= $libro->fields['id'] ?>">Ver más</a>
           </div>
+          <button class="btn-add-carrito">
+            <span class="material-symbols-outlined">add_circle</span>
+          </button>
         </article>
       <?php 
         endif;
