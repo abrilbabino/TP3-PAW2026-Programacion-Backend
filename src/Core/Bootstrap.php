@@ -36,6 +36,8 @@ $router->get('/sobreNosotros', 'PageController@sobreNosotros');
 $router->get('not_found', 'ErrorController@notFound');
 $router->get('internal_error', 'ErrorController@internalError');
 $router->get('/reserva', 'PageController@reserva');
+$router->get('/catalogo', 'PageController@catalogo');
+$router->get('/libro', 'LibroController@detalle');
 
 $connectionBuilder = new ConnectionBuilder;
 $connectionBuilder->setLogger($log);
