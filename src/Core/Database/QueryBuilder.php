@@ -67,4 +67,14 @@ class QueryBuilder
         $sentencia->execute();
         return $sentencia->fetch();
     }
+
+    public function buscar($termino){
+        $query = "SELECT * FROM libro WHERE titulo LIKE :termino OR descripcion LIKE :termino";
+        $sentencia = $this->pdo->prepare($query);
+        $sentencia->bindValue(':termino', "%{$termino}%");
+        $sentencia->setFetchMode(PDO::FETCH_ASSOC);
+        $sentencia->execute();
+        return $sentencia->fetchAll();
+    }
+
 }

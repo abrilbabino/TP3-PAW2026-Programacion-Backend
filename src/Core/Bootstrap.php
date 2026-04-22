@@ -39,6 +39,7 @@ $router->get('/reserva', 'PageController@reserva');
 $router->get('/catalogo', 'LibroController@catalogo');
 $router->get('/detalle', 'LibroController@detalle');
 $router->get('/catalogo/csv', 'LibroController@csv');
+$router->get('/buscar', 'LibroController@buscar');
 
 $connectionBuilder = new ConnectionBuilder;
 $connectionBuilder->setLogger($log);

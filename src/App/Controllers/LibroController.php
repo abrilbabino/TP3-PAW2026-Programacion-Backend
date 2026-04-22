@@ -105,4 +105,36 @@ class LibroController extends Controller
 
         require $this->viewsDir . '/libro.view.php';
     }
+    public function buscar()
+    {
+        $termino = trim($_GET['busqueda'] ?? '');
+        
+        if (empty($termino)) {
+            header('Location: /catalogo');
+            return;
+        }
+
+        $menu = $this->menu;
+        $redes = $this->redes;
+
+        $todosLosLibrosEncontrados = $this->model->buscar($termino);
+
+        $paginacion = $this->getDatosPaginacion();
+        $pagina = $paginacion['pagina'];
+        $librosPorPagina = $paginacion['librosPorPagina'];
+        $inicio = $paginacion['inicio'];
+        $fin = $paginacion['fin'];
+
+        $libros = array_slice($todosLosLibrosEncontrados, $inicio, $librosPorPagina);
+
+        $totalLibros = count($todosLosLibrosEncontrados);
+        $totalPaginas = ceil($totalLibros / $librosPorPagina);
+
+        // se cargamos autores pq se puede necesitar para los filtros
+        $autorModel = new AutorCollection; 
+        $autorModel->setQueryBuilder($this->model->getQueryBuilder());
+        $autores = $autorModel->getAll();
+
+        require $this->viewsDir . '/catalogo.view.php';
+    }
 }
