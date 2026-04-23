@@ -15,7 +15,7 @@ use Paw\Core\Request;
 use Paw\Core\Database\ConnectionBuilder;
 
 $dotenv = Dotenv::createUnsafeImmutable(__DIR__ . '/../../');
-$dotenv->load();
+$dotenv->safeLoad();
 $config = new Config;
 
 $request = new Request;
