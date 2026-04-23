@@ -21,7 +21,8 @@ class LibroController extends Controller
         $autorModel->setQueryBuilder($this->model->getQueryBuilder());
         $autores = $autorModel->getAll();
 
-        extract($this->getDatosPaginacion());
+        $datosPaginacion = $this->getDatosPaginacion();
+        extract($datosPaginacion);
 
         $libros = $this->model->getAll($filtros);
 
@@ -48,10 +49,16 @@ class LibroController extends Controller
     public function csv()
     {
         $filtros = $this->getFiltros();
-        $paginacion = $this->getDatosPaginacion();
-        $inicio = $paginacion['inicio'];
-        $librosPorPagina = $paginacion['librosPorPagina'];
-        $todosLosLibros = $this->model->getAll($filtros);
+        $termino = $_GET['busqueda'] ?? null;
+
+        if ($termino) {
+            $todosLosLibros = $this->model->buscar($termino);
+        } else {
+            $todosLosLibros= $this->model->getAll($filtros);
+        }
+
+        $datosPaginacion = $this->getDatosPaginacion();
+        extract($datosPaginacion);;
 
         $libros = array_slice($todosLosLibros, $inicio, $librosPorPagina);
         
@@ -124,7 +131,8 @@ class LibroController extends Controller
 
         $todosLosLibrosEncontrados = $this->model->buscar($termino);
 
-        extract($this->getDatosPaginacion());
+        $datosPaginacion = $this->getDatosPaginacion();
+        extract($datosPaginacion);
 
         $libros = array_slice($todosLosLibrosEncontrados, $inicio, $librosPorPagina);
 
