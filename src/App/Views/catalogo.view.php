@@ -23,7 +23,13 @@
     <h1>Catálogo de Libros</h1>
     <p>Explorá nuestra colección de libros.</p>
   </header>
-
+    <section class="barra-resultados">
+        <p>Mostrando <strong><?= count($libros) ?></strong> resultados</p>
+        <a href="/catalogo/csv" class="btn-descargar">
+            <span class="material-symbols-outlined">download</span>
+            DESCARGAR CSV
+        </a>
+  </section>
     <section class= "seccion-filtros">
       <details class="filtros" open>
         <summary>
