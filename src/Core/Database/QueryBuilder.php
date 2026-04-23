@@ -46,6 +46,27 @@ class QueryBuilder
         return $sentencia->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function selectRelated($table, $params = [])
+    {
+        $conditions = [];
+        $binds = [];
+
+        foreach ($params as $campo => $valor) {
+            $conditions[] = "{$campo} = :{$campo}";
+            $binds[":{$campo}"] = $valor;
+        }
+
+        $where = !empty($conditions) ? implode(" OR ", $conditions) : "1=1";
+        $query = "SELECT * FROM {$table} WHERE {$where}";
+
+        $sentencia = $this->pdo->prepare($query);
+        foreach ($binds as $key => $val) {
+            $sentencia->bindValue($key, $val);
+        }
+        $sentencia->execute();
+        return $sentencia->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function insert(){
     }
 

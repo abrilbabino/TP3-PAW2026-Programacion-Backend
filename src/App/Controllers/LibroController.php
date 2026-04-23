@@ -105,6 +105,17 @@ class LibroController extends Controller
         $id    = $request->get('id');
         $libro = $this->model->get($id);
 
+        $autorModel = new AutorCollection; 
+        $autorModel->setQueryBuilder($this->model->getQueryBuilder());
+        $autores = $autorModel->getAll();
+
+        $filtros= [
+            'genero'    => $libro->fields['genero'],
+            'autor_id'  => $libro->fields['autor_id'],
+        ];
+        
+        $relacionados = $this->model->getRelations($filtros); 
+
         require $this->viewsDir . '/libro.view.php';
     }
     public function buscar()
@@ -132,7 +143,6 @@ class LibroController extends Controller
         $totalLibros = count($todosLosLibrosEncontrados);
         $totalPaginas = ceil($totalLibros / $librosPorPagina);
 
-        // se cargamos autores pq se puede necesitar para los filtros
         $autorModel = new AutorCollection; 
         $autorModel->setQueryBuilder($this->model->getQueryBuilder());
         $autores = $autorModel->getAll();

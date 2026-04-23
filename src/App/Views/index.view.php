@@ -20,7 +20,7 @@
       <header class="Bienvenida">
         <h1>Bienvenido a PAWPrints</h1>
         <p>¡Descubrí un mundo de libros en nuestra tienda física y en línea!</p>
-        <a href="catalogo.html">Ver Catálogo</a>
+        <a href="/catalogo">Ver Catálogo</a>
       </header>
 
       <section class="promociones">

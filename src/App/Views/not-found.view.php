@@ -9,12 +9,11 @@
     /><link rel="stylesheet" href="/assets/css//style.css" />
     <title> Page Not Found</title>
 </head>
-<body>
-    <header>
-        <h1>Page Not Found</h1>
-        <?php 
-            require __DIR__ . '/barra-navegacion.view.php'
-        ?>
-    </header>
+<body>  
+    <?php  require __DIR__ . '/barra-navegacion.view.php'?>
+    <h1>Page Not Found</h1>
+    <?php require __DIR__ . '/footer.view.php'; ?>
+    <?php require __DIR__ . '/iniciar-sesion.view.php'; ?>
+    <?php require __DIR__ . '/carrito.view.php'; ?>
 </body>
 </html>

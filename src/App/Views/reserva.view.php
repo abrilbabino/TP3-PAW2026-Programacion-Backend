@@ -26,16 +26,22 @@
   <section class="Formulario">
     <h2>Formulario de Reserva</h2>
 
-    <form action="/procesar-reserva" method="POST">
+    <form action="/reserva/procesar-reserva" method="POST">
 
       <fieldset>
         <legend>Datos Personales</legend>
 
         <label>Nombre</label>
         <input type="text" name="nombre" required />
+        <?php if (isset($errores['nombre'])): ?>
+            <span class="error-inline"><?= htmlspecialchars($errores['nombre']) ?></span>
+        <?php endif; ?>
 
         <label>Email</label>
         <input type="email" name="email" required />
+        <?php if (isset($errores['email'])): ?>
+            <span class="error-inline"><?= htmlspecialchars($errores['email']) ?></span>
+        <?php endif; ?>
 
         <label>Teléfono</label>
         <input type="tel" name="tel" />
@@ -46,9 +52,15 @@
 
         <label>Cantidad</label>
         <input type="number" name="cantidad" min="1" max="5" required />
+        <?php if (isset($errores['cantidad'])): ?>
+            <span class="error-inline"><?= htmlspecialchars($errores['cantidad']) ?></span>
+        <?php endif; ?>
 
         <label>Título</label>
-        <input type="text" name="titulo" required />
+        <input type="text" name="libro" required />
+        <?php if (isset($errores['libro'])): ?>
+            <span class="error-inline"><?= htmlspecialchars($errores['libro']) ?></span>
+        <?php endif; ?>
       </fieldset>
 
       <button type="submit">Reservar</button>

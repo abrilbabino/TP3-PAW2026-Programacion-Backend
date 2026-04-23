@@ -19,6 +19,12 @@ class Config
         $this->configs["DB_PASSWORD"] = getenv("DB_PASSWORD") ?? '';
         $this->configs["DB_PORT"] = getenv("DB_PORT") ?? '3306';
         $this->configs["DB_CHARSET"] = getenv("DB_CHARSET") ?? 'utf8';
+
+        $this->configs["MAIL_PERSONAL"] = getenv("MAIL_PERSONAL") ?? 'pawprints700@gmail.com';
+        $this->configs["MAIL_HOST"] = getenv("MAIL_HOST") ?? 'smtp.gmail.com';
+        $this->configs["MAIL_USER"] = getenv("MAIL_USER") ?? '';
+        $this->configs["MAIL_PASS"] = getenv("MAIL_PASS") ?? '';
+        $this->configs["MAIL_PORT"] = getenv("MAIL_PORT") ?? '587';
     }
 
     public function joinPaths()

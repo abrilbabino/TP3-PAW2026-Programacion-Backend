@@ -29,6 +29,10 @@ class Request{
 		return $_POST[$key] ?? $_GET[$key] ?? null;
 	}
 
+	public function post(){
+		return $_POST;
+	}
+
 	public function paginaActual(){
 		return $_GET['pagina'] ?? 1;
 	}

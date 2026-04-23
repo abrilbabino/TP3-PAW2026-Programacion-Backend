@@ -72,6 +72,54 @@
   transform: scale(1.05);
 }
 
+.mensaje-exito {
+  text-align: center;
+  justify-self: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  max-width: 600px;
+  max-height: 360px;
+  margin: 2rem auto;
+  border: 1px solid var(--color-gris-claro);
+  border-radius: 2rem;
+  box-shadow: 0 2px 6px var(--color-texto);
+}
+
+.mensaje-exito h1{
+  font-size: 2rem;
+}
+.icono-exito {
+  font-size: large;
+  color: var(--color-magenta);
+  margin-bottom: 1rem;
+}
+.btn-volver {
+  display: inline-block;
+  margin-top: 2rem;
+  background-color: var(--color-azul);
+  color: var(--color-fondo);
+  padding: 1rem 2rem;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 800;
+  transition:
+    transform 0.3s ease,
+    background-color 0.3s;
+}
+.btn-volver:hover {
+  background-color: var(--color-amarillo);
+  transform: scale(1.05);
+}
+
+.error-inline {
+    color: red;
+    font-size: 0.85rem;
+    font-weight: bold;
+    display: block;
+    margin-top: -0.5rem;
+    margin-bottom: 1rem;
+}
+
 /* DISEÑO PC (Más de 994px) SOLO INICIO */
 @media screen and (min-width: 994px) {
   .Formulario {

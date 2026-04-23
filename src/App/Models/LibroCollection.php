@@ -29,6 +29,18 @@ class LibroCollection extends Model
         return $librosCollection;
     }
 
+    public function getRelations(array $filtros = []){
+        $libros = $this->queryBuilder->selectRelated($this->table, $filtros);
+
+        $librosCollection = [];
+        foreach ($libros as $libro) {
+            $newLibro = new Libro;
+            $newLibro->set($libro);
+            $librosCollection[] = $newLibro;
+        }
+        return $librosCollection;
+    }
+
 
     public function count(array $filtros = [])
     {
