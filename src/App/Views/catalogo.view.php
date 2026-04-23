@@ -18,21 +18,27 @@
 
   <main class="catalogo-main">
 
-    <header class="hero-catalogo">
-      <h1>Catálogo de Libros</h1>
-      <p>Explorá nuestra colección de libros.</p>
-    </header>
-
-      <section class= "seccion-filtros">
-        <details class="filtros" open>
-          <summary>
-                <img
-                  src="assets/img/FILTRAR.png"
-                  alt="Iconos de filtros"
-                  class="icono-png"
-                />
-                FILTRAR
-              </summary>
+  <header class="hero-catalogo">
+    <h1>Catálogo de Libros</h1>
+    <p>Explorá nuestra colección de libros.</p>
+  </header>
+    <section class="barra-resultados">
+        <p>Mostrando <strong><?= count($libros) ?></strong> resultados</p>
+        <a href="/catalogo/csv?<?= http_build_query($_GET) ?>" class="btn-descargar">            
+          <span class="material-symbols-outlined">download</span>
+            DESCARGAR CSV
+        </a>
+  </section>
+    <section class= "seccion-filtros">
+      <details class="filtros" open>
+        <summary>
+              <img
+                src="assets/img/FILTRAR.png"
+                alt="Iconos de filtros"
+                class="icono-png"
+              />
+              FILTRAR
+            </summary>
 
           <form method="GET" action="/catalogo">
 
