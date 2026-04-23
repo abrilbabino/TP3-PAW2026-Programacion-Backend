@@ -12,6 +12,7 @@ class MailService {
         $mail = new PHPMailer(true);
         try {
             $mail->isSMTP();
+            $mail->SMTPDebug = 2;
             $mail->Host       = $config->get('MAIL_HOST');
             $mail->SMTPAuth   = true;
             $mail->Username   = $config->get('MAIL_USER');
