@@ -21,11 +21,7 @@ class LibroController extends Controller
         $autorModel->setQueryBuilder($this->model->getQueryBuilder());
         $autores = $autorModel->getAll();
 
-        $paginacion = $this->getDatosPaginacion();
-        $pagina = $paginacion['pagina'];
-        $librosPorPagina = $paginacion['librosPorPagina'];
-        $inicio = $paginacion['inicio'];
-        $fin = $paginacion['fin'];
+        extract($this->getDatosPaginacion());
 
         $libros = $this->model->getAll($filtros);
 
@@ -34,7 +30,7 @@ class LibroController extends Controller
 
         require $this->viewsDir . '/catalogo.view.php';
     }
-    
+
     private function getFiltros()
     {
         global $request;
@@ -113,6 +109,7 @@ class LibroController extends Controller
 
         require $this->viewsDir . '/libro.view.php';
     }
+
     public function buscar()
     {
         $termino = trim($_GET['busqueda'] ?? '');
@@ -127,11 +124,7 @@ class LibroController extends Controller
 
         $todosLosLibrosEncontrados = $this->model->buscar($termino);
 
-        $paginacion = $this->getDatosPaginacion();
-        $pagina = $paginacion['pagina'];
-        $librosPorPagina = $paginacion['librosPorPagina'];
-        $inicio = $paginacion['inicio'];
-        $fin = $paginacion['fin'];
+        extract($this->getDatosPaginacion());
 
         $libros = array_slice($todosLosLibrosEncontrados, $inicio, $librosPorPagina);
 
@@ -142,6 +135,7 @@ class LibroController extends Controller
         $autorModel = new AutorCollection; 
         $autorModel->setQueryBuilder($this->model->getQueryBuilder());
         $autores = $autorModel->getAll();
+
 
         require $this->viewsDir . '/catalogo.view.php';
     }
