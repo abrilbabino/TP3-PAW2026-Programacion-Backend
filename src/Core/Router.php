@@ -3,6 +3,7 @@
 namespace Paw\Core;
 
 use Exception;
+use Paw\Core\Exceptions\InvalidValueFormatException;
 use Paw\Core\Request;
 use Paw\Core\Exceptions\RouteNotFoundException;
 use Paw\Core\Traits\Loggable;
@@ -19,6 +20,7 @@ class Router{
 
     public string $notFound = 'not_found';
     public string $internalError = 'internal_error';
+    public string $invalidFormat = 'invalid_format';
 
     public function __construct()
     {
@@ -54,11 +56,11 @@ class Router{
         return explode('@', $this->routes[$http_method][$path]);
     }
 
-    public function call($controller, $method)
+    public function call($controller, $method,$params =[])
     {
         $controller_name = "Paw\\App\\Controllers\\{$controller}";
         $objController = new $controller_name;
-        $objController->$method();
+        $objController->$method(...$params);
     }
 
     public function direct(Request $request)
@@ -74,16 +76,23 @@ class Router{
                         "http_method" => $http_method,
                     ]
                 );
+            $this->call($controller, $method);
         } catch (RouteNotFoundException $e) {
             list($controller, $method) = $this->getController($this->notFound, 'GET');
             $this->logger
                  ->debug("Status Code: 404 - Route Not Found", ["ERROR" => $e] );
-        } catch (\Exception $e) {
+            $this->call($controller, $method);
+        } catch(InvalidValueFormatException $e){
+            list($controller, $method) = $this->getController($this->invalidFormat, 'GET');
+            $this->logger
+                 ->debug("Status Code: 400 - Invalid Value Format", ["ERROR" => $e] );
+            $this->call($controller, $method,[$e]);
+        }catch (Exception $e) {
             list($controller, $method) = $this->getController($this->internalError, 'GET');
             $this->logger
                  ->error("Status Code: 500 - Internal Server Error", ["ERROR" => $e] );
-        } finally {
+        }/* finally {
             $this->call($controller, $method);
-        }
+        }*/
     }
 }

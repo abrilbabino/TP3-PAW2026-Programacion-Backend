@@ -23,5 +23,13 @@ class ErrorController extends Controller
         $redes = $this->redes;
         require $this->viewsDir . '/internal_error.view.php';
     }
+    public function invalidFormat($e){
+        http_response_code(400);
+        $titulo = 'Invalid Format';
+        $menu = $this->menu;
+        $redes = $this->redes;
+        require $this->viewsDir . '/invalid_format.view.php';
+    }
+
 
 }

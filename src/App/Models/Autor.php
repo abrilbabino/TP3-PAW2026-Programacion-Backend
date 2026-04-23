@@ -3,6 +3,7 @@
 namespace Paw\App\Models;
 
 use Paw\Core\Model;
+use Paw\Core\Exceptions\InvalidValueFormatException;
 use Exception;
 
 class Autor extends Model
@@ -22,10 +23,10 @@ class Autor extends Model
     public function setNombre(string $nombre)
     {
         if (strlen($nombre) > 100) {
-            throw new Exception("El nombre no debe ser mayor a 100 caracteres");
+            throw new InvalidValueFormatException("El nombre no debe ser mayor a 100 caracteres");
         }
         if (strlen($nombre) < 1) {
-            throw new Exception("El nombre es obligatorio");
+            throw new InvalidValueFormatException("El nombre es obligatorio");
         }
         $this->fields["nombre"] = $nombre;
     }

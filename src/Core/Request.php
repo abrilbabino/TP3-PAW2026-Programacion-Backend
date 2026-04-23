@@ -2,6 +2,8 @@
 
 namespace Paw\Core;
 
+use Paw\Core\Exceptions\InvalidValueFormatException;
+
 class Request{
 	public function uri()
 	{
@@ -38,7 +40,11 @@ class Request{
 	}
 
 	public function paginaActual(){
-		return $_GET['pagina'] ?? 1;
+		$pagina = $_GET['pagina'] ?? 1;
+		if (!is_numeric($pagina) || $pagina < 1) {
+            throw new InvalidValueFormatException("El parámetro página debe ser un número entero válido.");
+        }
+		return $pagina;
 	}
 
 }

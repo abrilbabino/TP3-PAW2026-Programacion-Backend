@@ -35,6 +35,7 @@ $router->get('/','PageController@index');
 $router->get('/sobreNosotros', 'PageController@sobreNosotros');
 $router->get('not_found', 'ErrorController@notFound');
 $router->get('internal_error', 'ErrorController@internalError');
+$router->get('invalid_format','ErrorController@invalidFormat');
 $router->get('/reserva', 'ReservaController@reserva');
 $router->post('/reserva/procesar-reserva', 'ReservaController@procesarReserva');
 $router->get('/reserva-exitosa', 'PageController@reservaExitosa');
