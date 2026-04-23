@@ -123,6 +123,7 @@
   right: 8px; /* ← derecha en lugar de centrado */
   background: transparent;
   border: none;
+  color: var(--color-texto);
   cursor: pointer;
 }
 
@@ -284,7 +285,7 @@ article:focus-within .overlay {
   font-weight: bold;
 }
 
-.paginacion a:hover{
+.paginacion a:hover {
   background-color: var(--color-amarillo);
   transform: scale(1.05);
 }
