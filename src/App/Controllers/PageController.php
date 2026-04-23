@@ -22,9 +22,12 @@ class PageController extends Controller
     }
 
     public function reservaExitosa()
-{
-    $menu = $this->menu;
-    $redes = $this->redes;
-    require $this->viewsDir . '/reserva-exitosa.view.php';
-}
+    {
+        $menu = $this->menu;
+        $redes = $this->redes;
+        require $this->viewsDir . '/reserva-exitosa.view.php';
+    }
+    public function agregarCarrito(){
+        
+    }
 }

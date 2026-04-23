@@ -121,9 +121,11 @@
               <p><?= $libro->fields['descripcion'] ?></p>
               <a href="/detalle?id=<?= $libro->fields['id'] ?>">Ver más</a>
             </div>
-            <button class="btn-add-carrito">
-              <span class="material-symbols-outlined">add_circle</span>
-            </button>
+            <form class="boton-agregarCarrito" action="/agregarCarrito" method="POST">
+              <button type="submit" class="btn-add-carrito">
+                <span class="material-symbols-outlined">add_circle</span>
+              </button>
+            </form>
           </article>
         <?php 
           endif;

@@ -25,6 +25,7 @@
     transform 0.3s;
   border: none;
   margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .Bienvenida a:hover {
@@ -64,7 +65,7 @@
 .promociones article {
   display: grid;
   padding: 2rem;
-  gap:0.5rem;
+  gap: 0.5rem;
   background-color: var(--color-fondo);
   text-align: left;
   border-radius: 10px;
@@ -73,8 +74,9 @@
   min-width: 280px;
   max-width: 420px;
   max-height: 300px;
-  grid-template-areas: "imagen titulo"
-                       "imagen texto";
+  grid-template-areas:
+    "imagen titulo"
+    "imagen texto";
   grid-template-rows: auto 1.5fr;
 }
 
@@ -90,7 +92,7 @@
   image-orientation: from-image;
   display: block;
   grid-area: imagen;
-  height:  100%;
+  height: 100%;
   align-self: stretch;
   justify-self: stretch;
 }
@@ -154,8 +156,9 @@
 /* DISEÑO PC (Más de 994px) */
 @media screen and (min-width: 994px) {
   .tienda-fisica {
-    grid-template-areas: "título título"
-                         "mapa dirección";
+    grid-template-areas:
+      "título título"
+      "mapa dirección";
     display: grid;
     grid-template-columns: 1.5fr 2fr;
     align-items: center;

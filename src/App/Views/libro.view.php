@@ -43,11 +43,11 @@
             <section class="compra-reserva">
                 <p><strong>$<?= $libro->fields['precio'] ?></strong></p>
                 <span class="stock-desktop">Stock Disponible</span>
-                <form class="boton-agregarCarrito" action="/agregar-carrito" method="POST">
+                <form class="boton-agregarCarrito" action="/agregarCarrito" method="POST">
                 <button type="submit">Agregar al Carrito</button>
                 </form>
-                <form class="boton-reservar" action="formulario.html" method="GET">
-                    <button type="button">Reservar Gratis</button>
+                <form class="boton-reservar" action="/reserva" method="GET">
+                    <button type="submit">Reservar Gratis</button>
                 </form>
             </section>
         </section>
