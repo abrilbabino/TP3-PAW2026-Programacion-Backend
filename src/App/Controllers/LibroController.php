@@ -13,17 +13,9 @@ class LibroController extends Controller
 
     public function catalogo()
     {
-        global $request;
         $menu = $this->menu;
         $redes = $this->redes;
-        $filtros = [
-            'genero'    => $request->get('genero'),
-            'idioma'    => $request->get('idioma'),
-            'autor_id'  => $request->get('autor'),
-            'editorial' => $request->get('editorial'),
-            'precio_min' => $request->get('precio_min'),
-            'precio_max' => $request->get('precio_max'),
-            ];
+        $filtros = $this-> getFiltros();
 
         $autorModel = new AutorCollection; 
         $autorModel->setQueryBuilder($this->model->getQueryBuilder());
@@ -42,14 +34,28 @@ class LibroController extends Controller
 
         require $this->viewsDir . '/catalogo.view.php';
     }
+    
+    private function getFiltros()
+    {
+        global $request;
+        return[
+            'genero'    => $request->get('genero'),
+            'idioma'    => $request->get('idioma'),
+            'autor_id'  => $request->get('autor'),
+            'editorial' => $request->get('editorial'),
+            'precio_min' => $request->get('precio_min'),
+            'precio_max' => $request->get('precio_max'),
+            ];
+        
+    }
 
     public function csv()
     {
-        $todosLosLibros = $this->model->getAll();
-    
+        $filtros = $this->getFiltros();
         $paginacion = $this->getDatosPaginacion();
         $inicio = $paginacion['inicio'];
         $librosPorPagina = $paginacion['librosPorPagina'];
+        $todosLosLibros = $this->model->getAll($filtros);
 
         $libros = array_slice($todosLosLibros, $inicio, $librosPorPagina);
         
@@ -57,7 +63,7 @@ class LibroController extends Controller
         header('Content-Disposition: attachment; filename=catalogo-libros.csv');
         
         $output = fopen('php://output', 'w');
-        fputcsv($output, ['ID', 'Título', 'Descripción', 'Género', 'Editorial', 'Idioma', 'Precio', 'Autor']);
+        fputcsv($output, ['ID', 'Título', 'Descripción', 'Género', 'Editorial', 'Idioma', 'Precio', 'Autor'], ',', '"', '\\');
 
         $autorModel = new Autor();
         $autorModel->setQueryBuilder($this->model->getQueryBuilder());
@@ -76,7 +82,7 @@ class LibroController extends Controller
                 $libro->fields['idioma'],
                 $libro->fields['precio'],
                 $nombreAutor
-            ]);
+            ], ',', '"', '\\');
         }
         fclose($output);
     }
