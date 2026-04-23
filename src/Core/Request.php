@@ -29,6 +29,10 @@ class Request{
 		return $_POST[$key] ?? $_GET[$key] ?? null;
 	}
 
+	public function getAll(){
+		return $_GET;
+	}
+
 	public function post(){
 		return $_POST;
 	}

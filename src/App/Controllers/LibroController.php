@@ -13,6 +13,7 @@ class LibroController extends Controller
 
     public function catalogo()
     {
+        global $request;
         $menu = $this->menu;
         $redes = $this->redes;
         $filtros = $this-> getFiltros();
@@ -130,7 +131,8 @@ class LibroController extends Controller
 
     public function buscar()
     {
-        $termino = trim($_GET['busqueda'] ?? '');
+        global $request;
+        $termino = trim($request->get('busqueda') ?? '');
         
         if (empty($termino)) {
             header('Location: /catalogo');
