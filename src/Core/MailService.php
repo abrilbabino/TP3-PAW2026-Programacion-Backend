@@ -16,7 +16,7 @@ class MailService {
             $mail->SMTPAuth   = true;
             $mail->Username   = $config->get('MAIL_USER');
             $mail->Password   = $config->get('MAIL_PASS');
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->Port       = $config->get('MAIL_PORT');
 
             $mail->setFrom($config->get('MAIL_USER'), 'PawPrints');
