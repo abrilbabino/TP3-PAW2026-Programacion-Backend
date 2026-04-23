@@ -344,7 +344,6 @@ article:focus-within .overlay {
   /* Grilla de libros */
   .grilla-libros {
     grid-area: libros;
-    align-items: center;
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
     width: 100%;
@@ -353,6 +352,7 @@ article:focus-within .overlay {
   .grilla-libros article {
     width: 100%;
     height: 90%;
+    max-height: 381px;
     aspect-ratio: 160 / 290;
   }
 
