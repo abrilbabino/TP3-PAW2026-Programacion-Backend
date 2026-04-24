@@ -13,12 +13,33 @@ use Paw\App\Models\IdiomaCollection;
 class LibroController extends Controller
 {
     public ?string $modelName = LibroCollection::class;
+    private const POR_PAGINA = 6;
+
 
     public function catalogo()
     {
         $request= $this->request;
-        $menu = $this->menu;
-        $redes = $this->redes;
+        $menu    = $this->menu;
+        $redes   = $this->redes;
+
+        $filtros = $this->getFiltros();
+        $termino = $request->get('busqueda');
+        $page = $request->paginaActual();
+        $formato = $request->get('format') ?? 'html'; 
+
+        if ($termino) {
+            $resultado = $this->model->buscarPaginated($termino, $page, self::POR_PAGINA);
+        } else {
+            $resultado = $this->model->getPaginated($filtros, $page, self::POR_PAGINA);
+        }
+
+        $libros = $resultado['items'];
+        $pagination = $resultado['pagination'];
+
+        if ($formato === 'csv') {
+            require $this->viewsDir . '/catalogo_csv.view.php';
+            return;
+        }
         $filtros = $this-> getFiltros();
 
         $generoModel = new GeneroCollection;
@@ -37,14 +58,6 @@ class LibroController extends Controller
         $autorModel->setQueryBuilder($this->model->getQueryBuilder());
         $autores = $autorModel->getAll();
 
-        $datosPaginacion = $this->getDatosPaginacion();
-        extract($datosPaginacion);
-
-        $libros = $this->model->getAll($filtros);
-
-        $totalLibros = $this->model->count($filtros);
-        $totalPaginas = ceil($totalLibros / $librosPorPagina);
-
         require $this->viewsDir . '/catalogo.view.php';
     }
 
@@ -62,66 +75,6 @@ class LibroController extends Controller
         
     }
 
-    public function csv()
-    {
-        $filtros = $this->getFiltros();
-        $termino = $_GET['busqueda'] ?? null;
-
-        if ($termino) {
-            $todosLosLibros = $this->model->buscar($termino);
-        } else {
-            $todosLosLibros= $this->model->getAll($filtros);
-        }
-
-        $datosPaginacion = $this->getDatosPaginacion();
-        extract($datosPaginacion);;
-
-        $libros = array_slice($todosLosLibros, $inicio, $librosPorPagina);
-        
-        header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename=catalogo-libros.csv');
-        
-        $output = fopen('php://output', 'w');
-        fputcsv($output, ['ID', 'Título', 'Descripción', 'Género', 'Editorial', 'Idioma', 'Precio', 'Autor'], ',', '"', '\\');
-
-        $autorModel = new Autor();
-        $autorModel->setQueryBuilder($this->model->getQueryBuilder());
-
-        foreach ($libros as $libro) {
-
-            $autorModel->load($libro->fields['autor_id']);
-            $nombreAutor = $autorModel->fields['nombre'] ?? 'Desconocido';
-
-            fputcsv($output, [
-                $libro->fields['id'],
-                $libro->fields['titulo'],
-                $libro->fields['descripcion'],
-                $libro->fields['genero'],
-                $libro->fields['editorial'],
-                $libro->fields['idioma'],
-                $libro->fields['precio'],
-                $nombreAutor
-            ], ',', '"', '\\');
-        }
-        fclose($output);
-    }
-
-    private function getDatosPaginacion()
-    {
-        global $request;
-        $pagina = $request->paginaActual();
-        $librosPorPagina = 6; 
-        $inicio = ($pagina - 1) * $librosPorPagina;
-        $fin = $inicio + $librosPorPagina;
-
-        return [
-            'pagina' => $pagina,
-            'librosPorPagina' => $librosPorPagina,
-            'inicio' => $inicio,
-            'fin' => $fin
-        ];
-    }
-
     public function detalle()
     {
         $request = $this->request;
@@ -129,18 +82,18 @@ class LibroController extends Controller
         $redes = $this->redes;
         $id    = $request->get('id');
         $libro = $this->model->get($id);
-
-        $autorModel = new AutorCollection; 
+ 
+        $autorModel = new AutorCollection;
         $autorModel->setQueryBuilder($this->model->getQueryBuilder());
         $autor = $autorModel->get($libro->fields['autor_id']);
 
         $filtros= [
-            'genero'    => $libro->fields['genero'],
+            'genero_id'    => $libro->fields['genero_id'],
             'autor_id'  => $libro->fields['autor_id'],
         ];
-        
-        $relacionados = $this->model->getRelations($filtros); 
-
+ 
+        $relacionados = $this->model->getRelations($filtros);
+ 
         require $this->viewsDir . '/libro.view.php';
     }
 
@@ -148,30 +101,36 @@ class LibroController extends Controller
     {
         $request = $this->request;
         $termino = trim($request->get('busqueda') ?? '');
-        
+ 
         if (empty($termino)) {
             header('Location: /catalogo');
             return;
         }
-
-        $menu = $this->menu;
+ 
+        $menu  = $this->menu;
         $redes = $this->redes;
+        $page  = $request->paginaActual();
+ 
+        $resultado  = $this->model->buscarPaginated($termino, $page, self::POR_PAGINA);
+        $libros     = $resultado['items'];
+        $pagination = $resultado['pagination'];
 
-        $todosLosLibrosEncontrados = $this->model->buscar($termino);
+        $generoModel = new GeneroCollection;
+        $generoModel->setQueryBuilder($this->model->getQueryBuilder());
+        $generos = $generoModel->getAll();
 
-        $datosPaginacion = $this->getDatosPaginacion();
-        extract($datosPaginacion);
+        $editorialModel = new EditorialCollection;
+        $editorialModel->setQueryBuilder($this->model->getQueryBuilder());
+        $editoriales = $editorialModel->getAll();
 
-        $libros = array_slice($todosLosLibrosEncontrados, $inicio, $librosPorPagina);
-
-        $totalLibros = count($todosLosLibrosEncontrados);
-        $totalPaginas = ceil($totalLibros / $librosPorPagina);
-
-        $autorModel = new AutorCollection; 
+        $idiomaModel = new IdiomaCollection;
+        $idiomaModel->setQueryBuilder($this->model->getQueryBuilder());
+        $idiomas = $idiomaModel->getAll();
+ 
+        $autorModel = new AutorCollection;
         $autorModel->setQueryBuilder($this->model->getQueryBuilder());
         $autores = $autorModel->getAll();
-
-
+ 
         require $this->viewsDir . '/catalogo.view.php';
     }
 }

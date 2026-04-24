@@ -51,6 +51,5 @@ $router->post('/reserva/procesar-reserva', 'ReservaController@procesarReserva');
 $router->get('/reserva-exitosa', 'PageController@reservaExitosa');
 $router->get('/catalogo', 'LibroController@catalogo');
 $router->get('/detalle', 'LibroController@detalle');
-$router->get('/catalogo/csv', 'LibroController@csv');
 $router->get('/buscar', 'LibroController@buscar');
 

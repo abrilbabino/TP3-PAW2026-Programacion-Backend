@@ -24,7 +24,7 @@
   </header>
     <section class="barra-resultados">
         <p>Mostrando <strong><?= count($libros) ?></strong> resultados</p>
-        <a href="/catalogo/csv?<?= http_build_query($request->getAll()) ?>" class="btn-descargar">            
+        <a href="/catalogo?<?= http_build_query($request->getAll()) ?>&format=csv" class="btn-descargar">            
           <span class="material-symbols-outlined">download</span>
             DESCARGAR CSV
         </a>
@@ -97,9 +97,7 @@
 
       <section class="grilla-libros">
         <?php 
-        $i=0;
         foreach ($libros as $libro): 
-          if($i>=$inicio && $i<$fin):
         ?>
           <article>
             <img src="/assets/img/<?= $libro->fields['imagen'] ?>" alt="<?= $libro->fields['titulo'] ?>">
@@ -108,9 +106,11 @@
             <p><em>Autor:</em> 
             <?php 
               $nombreAutor = "Desconocido";
-              $autor = $autorModel->get($libro->fields['autor_id']);
-              if ($autor) {
-                  $nombreAutor = $autor->fields['nombre'];
+              foreach ($autores as $a) {
+                  if ($a->fields['id'] == $libro->fields['autor_id']) {
+                      $nombreAutor = $a->fields['nombre'];
+                      break;
+                  }
               }
               echo $nombreAutor;
             ?>
@@ -127,27 +127,26 @@
               </button>
             </form>
           </article>
-        <?php 
-          endif;
-          $i++;
-          endforeach; 
-        ?>
+        <?php endforeach; ?>
       </section>
 
       <div class="paginacion">
-      <?php if ($pagina > 1): ?>
-          <a href="?pagina=<?= $pagina - 1 ?>" class="Boton">Atrás</a>
-      <?php endif; ?>
-      
-      <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
-          <a href="?pagina=<?= $i ?>" class="<?= $i == $pagina ? 'pagina-activa' : '' ?>">
-              <?= $i ?>
+ 
+        <?php if ($pagination->hasPrev()): ?>
+          <a href="?<?= http_build_query(array_merge($request->getAll(), ['pagina' => $pagination->currentPage - 1])) ?>" class="Boton">Atrás</a>
+        <?php endif; ?>
+ 
+        <?php for ($i = 1; $i <= $pagination->totalPages; $i++): ?>
+          <a href="?<?= http_build_query(array_merge($request->getAll(), ['pagina' => $i])) ?>"
+             class="<?= $i === $pagination->currentPage ? 'pagina-activa' : '' ?>">
+            <?= $i ?>
           </a>
-      <?php endfor; ?>
-
-      <?php if ($fin < $totalLibros): ?>
-          <a href="?pagina=<?= $pagina + 1 ?>" class="Boton">Siguiente</a>
-      <?php endif; ?>
+        <?php endfor; ?>
+ 
+        <?php if ($pagination->hasNext()): ?>
+          <a href="?<?= http_build_query(array_merge($request->getAll(), ['pagina' => $pagination->currentPage + 1])) ?>" class="Boton">Siguiente</a>
+        <?php endif; ?>
+ 
       </div>
 
   </main>

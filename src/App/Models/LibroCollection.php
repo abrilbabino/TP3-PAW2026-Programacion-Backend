@@ -3,6 +3,8 @@
 namespace Paw\App\Models;
 
 use Paw\Core\Model;
+use Paw\Core\Pagination;
+
 
 class LibroCollection extends Model
 {
@@ -10,49 +12,24 @@ class LibroCollection extends Model
 
     public function getAll(array $filtros = [])
     {
-        $precios = [
-            'min' => $filtros['precio_min'] ?? null,
-            'max' => $filtros['precio_max'] ?? null
-        ];
-        
-        unset($filtros['precio_min'], $filtros['precio_max']);
-        $params = array_filter($filtros, fn($v) => $v !== null && $v !== '');
-
+        [$params, $precios] = $this->extraerFiltros($filtros);
         $libros = $this->queryBuilder->select($this->table, $params, $precios);
-
-        $librosCollection = [];
-        foreach ($libros as $libro) {
-            $newLibro = new Libro;
-            $newLibro->set($libro);
-            $librosCollection[] = $newLibro;
-        }
-        return $librosCollection;
+        return $this->mapearLibros($libros);
     }
+ 
 
-    public function getRelations(array $filtros = []){
+    public function getRelations(array $filtros = [])
+    {
         $libros = $this->queryBuilder->selectRelated($this->table, $filtros);
-
-        $librosCollection = [];
-        foreach ($libros as $libro) {
-            $newLibro = new Libro;
-            $newLibro->set($libro);
-            $librosCollection[] = $newLibro;
-        }
-        return $librosCollection;
+        return $this->mapearLibros($libros);
     }
 
     public function count(array $filtros = [])
     {
-        $precios = [
-            'min' => $filtros['precio_min'] ?? null,
-            'max' => $filtros['precio_max'] ?? null
-        ];
-        
-        unset($filtros['precio_min'], $filtros['precio_max']);
-        $params = array_filter($filtros, fn($v) => $v !== null && $v !== '');
-
+        [$params, $precios] = $this->extraerFiltros($filtros);
         return $this->queryBuilder->count($this->table, $params, $precios)['total'];
     }
+
     
 
     public function get($id){
@@ -62,14 +39,69 @@ class LibroCollection extends Model
         return $libro;	
     }
 
-    public function buscar($termino){
+    public function buscar($termino)
+    {
         $libros = $this->queryBuilder->buscar($termino);
-        $librosCollection = [];
-        foreach ($libros as $libro) {
-            $newLibro = new Libro;
-            $newLibro->set($libro);
-            $librosCollection[] = $newLibro;
+        return $this->mapearLibros($libros);
+    }
+
+
+    public function getPaginated(array $filtros, int $page, int $perPage = 6): array
+    {
+        [$params, $precios] = $this->extraerFiltros($filtros);
+ 
+        $total      = (int) $this->queryBuilder->count($this->table, $params, $precios)['total'];
+        $pagination = new Pagination($page, $perPage, $total);
+ 
+        $libros = $this->queryBuilder->select(
+            $this->table,
+            $params,
+            $precios,
+            $pagination->perPage,
+            $pagination->offset
+        );
+ 
+        return [
+            'items'      => $this->mapearLibros($libros),
+            'pagination' => $pagination,
+        ];
+    }
+
+    public function buscarPaginated(string $termino, int $page, int $perPage = 6): array
+    {
+        $total      = $this->queryBuilder->buscarCount($termino);
+        $pagination = new Pagination($page, $perPage, $total);
+ 
+        $libros = $this->queryBuilder->buscar($termino, $pagination->perPage, $pagination->offset);
+ 
+        return [
+            'items'      => $this->mapearLibros($libros),
+            'pagination' => $pagination,
+        ];
+    }
+
+
+    // --- Helpers privados ---
+ 
+    private function extraerFiltros(array $filtros): array
+    {
+        $precios = [
+            'min' => $filtros['precio_min'] ?? null,
+            'max' => $filtros['precio_max'] ?? null,
+        ];
+        unset($filtros['precio_min'], $filtros['precio_max']);
+        $params = array_filter($filtros, fn($v) => $v !== null && $v !== '');
+        return [$params, $precios];
+    }
+ 
+    private function mapearLibros(array $rows): array
+    {
+        $coleccion = [];
+        foreach ($rows as $row) {
+            $libro = new Libro;
+            $libro->set($row);
+            $coleccion[] = $libro;
         }
-        return $librosCollection;
+        return $coleccion;
     }
 }
