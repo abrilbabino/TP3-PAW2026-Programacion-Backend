@@ -16,16 +16,14 @@ class QueryBuilder
         $this->logger = $logger;
     }
 
-    public function select($table, $params = [], $precios = [])
+   public function select($table, $params = [], $precios = [], int $limit = 0, int $offset = 0)
     {
         $conditions = [];
         $binds = [];
-
         foreach ($params as $campo => $valor) {
             $conditions[] = "{$campo} = :{$campo}";
             $binds[":{$campo}"] = $valor;
         }
-
         if (!empty($precios['min'])) {
             $conditions[] = "precio >= :pmin";
             $binds[":pmin"] = $precios['min'];
@@ -34,13 +32,21 @@ class QueryBuilder
             $conditions[] = "precio <= :pmax";
             $binds[":pmax"] = $precios['max'];
         }
-
         $where = !empty($conditions) ? implode(" AND ", $conditions) : "1=1";
         $query = "SELECT * FROM {$table} WHERE {$where}";
-
+ 
+        // Solo agrega LIMIT/OFFSET si se piden
+        if ($limit > 0) {
+            $query .= " LIMIT :limit OFFSET :offset";
+        }
         $sentencia = $this->pdo->prepare($query);
         foreach ($binds as $key => $val) {
             $sentencia->bindValue($key, $val);
+        }
+
+        if ($limit > 0) {
+            $sentencia->bindValue(':limit',  $limit,  PDO::PARAM_INT);
+            $sentencia->bindValue(':offset', $offset, PDO::PARAM_INT);
         }
         $sentencia->execute();
         return $sentencia->fetchAll(PDO::FETCH_ASSOC);
@@ -79,7 +85,6 @@ class QueryBuilder
     public function count($table, $params = [])
     {
         $conditions = [];
-
         foreach ($params as $campo => $valor) {
             $conditions[] = "{$campo} = :{$campo}";
         }
@@ -98,13 +103,34 @@ class QueryBuilder
         return $sentencia->fetch();
     }
 
-    public function buscar($termino){
+        public function buscar($termino, int $limit = 0, int $offset = 0)
+    {
         $query = "SELECT * FROM libro WHERE titulo LIKE :termino OR descripcion LIKE :termino";
+        if ($limit > 0) {
+            $query .= " LIMIT :limit OFFSET :offset";
+        }
+ 
         $sentencia = $this->pdo->prepare($query);
         $sentencia->bindValue(':termino', "%{$termino}%");
+ 
+        if ($limit > 0) {
+            $sentencia->bindValue(':limit',  $limit,  PDO::PARAM_INT);
+            $sentencia->bindValue(':offset', $offset, PDO::PARAM_INT);
+        }
+ 
         $sentencia->setFetchMode(PDO::FETCH_ASSOC);
         $sentencia->execute();
         return $sentencia->fetchAll();
     }
+
+    public function buscarCount($termino): int
+    {
+        $query = "SELECT COUNT(*) as total FROM libro WHERE titulo LIKE :termino OR descripcion LIKE :termino";
+        $sentencia = $this->pdo->prepare($query);
+        $sentencia->bindValue(':termino', "%{$termino}%");
+        $sentencia->execute();
+        return (int) $sentencia->fetchColumn();
+    }
+
 
 }
