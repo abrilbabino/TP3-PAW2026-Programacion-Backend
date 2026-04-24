@@ -6,7 +6,6 @@ use Paw\App\Models\AutorCollection;
 use Paw\Core\Controller;
 use Paw\App\Models\LibroCollection;
 use Paw\App\Models\Autor;
-
 class LibroController extends Controller
 {
     public ?string $modelName = LibroCollection::class;
@@ -18,17 +17,32 @@ class LibroController extends Controller
         global $request;
         $menu    = $this->menu;
         $redes   = $this->redes;
+
         $filtros = $this->getFiltros();
-        $page    = $request->paginaActual();
- 
+        $termino = $request->get('busqueda');
+        $page = $request->paginaActual();
+        $formato = $request->get('format') ?? 'html'; 
+
+        if ($termino) {
+            $resultado = $this->model->buscarPaginated($termino, $page, self::POR_PAGINA);
+        } else {
+            $resultado = $this->model->getPaginated($filtros, $page, self::POR_PAGINA);
+        }
+
+        $libros = $resultado['items'];
+        $pagination = $resultado['pagination'];
+
+        if ($formato === 'csv') {
+            require $this->viewsDir . '/catalogo_csv.view.php';
+            return;
+        }
+
+        $menu = $this->menu;
+        $redes = $this->redes;
         $autorModel = new AutorCollection;
         $autorModel->setQueryBuilder($this->model->getQueryBuilder());
         $autores = $autorModel->getAll();
- 
-        $resultado  = $this->model->getPaginated($filtros, $page, self::POR_PAGINA);
-        $libros     = $resultado['items'];
-        $pagination = $resultado['pagination'];
- 
+
         require $this->viewsDir . '/catalogo.view.php';
     }
 
@@ -45,45 +59,6 @@ class LibroController extends Controller
             ];
         
     }
-
-    public function csv()
-    {
-        global $request;
-        $filtros = $this->getFiltros();
-        $termino = $request->get('busqueda');
- 
-        $libros = $termino
-            ? $this->model->buscar($termino)
-            : $this->model->getAll($filtros);
- 
-        header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename=catalogo-libros.csv');
- 
-        $output = fopen('php://output', 'w');
-        fputcsv($output, ['ID', 'Título', 'Descripción', 'Género', 'Editorial', 'Idioma', 'Precio', 'Autor'], ',', '"', '\\');
- 
-        $autorModel = new Autor();
-        $autorModel->setQueryBuilder($this->model->getQueryBuilder());
- 
-        foreach ($libros as $libro) {
-            $autorModel->load($libro->fields['autor_id']);
-            $nombreAutor = $autorModel->fields['nombre'] ?? 'Desconocido';
- 
-            fputcsv($output, [
-                $libro->fields['id'],
-                $libro->fields['titulo'],
-                $libro->fields['descripcion'],
-                $libro->fields['genero'],
-                $libro->fields['editorial'],
-                $libro->fields['idioma'],
-                $libro->fields['precio'],
-                $nombreAutor,
-            ], ',', '"', '\\');
-        }
- 
-        fclose($output);
-    }
-
 
     public function detalle()
     {

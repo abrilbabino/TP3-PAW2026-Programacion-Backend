@@ -24,7 +24,7 @@
   </header>
     <section class="barra-resultados">
         <p>Mostrando <strong><?= count($libros) ?></strong> resultados</p>
-        <a href="/catalogo/csv?<?= http_build_query($request->getAll()) ?>" class="btn-descargar">            
+        <a href="/catalogo?<?= http_build_query($request->getAll()) ?>&format=csv" class="btn-descargar">            
           <span class="material-symbols-outlined">download</span>
             DESCARGAR CSV
         </a>
