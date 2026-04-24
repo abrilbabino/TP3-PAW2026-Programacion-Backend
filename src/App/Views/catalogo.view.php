@@ -45,13 +45,11 @@
             <p>Género</p>
             <select name="genero">
               <option value="">Todos</option>
-              <option value="Terror" <?= ($request->get('genero') ?? '') == 'Terror' ? 'selected' : '' ?>>Terror</option>
-              <option value="Ficción" <?= ($request->get('genero') ?? '') == 'Ficción' ? 'selected' : '' ?>>Ficción</option>
-              <option value="Fantástico" <?= ($request->get('genero') ?? '') == 'Fantástico' ? 'selected' : '' ?>>Fantástico</option>
-              <option value="Romance" <?= ($request->get('genero') ?? '') == 'Romance' ? 'selected' : '' ?>>Romance</option>
-              <option value="Novela" <?= ($request->get('genero') ?? '') == 'Novela' ? 'selected' : '' ?>>Novela</option>
-              <option value="Realismo Mágico" <?= ($request->get('genero') ?? '') == 'Realismo Mágico' ? 'selected' : '' ?>>Realismo Mágico</option>
-
+              <?php foreach ($generos as $g): ?>
+                <option value="<?= $g->fields['id'] ?>" <?= ($request->get('genero') == $g->fields['id']) ? 'selected' : '' ?>>
+                <?= $g->fields['nombre'] ?>
+                </option>
+              <?php endforeach; ?>
             </select>
 
             <p>Precio</p>
@@ -62,21 +60,23 @@
             <p>Editorial</p>
             <select name="editorial">
               <option value="">Todas</option>
-              <option value="DeBolsillo" <?= ($request->get('editorial') ?? '') == 'DeBolsillo' ? 'selected' : '' ?>>DeBolsillo</option>
-              <option value="Sur" <?= ($request->get('editorial') ?? '') == 'Sur' ? 'selected' : '' ?>>Sur</option>
-              <option value="Sudamericana" <?= ($request->get('editorial') ?? '') == 'Sudamericana' ? 'selected' : '' ?>>Sudamericana</option>
-              <option value="Alfaguara" <?= ($request->get('editorial') ?? '') == 'Alfaguara' ? 'selected' : '' ?>>Alfaguara</option>
-              <option value="Diana" <?= ($request->get('editorial') ?? '') == 'Diana' ? 'selected' : '' ?>>Diana</option>
-              <option value="Oveja Negra" <?= ($request->get('editorial') ?? '') == 'Oveja Negra' ? 'selected' : '' ?>>Oveja Negra</option>
+              <?php foreach ($editoriales as $e): ?>
+                <option value="<?= $e->fields['id'] ?>" <?= ($request->get('editorial') == $e->fields['id']) ? 'selected' : '' ?>>
+                <?= $e->fields['nombre'] ?>
+                </option>
+              <?php endforeach; ?>
 
             </select>
 
             <p>Idioma</p>
             <select name="idioma">
               <option value="">Todos</option>
-              <option value="Español" <?= ($request->get('idioma') ?? '') == 'Español' ? 'selected' : '' ?>>Español</option>
-              <option value="Inglés" <?= ($request->get('idioma') ?? '') == 'Inglés' ? 'selected' : '' ?>>Inglés</option>
-              <option value="Francés" <?= ($request->get('idioma') ?? '') == 'Francés' ? 'selected' : '' ?>>Francés</option>
+              <?php foreach ($idiomas as $i): ?>
+                <option value="<?= $i->fields['id'] ?>" <?= ($request->get('idioma') == $i->fields['id']) ? 'selected' : '' ?>>
+                <?= $i->fields['nombre'] ?>
+                </option>
+              <?php endforeach; ?>
+
             </select>
 
             <p>Autor</p>

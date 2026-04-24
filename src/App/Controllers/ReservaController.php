@@ -19,8 +19,9 @@ class ReservaController extends Controller{
 
     public function procesarReserva()
     {
-        global $request;
         global $config;
+
+        $request = $this->request;
         $menu = $this->menu;
         $redes = $this->redes;
 

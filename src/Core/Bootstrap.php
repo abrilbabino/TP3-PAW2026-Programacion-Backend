@@ -14,6 +14,8 @@ use Paw\Core\Request;
 
 use Paw\Core\Database\ConnectionBuilder;
 
+use Paw\Core\ControllerFactory;
+
 $dotenv = Dotenv::createUnsafeImmutable(__DIR__ . '/../../');
 $dotenv->safeLoad();
 $config = new Config;
@@ -29,8 +31,16 @@ $whoops = new \Whoops\Run;
 $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
 $whoops->register();
 
+$connectionBuilder = new ConnectionBuilder;
+$connectionBuilder->setLogger($log);
+$connection = $connectionBuilder->make($config);
+
+$controllerFactory = new ControllerFactory($request, $log, $connection);
+
 $router=new Router;
 $router->setLogger($log);
+$router->setControllerFactory($controllerFactory);
+
 $router->get('/','PageController@index');
 $router->get('/sobreNosotros', 'PageController@sobreNosotros');
 $router->get('not_found', 'ErrorController@notFound');
@@ -43,8 +53,4 @@ $router->get('/catalogo', 'LibroController@catalogo');
 $router->get('/detalle', 'LibroController@detalle');
 $router->get('/catalogo/csv', 'LibroController@csv');
 $router->get('/buscar', 'LibroController@buscar');
-
-$connectionBuilder = new ConnectionBuilder;
-$connectionBuilder->setLogger($log);
-$connection = $connectionBuilder->make($config);
 

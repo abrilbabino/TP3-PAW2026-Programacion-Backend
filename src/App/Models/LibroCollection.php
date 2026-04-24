@@ -41,7 +41,6 @@ class LibroCollection extends Model
         return $librosCollection;
     }
 
-
     public function count(array $filtros = [])
     {
         $precios = [

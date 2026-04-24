@@ -5,14 +5,13 @@ namespace Paw\App\Models;
 use Paw\Core\Model;
 use Paw\Core\Exceptions\InvalidValueFormatException;
 
-class Autor extends Model
+class Idioma extends Model
 {
-    public $table = 'autor';
+    public $table = 'idioma';
 
     public $fields = [
         "id" => null,
         "nombre" => null,
-        "biografia" => null,
     ];
 
     public function setId($id){
@@ -30,11 +29,6 @@ class Autor extends Model
         $this->fields["nombre"] = $nombre;
     }
 
-    public function setBiografia(string $biografia)
-    {
-        $this->fields["biografia"] = $biografia;
-    }
-
     public function set(array $values)
     {
         foreach (array_keys($this->fields) as $field) {
@@ -44,11 +38,5 @@ class Autor extends Model
             $method = "set" . ucfirst($field);
             $this->$method($values[$field]);
         }
-    }
-
-    public function load($id){
-        $params = ["id" => $id];
-        $record = current($this->queryBuilder->select($this->table, $params));
-        $this->set($record);
     }
 }

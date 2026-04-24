@@ -3,7 +3,7 @@
 namespace Paw\App\Models;
 
 use Paw\Core\Model;
-use Exception;
+use Paw\Core\Exceptions\InvalidValueFormatException;
 
 class Libro extends Model
 {
@@ -15,9 +15,9 @@ class Libro extends Model
         "titulo" => null,
         "descripcion" => null,
         "precio" => null,
-        "genero" => null,
-        "editorial" => null,
-        "idioma" => null,
+        "genero_id" => null,
+        "editorial_id" => null,
+        "idioma_id" => null,
         "stock" => null,
         "autor_id" => null,
     ];
@@ -33,10 +33,10 @@ class Libro extends Model
     public function setTitulo(string $titulo)
     {
         if (strlen($titulo) > 60) {
-            throw new Exception("El titulo no debe ser mayor a 60 caracteres");
+            throw new InvalidValueFormatException("El titulo no debe ser mayor a 60 caracteres");
         }
         if (strlen($titulo) < 1) {
-            throw new Exception("El titulo es obligatorio");
+            throw new InvalidValueFormatException("El titulo es obligatorio");
         }
         $this->fields["titulo"] = $titulo;
     }
@@ -49,42 +49,39 @@ class Libro extends Model
     public function setPrecio(float $precio)
     {
         if ($precio < 0) {
-            throw new Exception("El precio no puede ser negativo");
+            throw new InvalidValueFormatException("El precio no puede ser negativo");
         }
         $this->fields["precio"] = $precio;
     }
 
-    public function setGenero(string $genero)
+     public function setGenero_Id(int $generoId)
     {
-        if (strlen($genero) > 60) {
-            throw new Exception("El genero no debe ser mayor a 60 caracteres");
+        if ($generoId < 1) {
+            throw new InvalidValueFormatException("El ID del género debe ser mayor a 0");
         }
-        if (strlen($genero) < 1) {
-            throw new Exception("El genero es obligatorio");
-        }
-        $this->fields["genero"] = $genero;
+        $this->fields["genero_id"] = $generoId;
     }
 
-    public function setEditorial(string $editorial)
+     public function setEditorial_Id(int $editorialId)
     {
-        if (strlen($editorial) > 60) {
-            throw new Exception("La editorial no debe ser mayor a 60 caracteres");
+        if ($editorialId < 1) {
+            throw new InvalidValueFormatException("El ID de la editorial debe ser mayor a 0");
         }
-        $this->fields["editorial"] = $editorial;
+        $this->fields["editorial_id"] = $editorialId;
     }
 
-    public function setIdioma(string $idioma)
+     public function setIdioma_Id(int $idiomaId)
     {
-        if (strlen($idioma) > 60) {
-            throw new Exception("El idioma no debe ser mayor a 60 caracteres");
+        if ($idiomaId < 1) {
+            throw new InvalidValueFormatException("El ID del idioma debe ser mayor a 0");
         }
-        $this->fields["idioma"] = $idioma;
+        $this->fields["idioma_id"] = $idiomaId;
     }
 
     public function setStock(int $stock)
     {
         if ($stock < 0) {
-            throw new Exception("El stock no puede ser negativo");
+            throw new InvalidValueFormatException("El stock no puede ser negativo");
         }
         $this->fields["stock"] = $stock;
     }
@@ -92,7 +89,7 @@ class Libro extends Model
     public function setAutor_Id(int $autorId)
     {
         if ($autorId < 1) {
-            throw new Exception("El ID del autor debe ser mayor a 0");
+            throw new InvalidValueFormatException("El ID del autor debe ser mayor a 0");
         }
         $this->fields["autor_id"] = $autorId;
     }

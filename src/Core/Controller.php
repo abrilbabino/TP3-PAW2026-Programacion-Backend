@@ -12,12 +12,15 @@ class Controller
     protected $redes;
     protected $model;
 
-
     public ?string $modelName = null; 
+    
+    protected $request;
+    protected $log;
 
-    public function __construct()
+    public function __construct($request, $log, $connection)
     {
-        global $connection, $log;
+        $this->request = $request;
+        $this->log = $log;
         $this -> viewsDir = __DIR__ . "/../App/Views";
 
         $this -> menu = [

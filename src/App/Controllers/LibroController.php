@@ -6,6 +6,9 @@ use Paw\App\Models\AutorCollection;
 use Paw\Core\Controller;
 use Paw\App\Models\LibroCollection;
 use Paw\App\Models\Autor;
+use Paw\App\Models\EditorialCollection;
+use Paw\App\Models\GeneroCollection;
+use Paw\App\Models\IdiomaCollection;
 
 class LibroController extends Controller
 {
@@ -13,10 +16,22 @@ class LibroController extends Controller
 
     public function catalogo()
     {
-        global $request;
+        $request= $this->request;
         $menu = $this->menu;
         $redes = $this->redes;
         $filtros = $this-> getFiltros();
+
+        $generoModel = new GeneroCollection;
+        $generoModel->setQueryBuilder($this->model->getQueryBuilder());
+        $generos = $generoModel->getAll();
+
+        $editorialModel = new EditorialCollection;
+        $editorialModel->setQueryBuilder($this->model->getQueryBuilder());
+        $editoriales = $editorialModel->getAll();
+
+        $idiomaModel = new IdiomaCollection;
+        $idiomaModel->setQueryBuilder($this->model->getQueryBuilder());
+        $idiomas = $idiomaModel->getAll();
 
         $autorModel = new AutorCollection; 
         $autorModel->setQueryBuilder($this->model->getQueryBuilder());
@@ -35,12 +50,12 @@ class LibroController extends Controller
 
     private function getFiltros()
     {
-        global $request;
+        $request = $this->request;
         return[
-            'genero'    => $request->get('genero'),
-            'idioma'    => $request->get('idioma'),
+            'genero_id'    => $request->get('genero'),
+            'idioma_id'    => $request->get('idioma'),
             'autor_id'  => $request->get('autor'),
-            'editorial' => $request->get('editorial'),
+            'editorial_id' => $request->get('editorial'),
             'precio_min' => $request->get('precio_min'),
             'precio_max' => $request->get('precio_max'),
             ];
@@ -109,7 +124,7 @@ class LibroController extends Controller
 
     public function detalle()
     {
-        global $request;
+        $request = $this->request;
         $menu  = $this->menu;
         $redes = $this->redes;
         $id    = $request->get('id');
@@ -117,7 +132,7 @@ class LibroController extends Controller
 
         $autorModel = new AutorCollection; 
         $autorModel->setQueryBuilder($this->model->getQueryBuilder());
-        $autores = $autorModel->getAll();
+        $autor = $autorModel->get($libro->fields['autor_id']);
 
         $filtros= [
             'genero'    => $libro->fields['genero'],
@@ -131,7 +146,7 @@ class LibroController extends Controller
 
     public function buscar()
     {
-        global $request;
+        $request = $this->request;
         $termino = trim($request->get('busqueda') ?? '');
         
         if (empty($termino)) {

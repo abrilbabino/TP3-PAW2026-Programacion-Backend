@@ -12,6 +12,8 @@ class Router{
 
     use Loggable;
     
+    private ControllerFactory $factory;
+
     public array $routes = [
 
         "GET" => [],
@@ -26,6 +28,10 @@ class Router{
     {
         $this->get($this->notFound, 'ErrorController@notFound' );
         $this->get($this->internalError, 'ErrorController@internalError' );
+    }
+
+    public function setControllerFactory(ControllerFactory $factory){
+        $this->factory = $factory;
     }
 
     public function loadRoutes($path, $action, $method = 'GET')
@@ -58,8 +64,7 @@ class Router{
 
     public function call($controller, $method,$params =[])
     {
-        $controller_name = "Paw\\App\\Controllers\\{$controller}";
-        $objController = new $controller_name;
+        $objController = $this->factory->create($controller);
         $objController->$method(...$params);
     }
 

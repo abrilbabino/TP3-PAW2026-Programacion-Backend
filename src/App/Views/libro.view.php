@@ -13,17 +13,12 @@
     <title>Libro</title>
 </head>
 <body>
-    <?php require __DIR__ . '/barra-navegacion.view.php'; ?>
+    <?php
+
+use Paw\App\Models\Autor;
+
+ require __DIR__ . '/barra-navegacion.view.php'; ?>
     <main>
-        <?php 
-            $nombreAutor = "Desconocido";
-            $biografia = "No hay información disponible.";
-            $autor = $autorModel->get($libro->fields['autor_id']);
-            if ($autor) {
-                $nombreAutor = $autor->fields['nombre'];
-                $biografia = $autor->fields['biografia'];
-            }
-        ?>
         <section class="detalle-libro">
             <figure>
                 <img src="/assets/img/<?= $libro->fields['imagen'] ?? 'default.png' ?>" alt="Portada <?= $libro->fields['titulo'] ?>" />
@@ -37,7 +32,7 @@
                 <h2>Descripción</h2>
                 <p><?= $libro->fields['descripcion'] ?></p>
                 <h2>Autor</h2>
-                <p><?= $nombreAutor?></p>
+                <p><?= $autor->fields['nombre']?></p>
             </article>
 
             <section class="compra-reserva">
@@ -54,12 +49,12 @@
 
         <section class="descripcion-autor">
             <figure>
-            <img src="assets/img/<?=$nombreAutor?>.jpg" alt="Fotografía <?= $nombreAutor ?>"/>
+            <img src="assets/img/<?=$autor->fields['nombre']?>.jpg" alt="Fotografía <?= $autor->fields['nombre'] ?>"/>
             </figure>
 
             <article>
                 <h3>Descripción del Autor</h3>
-                <p><?= $biografia?></p>
+                <p><?= $autor->fields['biografia']?></p>
             </article>
       </section>
 
