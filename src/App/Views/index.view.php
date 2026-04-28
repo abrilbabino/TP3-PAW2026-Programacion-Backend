@@ -56,8 +56,6 @@
         <figure>
           <iframe
             src="https://www.google.com/maps/d/embed?mid=1fqEzq6nPa6IITzVkvMWnMvfQsy2sqrQ&ehbc=2E312F&noprof=1"
-            width="640"
-            height="480"
           ></iframe>
         </figure>
 
