@@ -27,6 +27,7 @@ class PageController extends Controller
         $redes = $this->redes;
         require $this->viewsDir . '/reserva-exitosa.view.php';
     }
+    
     public function agregarCarrito(){
         
     }

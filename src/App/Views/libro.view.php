@@ -32,7 +32,7 @@ use Paw\App\Models\Autor;
                 <h2>Descripción</h2>
                 <p><?= $libro->fields['descripcion'] ?></p>
                 <h2>Autor</h2>
-                <p><?= $autor->fields['nombre']?></p>
+                <p><?= $autores->get($libro->fields['autor_id'])->fields['nombre']?></p>
             </article>
 
             <section class="compra-reserva">
@@ -71,9 +71,9 @@ use Paw\App\Models\Autor;
                                 <p class="titulo"><?= $relacionado->fields['titulo'] ?></p>
                                 <p class="autor"><?php 
                                     $nombreAutor = "Desconocido";
-                                    $autor = $autorModel->get($relacionado->fields['autor_id']);
-                                    if ($autor) {
-                                        $nombreAutor = $autor->fields['nombre'];
+                                    $autorRel = $autores->get($relacionado->field['autor_id']);
+                                    if ($autorRel) {
+                                        $nombreAutor = $autorRel->fields['nombre'];
                                     }
                                     echo $nombreAutor;
                                 ?></p>

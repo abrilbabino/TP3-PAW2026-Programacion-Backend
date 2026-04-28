@@ -5,7 +5,6 @@ namespace Paw\App\Controllers;
 use Paw\App\Models\AutorCollection;
 use Paw\Core\Controller;
 use Paw\App\Models\LibroCollection;
-use Paw\App\Models\Autor;
 use Paw\App\Models\EditorialCollection;
 use Paw\App\Models\GeneroCollection;
 use Paw\App\Models\IdiomaCollection;
@@ -85,7 +84,7 @@ class LibroController extends Controller
  
         $autorModel = new AutorCollection;
         $autorModel->setQueryBuilder($this->model->getQueryBuilder());
-        $autor = $autorModel->get($libro->fields['autor_id']);
+        $autores = $autorModel->get($libro->fields['autor_id']);
 
         $filtros= [
             'genero_id'    => $libro->fields['genero_id'],
@@ -102,11 +101,6 @@ class LibroController extends Controller
         $request = $this->request;
         $termino = trim($request->get('busqueda') ?? '');
  
-        if (empty($termino)) {
-            header('Location: /catalogo');
-            return;
-        }
- 
         $menu  = $this->menu;
         $redes = $this->redes;
         $page  = $request->paginaActual();
@@ -114,23 +108,11 @@ class LibroController extends Controller
         $resultado  = $this->model->buscarPaginated($termino, $page, self::POR_PAGINA);
         $libros     = $resultado['items'];
         $pagination = $resultado['pagination'];
-
-        $generoModel = new GeneroCollection;
-        $generoModel->setQueryBuilder($this->model->getQueryBuilder());
-        $generos = $generoModel->getAll();
-
-        $editorialModel = new EditorialCollection;
-        $editorialModel->setQueryBuilder($this->model->getQueryBuilder());
-        $editoriales = $editorialModel->getAll();
-
-        $idiomaModel = new IdiomaCollection;
-        $idiomaModel->setQueryBuilder($this->model->getQueryBuilder());
-        $idiomas = $idiomaModel->getAll();
  
         $autorModel = new AutorCollection;
         $autorModel->setQueryBuilder($this->model->getQueryBuilder());
         $autores = $autorModel->getAll();
  
-        require $this->viewsDir . '/catalogo.view.php';
+        require $this->viewsDir . '/busqueda.view.php';
     }
 }
