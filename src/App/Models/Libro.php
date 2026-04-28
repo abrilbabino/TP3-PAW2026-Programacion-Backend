@@ -23,6 +23,9 @@ class Libro extends Model
     ];
 
     public function setId($id){
+        if($id < 0 || !is_numeric($id)){
+            throw new InvalidValueFormatException("El ID del libro debe ser un entero mayor a 0");
+        }
         $this->fields["id"] = $id;
     }
 
@@ -88,8 +91,8 @@ class Libro extends Model
 
     public function setAutor_Id(int $autorId)
     {
-        if ($autorId < 1) {
-            throw new InvalidValueFormatException("El ID del autor debe ser mayor a 0");
+        if ($autorId < 1 || !is_numeric($autorId)) {
+            throw new InvalidValueFormatException("El ID del autor debe ser un entero mayor a 0");
         }
         $this->fields["autor_id"] = $autorId;
     }
@@ -106,6 +109,9 @@ class Libro extends Model
     }
 
     public function load($id){
+        if(!is_numeric($id)||$id < 0){
+            throw new InvalidValueFormatException("El ID del libro debe ser un entero mayor a 0");
+        }
         $params = ["id" => $id];
         $record = current($this->queryBuilder->select($this->table, $params));
         $this->set($record);

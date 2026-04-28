@@ -13,11 +13,7 @@
     <title>Libro</title>
 </head>
 <body>
-    <?php
-
-use Paw\App\Models\Autor;
-
- require __DIR__ . '/barra-navegacion.view.php'; ?>
+    <?php require __DIR__ . '/barra-navegacion.view.php'; ?>
     <main>
         <section class="detalle-libro">
             <figure>
@@ -32,7 +28,7 @@ use Paw\App\Models\Autor;
                 <h2>Descripción</h2>
                 <p><?= $libro->fields['descripcion'] ?></p>
                 <h2>Autor</h2>
-                <p><?= $autores->get($libro->fields['autor_id'])->fields['nombre']?></p>
+                <p><?= $autor->fields['nombre'] ?></p>
             </article>
 
             <section class="compra-reserva">
@@ -69,14 +65,17 @@ use Paw\App\Models\Autor;
                                     <img src="/assets/img/<?= $relacionado->fields['imagen'] ?? 'default.png' ?>" alt="<?= $relacionado->fields['titulo'] ?>">
                                 </figure>
                                 <p class="titulo"><?= $relacionado->fields['titulo'] ?></p>
-                                <p class="autor"><?php 
-                                    $nombreAutor = "Desconocido";
-                                    $autorRel = $autores->get($relacionado->field['autor_id']);
-                                    if ($autorRel) {
-                                        $nombreAutor = $autorRel->fields['nombre'];
-                                    }
-                                    echo $nombreAutor;
-                                ?></p>
+                                <p class="autor">
+                                    <?php 
+                                        $nombreAutor = "Desconocido";
+                                        foreach ($autores as $a) {
+                                            if ($a->fields['id'] == $relacionado->fields['autor_id']) {
+                                                $nombreAutor = $a->fields['nombre'];
+                                                break;
+                                            }
+                                        }
+                                        echo $nombreAutor;
+                                    ?></p>
                                 <p class="precio">$<?= $relacionado->fields['precio'] ?></p>
                             </a>
                         </article>

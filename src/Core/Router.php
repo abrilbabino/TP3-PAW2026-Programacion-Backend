@@ -4,6 +4,7 @@ namespace Paw\Core;
 
 use Exception;
 use Paw\Core\Exceptions\InvalidValueFormatException;
+use Paw\Core\Exceptions\LibroNotFoundException;
 use Paw\Core\Request;
 use Paw\Core\Exceptions\RouteNotFoundException;
 use Paw\Core\Traits\Loggable;

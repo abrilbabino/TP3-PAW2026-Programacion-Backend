@@ -1,17 +1,10 @@
 .resultado-busqueda {
-    margin: 4rem 0 2rem 34rem;
+    text-align: center;
+    margin: 4rem;
     font-size: 1.4rem;
 }
 
-.resultado-busqueda strong,
-.sin-resultados strong {
-    font-weight: 900;
-}
-
-.sin-resultados {
-    text-align: center;
-    margin-top: 4rem;
-    font-size: 1.5rem;
+.resultado-busqueda strong {
     font-weight: 900;
 }
 
