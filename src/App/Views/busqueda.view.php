@@ -18,11 +18,11 @@
         <header>
             <h1>Resultado de búsqueda</h1>
         </header>
-         <?php if(empty($resultado['items'])): ?>
-                <p>No se encuentran resultados para: <?= $termino ?></p>
-            <?php else: ?>
-                <p>Mostrando los resultados para <?= $termino ?></p>
-            <?php endif ?>
+        <?php if(empty($resultado['items'])): ?>
+            <p class="sin-resultados">No se encuentran resultados para "<strong><?= $termino ?></strong>"</p>
+        <?php else: ?>
+            <p class="resultado-busqueda">Mostrando los resultados para "<strong><?= $termino ?></strong>"</p>
+        <?php endif; ?>
         <section class="grilla-libros">
         <?php 
         foreach ($libros as $libro): 

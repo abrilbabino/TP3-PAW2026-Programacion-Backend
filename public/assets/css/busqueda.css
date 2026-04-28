@@ -1,0 +1,194 @@
+.resultado-busqueda {
+    margin: 4rem 0 2rem 34rem;
+    font-size: 1.4rem;
+}
+
+.resultado-busqueda strong,
+.sin-resultados strong {
+    font-weight: 900;
+}
+
+.sin-resultados {
+    text-align: center;
+    margin-top: 4rem;
+    font-size: 1.5rem;
+    font-weight: 900;
+}
+
+.grilla-libros {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.grilla-libros article {
+    position: relative;
+    aspect-ratio: 160 / 290;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--color-gris-claro);
+    box-shadow: 0 2px 6px var(--color-texto);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: var(--color-fondo);
+    text-align: left;
+    justify-self: center;
+    max-width: 220px;
+}
+
+.grilla-libros article:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 200px var(--color-texto);
+}
+
+.grilla-libros article img {
+    width: 100%;
+    height: 70%;
+    object-fit: cover;
+    margin: 0;
+}
+
+.grilla-libros article p {
+    margin: 0.3rem 0.2rem;
+    font-size: 0.85rem;
+}
+
+.grilla-libros article > p:nth-of-type(1) {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--color-texto);
+}
+
+.grilla-libros article > p:nth-of-type(2) {
+    font-style: italic;
+    color: var(--color-texto);
+}
+
+/* Precio */
+.grilla-libros article p:nth-of-type(3) {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-fondo);
+    background: var(--color-texto);
+    padding: 2px 6px;
+    border-radius: 6px;
+    margin: 0;
+}
+
+.grilla-libros article .btn-add-carrito {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: transparent;
+    border: none;
+    color: var(--color-texto);
+    cursor: pointer;
+}
+
+.grilla-libros .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: color-mix(in srgb, var(--color-amarillo), transparent);
+    color: var(--color-fondo);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.grilla-libros article:active .overlay,
+article:hover .overlay,
+article:focus-within .overlay {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.grilla-libros .overlay a {
+    background: var(--color-magenta);
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--color-fondo);
+    transition: background-color 0.3s, transform 0.3s;
+    margin-top: 1rem;
+}
+
+.grilla-libros .overlay p {
+    font-weight: 700;
+    color: var(--color-fondo);
+}
+
+.grilla-libros .overlay a:hover {
+    background: var(--color-violeta);
+    transform: scale(1.05);
+}
+
+/* Paginación */
+.paginacion {
+    text-align: center;
+    margin: 2rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.paginacion a {
+    display: inline-flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    color: var(--color-magenta);
+    text-decoration: none;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.paginacion a:hover {
+    background-color: var(--color-amarillo);
+    transform: scale(1.05);
+}
+
+.paginacion a.pagina-activa {
+    background-color: var(--color-magenta);
+    color: var(--color-fondo);
+    font-weight: bold;
+}
+
+/* PC */
+@media screen and (min-width: 994px) {
+    .busqueda-main {
+        padding: 2rem;
+    }
+
+    .grilla-libros {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .grilla-libros article {
+        width: 100%;
+        height: 90%;
+        max-height: 381px;
+        aspect-ratio: 160 / 290;
+    }
+
+    .grilla-libros article p:nth-of-type(3) {
+        font-size: 0.9rem;
+    }
+}
