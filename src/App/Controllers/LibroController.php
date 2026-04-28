@@ -34,23 +34,24 @@ class LibroController extends Controller
         }
         $filtros = $this-> getFiltros();
 
-        $generoModel = new GeneroCollection;
-        $generoModel->setQueryBuilder($this->model->getQueryBuilder());
-        $generos = $generoModel->getAll();
-
-        $editorialModel = new EditorialCollection;
-        $editorialModel->setQueryBuilder($this->model->getQueryBuilder());
-        $editoriales = $editorialModel->getAll();
-
-        $idiomaModel = new IdiomaCollection;
-        $idiomaModel->setQueryBuilder($this->model->getQueryBuilder());
-        $idiomas = $idiomaModel->getAll();
-
-        $autorModel = new AutorCollection; 
-        $autorModel->setQueryBuilder($this->model->getQueryBuilder());
-        $autores = $autorModel->getAll();
+        $generos = $this->loadCollection(GeneroCollection::class);
+        $editoriales = $this-> loadCollection(EditorialCollection::class);
+        $idiomas = $this->loadCollection(IdiomaCollection::class);
+        $autores = $this->loadCollection(AutorCollection::class); 
 
         require $this->viewsDir . '/catalogo.view.php';
+    }
+
+    private function loadCollection($className){
+        $model = new $className;
+        $model->setQueryBuilder($this->model->getQueryBuilder());
+        return $model->getAll();
+    }
+
+    private function loadCollectionModel($className){
+        $model = new $className;
+        $model->setQueryBuilder($this->model->getQueryBuilder());
+        return $model;
     }
 
     private function getFiltros()
@@ -75,8 +76,7 @@ class LibroController extends Controller
         $id    = $request->get('id');
         $libro = $this->model->get($id);
  
-        $autorModel = new AutorCollection;
-        $autorModel->setQueryBuilder($this->model->getQueryBuilder());
+        $autorModel = $this->loadCollectionModel(AutorCollection::class); 
         $autor = $autorModel->get($libro->fields['autor_id']);
         $autores = $autorModel->getAll();
 
@@ -103,9 +103,7 @@ class LibroController extends Controller
         $libros     = $resultado['items'];
         $pagination = $resultado['pagination'];
  
-        $autorModel = new AutorCollection;
-        $autorModel->setQueryBuilder($this->model->getQueryBuilder());
-        $autores = $autorModel->getAll();
+        $autores = $this->loadCollection(AutorCollection::class);
  
         require $this->viewsDir . '/busqueda.view.php';
     }
