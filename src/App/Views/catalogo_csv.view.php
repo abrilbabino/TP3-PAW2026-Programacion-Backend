@@ -1,40 +1,69 @@
 <?php
 
-use \Paw\App\Models\Autor;
-
 ob_start();
 
 $output = fopen('php://output', 'w');
 
 fputs($output, "\xEF\xBB\xBF");
-fputcsv($output, ['ID', 'Título', 'Descripción', 'Género', 'Editorial', 'Idioma', 'Precio', 'Autor'], ',', '"', '\\');
-
-$autorModel = new Autor();
-$autorModel->setQueryBuilder($this->model->getQueryBuilder());
+fputcsv($output, ['ID', 'Título', 'Descripción', 'Género', 'Editorial', 'Idioma', 'Precio', 'Autor'], ';');
 
 foreach ($libros as $libro) {
-    $autorModel->load($libro->fields['autor_id']);
-    $nombreAutor = $autorModel->fields['nombre'] ?? 'Desconocido';
+    $autorId = $libro->fields['autor_id'] ?? null;
+    $nombreAutor     = 'Desconocido';
+    $nombreGenero    = 'Desconocido';
+    $nombreEditorial = 'Desconocido';
+    $nombreIdioma    = 'Desconocido';
+
+    foreach ($autores as $a) {
+        if ($a->fields['id'] == $libro->fields['autor_id']) {
+            $nombreAutor = $a->fields['nombre'];
+            break;
+        }
+    }
+
+    foreach ($generos as $g) {
+        if ($g->fields['id'] == $libro->fields['genero_id']) {
+            $nombreGenero = $g->fields['nombre'];
+            break;
+        }
+    }
+
+    foreach ($editoriales as $e) {
+        if ($e->fields['id'] == $libro->fields['editorial_id']) {
+            $nombreEditorial = $e->fields['nombre'];
+            break;
+        }
+    }
+
+    foreach ($idiomas as $i) {
+        if ($i->fields['id'] == $libro->fields['idioma_id']) {
+            $nombreIdioma = $i->fields['nombre'];
+            break;
+        }
+    }
 
     fputcsv($output, [
         $libro->fields['id'],
         $libro->fields['titulo'],
         $libro->fields['descripcion'],
-        $libro->fields['genero'],
-        $libro->fields['editorial'],
-        $libro->fields['idioma'],
+        $nombreGenero,
+        $nombreEditorial,
+        $nombreIdioma,
         $libro->fields['precio'],
         $nombreAutor
-    ], ',', '"', '\\');
+    ], ';');
 }
 
 fclose($output);
 
-$contenidoCsv = ob_get_clean(); 
+$contenidoCsv = ob_get_contents();
 
 header('Content-Type: text/csv; charset=utf-8');
-header('Content-Disposition: attachment; filename=catalogo-libros.csv');
+header('Content-Disposition: attachment; filename="catalogo-libros.csv"');
+
+ob_end_clean();
 
 echo $contenidoCsv;
-exit; 
+
+exit;
 ?>

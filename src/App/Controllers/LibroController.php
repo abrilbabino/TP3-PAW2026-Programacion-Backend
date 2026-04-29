@@ -28,15 +28,15 @@ class LibroController extends Controller
         $libros = $resultado['items'];
         $pagination = $resultado['pagination'];
 
-        if ($formato === 'csv') {
-            require $this->viewsDir . '/catalogo_csv.view.php';
-            return;
-        }
-
         $generos = $this->loadCollection(GeneroCollection::class);
         $editoriales = $this-> loadCollection(EditorialCollection::class);
         $idiomas = $this->loadCollection(IdiomaCollection::class);
         $autores = $this->loadCollection(AutorCollection::class); 
+
+        if ($formato === 'csv') {
+            require $this->viewsDir . '/catalogo_csv.view.php';
+            return;
+        }
 
         require $this->viewsDir . '/catalogo.view.php';
     }
