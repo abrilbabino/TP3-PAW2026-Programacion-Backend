@@ -32,7 +32,6 @@ class LibroController extends Controller
             require $this->viewsDir . '/catalogo_csv.view.php';
             return;
         }
-        $filtros = $this-> getFiltros();
 
         $generos = $this->loadCollection(GeneroCollection::class);
         $editoriales = $this-> loadCollection(EditorialCollection::class);

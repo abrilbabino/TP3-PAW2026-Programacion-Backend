@@ -24,11 +24,14 @@ class Router{
     public string $notFound = 'not_found';
     public string $internalError = 'internal_error';
     public string $invalidFormat = 'invalid_format';
+    public string $libroNotFound = 'libro_not_found';
 
     public function __construct()
     {
         $this->get($this->notFound, 'ErrorController@notFound' );
         $this->get($this->internalError, 'ErrorController@internalError' );
+        $this->get($this->invalidFormat, 'ErrorController@invalidFormat');
+        $this->get($this->libroNotFound, 'ErrorController@libroNotFound');
     }
 
     public function setControllerFactory(ControllerFactory $factory){
@@ -92,6 +95,11 @@ class Router{
             list($controller, $method) = $this->getController($this->invalidFormat, 'GET');
             $this->logger
                  ->debug("Status Code: 400 - Invalid Value Format", ["ERROR" => $e] );
+            $this->call($controller, $method,[$e]);
+        }catch(LibroNotFoundException $e){
+            list($controller, $method) = $this->getController($this->libroNotFound, 'GET');
+            $this->logger
+                 ->debug("Status Code: 404 - Libro Not Found", ["ERROR" => $e] );
             $this->call($controller, $method,[$e]);
         }catch (Exception $e) {
             list($controller, $method) = $this->getController($this->internalError, 'GET');

@@ -4,6 +4,7 @@ namespace Paw\App\Models;
 
 use Paw\Core\Model;
 use Paw\Core\Exceptions\InvalidValueFormatException;
+use Paw\Core\Exceptions\LibroNotFoundException;
 
 class Libro extends Model
 {
@@ -114,6 +115,11 @@ class Libro extends Model
         }
         $params = ["id" => $id];
         $record = current($this->queryBuilder->select($this->table, $params));
-        $this->set($record);
+        if ($record) {
+            $this->set($record);
+        }
+        else{
+            throw new LibroNotFoundException("No se encontró un libro con el ID proporcionado");
+        }
     }
 }

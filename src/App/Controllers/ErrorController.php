@@ -30,6 +30,12 @@ class ErrorController extends Controller
         $redes = $this->redes;
         require $this->viewsDir . '/invalid_format.view.php';
     }
-
+    public function libroNotFound($e){
+        http_response_code(404);
+        $titulo = 'Libro not found';
+        $menu = $this->menu;
+        $redes = $this->redes;
+        require $this->viewsDir . '/libro-not-found.view.php';
+    }
 
 }
