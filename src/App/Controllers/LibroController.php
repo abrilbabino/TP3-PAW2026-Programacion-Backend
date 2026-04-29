@@ -8,13 +8,13 @@ use Paw\App\Models\LibroCollection;
 use Paw\App\Models\EditorialCollection;
 use Paw\App\Models\GeneroCollection;
 use Paw\App\Models\IdiomaCollection;
+use Paw\App\Core\Vista;
 
 class LibroController extends Controller
 {
     public ?string $modelName = LibroCollection::class;
 
-    public function catalogo()
-    {
+    public function catalogo(){
         $request= $this->request;
         $menu    = $this->menu;
         $redes   = $this->redes;

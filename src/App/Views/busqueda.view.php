@@ -19,9 +19,9 @@
             <h1>Resultado de búsqueda</h1>
         </header>
         <?php if(empty($resultado['items'])): ?>
-            <p class="resultado-busqueda">No se encuentran resultados para "<strong><?= $termino ?></strong>"</p>
+            <p class="resultado-busqueda">No se encuentran resultados para "<strong><?= htmlspecialchars($termino,ENT_QUOTES,'UTF-8') ?></strong>"</p>
         <?php else: ?>
-            <p class="resultado-busqueda">Mostrando los resultados para "<strong><?= $termino ?></strong>"</p>
+            <p class="resultado-busqueda">Mostrando los resultados para "<strong><?= htmlspecialchars($termino,ENT_QUOTES,'UTF-8') ?></strong>"</p>
         <?php endif; ?>
         <section class="grilla-libros">
         <?php 
