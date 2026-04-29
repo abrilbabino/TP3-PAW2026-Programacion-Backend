@@ -14,7 +14,7 @@
 </head>
 <body>
     <?php require __DIR__ . '/barra-navegacion.view.php'; ?>
-    <main>
+    <main class="busqueda">
         <header>
             <h1>Resultado de búsqueda</h1>
         </header>

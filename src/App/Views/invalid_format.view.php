@@ -8,11 +8,11 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     />
-    <title> Error Formato inválido</title>
+    <title>Error Formato inválido</title>
 </head>
 <body>
     <?php require __DIR__ . '/barra-navegacion.view.php'?>
-    <h1>Error de Formato inválido: <?= htmlspecialchars($e->getMessage()) ?></h1>
+    <h1 class="error">Error de Formato inválido: <?= htmlspecialchars($e->getMessage()) ?></h1>
     <?php require __DIR__ . '/footer.view.php'; ?>
     <?php require __DIR__ . '/iniciar-sesion.view.php'; ?>
     <?php require __DIR__ . '/carrito.view.php'; ?>
