@@ -5,10 +5,9 @@ ob_start();
 $output = fopen('php://output', 'w');
 
 fputs($output, "\xEF\xBB\xBF");
-fputcsv($output, ['ID', 'Título', 'Descripción', 'Género', 'Editorial', 'Idioma', 'Precio', 'Autor'], ';');
+fputcsv($output, ['ID', 'Título', 'Descripción', 'Género', 'Editorial', 'Idioma', 'Precio', 'Autor'], ';', '"', '');
 
 foreach ($libros as $libro) {
-    $autorId = $libro->fields['autor_id'] ?? null;
     $nombreAutor     = 'Desconocido';
     $nombreGenero    = 'Desconocido';
     $nombreEditorial = 'Desconocido';
@@ -51,7 +50,7 @@ foreach ($libros as $libro) {
         $nombreIdioma,
         $libro->fields['precio'],
         $nombreAutor
-    ], ';');
+    ], ';', '"', '');
 }
 
 fclose($output);
