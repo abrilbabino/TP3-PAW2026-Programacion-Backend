@@ -13,6 +13,7 @@
 }
 
 body {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   background-color: var(--color-fondo);
@@ -20,6 +21,12 @@ body {
   font-family: var(--fuente-cuerpo);
   font-size: 1rem;
   padding-top: 8rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
 }
 
 h1,
@@ -37,9 +44,7 @@ a {
   text-decoration: none;
 }
 
-a:hover,
-.btn-cargar:hover,
-.menu-principal label:hover {
+a:hover {
   color: var(--color-magenta);
 }
 

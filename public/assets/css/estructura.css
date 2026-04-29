@@ -47,7 +47,7 @@
   display: flex;
   flex: 1;
   justify-content: center;
-  padding: 0.5rem 0rem;
+  padding: 0.5rem 0;
 }
 
 .busqueda-input {
@@ -56,7 +56,7 @@
   padding: 0.8rem;
   border: 1.5px solid var(--color-azul);
   border-radius: 25px;
-  background-image: url("/../assets/img/lupa.png");
+  background-image: url("/assets/img/lupa.png");
   background-repeat: no-repeat;
   background-position: right 10px center;
   background-size: 16px;
@@ -123,6 +123,10 @@
   background-color: var(--color-gris-claro);
 }
 
+.menu-principal label:hover {
+  color: var(--color-magenta);
+}
+
 .nav-link.pagina-actual {
   border-bottom: 3px solid var(--color-azul);
 }
@@ -159,10 +163,13 @@
   gap: 1rem;
   border-radius: 15px;
   box-shadow: 0px 10px 30px var(--color-texto);
-  transform: translateX(-50%, -50%) scale(0.7);
+  transform: translate(-50%, -50%) scale(0.7);
   opacity: 0;
   visibility: hidden;
-  transition: all 0.3s ease-in-out;
+  transition:
+    opacity 0.3s ease-in-out,
+    transform 0.3s ease-in-out,
+    visibility 0.3s ease-in-out;
 }
 
 /* --- MOSTRAR CUANDO ESTÁ CHECKED --- */
@@ -296,9 +303,6 @@
   transition: transform 0.35s ease;
 }
 
-.carrito-check:checked ~ .carrito-overlay {
-  display: block;
-}
 .carrito-check:checked ~ .carrito-panel {
   transform: translateX(0);
   box-shadow: -4px 0 20px var(--color-texto);
@@ -344,25 +348,6 @@
   align-items: center;
   gap: 0.8rem;
   font-weight: 600;
-}
-
-.carrito-total {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-  margin-top: auto;
-  padding-top: 1rem;
-  border-top: 2px solid var(--color-gris-claro);
-}
-
-.envio-gratis {
-  background-color: var(--color-azul);
-  color: var(--color-fondo);
-  text-align: center;
-  padding: 0.6rem;
-  border-radius: 4px;
-  font-weight: 600;
-  font-size: 0.9rem;
 }
 
 /*HERO (Celular) */
@@ -413,12 +398,6 @@ main > header p {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.footer-email {
-  display: none;
-  font-weight: 200;
-  margin: 0;
 }
 
 .footer-principal p {
@@ -479,10 +458,6 @@ main > header p {
     align-items: center;
     width: 100%;
     box-sizing: border-box;
-  }
-
-  .header-top {
-    display: contents;
   }
 
   .header-busqueda {

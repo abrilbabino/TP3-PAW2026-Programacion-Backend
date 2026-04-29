@@ -10,7 +10,7 @@
   background-color: var(--color-gris-claro);
   padding: 15px 25px;
   margin: 20px 0;
-  border-radius: 15px; /* Bordes redondeados */
+  border-radius: 15px;
   box-shadow: inset 0 2px 4px
     color-mix(in srgb, var(--color-texto), transparent);
 }
@@ -72,14 +72,14 @@
 
 .grilla-libros article:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 200px var(--color-texto);
+  box-shadow: 0 10px 30px var(--color-texto);
 }
 
 /* PORTADA */
 .grilla-libros article img {
   width: 100%;
-  height: 70%; /* ocupa parte superior */
-  object-fit: cover; /* recorta sin deformar */
+  height: 70%;
+  object-fit: cover;
   margin: 0;
 }
 
@@ -101,7 +101,6 @@
 }
 
 .grilla-libros article p:nth-of-type(3) {
-  /* precio */
   position: absolute;
   top: 8px;
   left: 8px;
@@ -113,14 +112,13 @@
   background: var(--color-texto);
   padding: 2px 6px;
   border-radius: 6px;
-
-  margin: 0; /* importante para que no desplace */
+  margin: 0;
 }
 
 .btn-add-carrito {
   position: absolute;
   bottom: 8px;
-  right: 8px; /* ← derecha en lugar de centrado */
+  right: 8px;
   background: transparent;
   border: none;
   color: var(--color-texto);
@@ -147,8 +145,8 @@
 }
 
 .grilla-libros article:active .overlay,
-article:hover .overlay,
-article:focus-within .overlay {
+.grilla-libros article:hover .overlay,
+.grilla-libros article:focus-within .overlay {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
@@ -213,7 +211,6 @@ article:focus-within .overlay {
 }
 
 .filtros form p {
-  font-size: 900;
   color: var(--color-texto);
   margin-top: 2rem;
   margin-bottom: 0.2rem;

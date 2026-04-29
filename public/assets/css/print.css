@@ -1,0 +1,28 @@
+@media print {
+  .Barra-navegacion,
+  .footer-principal,
+  .filtros,
+  .btn-descargar,
+  .btn-add-carrito,
+  .boton-agregarCarrito,
+  .boton-reservar,
+  .paginacion,
+  .overlay {
+    display: none;
+  }
+
+  body {
+    padding-top: 0;
+    color: #000000;
+    background: #ffffff;
+  }
+
+  main {
+    width: 100%;
+  }
+
+  a {
+    color: #000000;
+    text-decoration: none;
+  }
+}

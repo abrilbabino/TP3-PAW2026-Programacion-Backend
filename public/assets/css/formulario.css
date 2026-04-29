@@ -26,12 +26,7 @@
   color: var(--color-azul);
 }
 
-* {
-  box-sizing: border-box;
-}
-
 .Formulario form input {
-  box-sizing: border-box;
   width: 100%;
   padding: 0.75rem;
   border-radius: 5px;
@@ -85,9 +80,10 @@
   box-shadow: 0 2px 6px var(--color-texto);
 }
 
-.mensaje-exito h1{
+.mensaje-exito h1 {
   font-size: 2rem;
 }
+
 .icono-exito {
   font-size: large;
   color: var(--color-magenta);
@@ -112,15 +108,15 @@
 }
 
 .error-inline {
-    color: red;
-    font-size: 0.85rem;
-    font-weight: bold;
-    display: block;
-    margin-top: -0.5rem;
-    margin-bottom: 1rem;
+  color: var(--color-magenta);
+  font-size: 0.85rem;
+  font-weight: bold;
+  display: block;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
 }
 
-/* DISEÑO PC (Más de 994px) SOLO INICIO */
+/* DISEÑO PC (Más de 994px) */
 @media screen and (min-width: 994px) {
   .Formulario {
     margin: 0 auto;
