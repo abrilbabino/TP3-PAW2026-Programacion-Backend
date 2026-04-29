@@ -5,7 +5,7 @@ namespace Paw\Core\Database;
 use PDO;
 use PDOStatement;
 use Monolog\Logger;
-use InvalidArgumentException;
+
 
 class QueryBuilder
 {
