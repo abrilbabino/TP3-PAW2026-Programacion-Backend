@@ -11,6 +11,7 @@
   width: 100%;
   top: 0;
   z-index: 1000;
+  padding: 0.5rem 1rem;
 }
 
 .header-logo img {
@@ -35,23 +36,27 @@
   justify-content: flex-end;
 }
 
-.label-hamburguesa {
+.PAW-MenuAbrir,
+.PAW-MenuCerrar {
   display: block;
   cursor: pointer;
   padding: 0.5rem;
   margin-right: 1rem;
+  justify-content: center;
+  background-color: transparent; 
+  border: none;
 }
 
 /* Buscador */
 .header-busqueda {
   display: flex;
-  flex: 1;
+  width: 100%;
+  flex: none;
   justify-content: center;
-  padding: 0.5rem 0;
 }
 
 .busqueda-input {
-  width: 80%;
+  width: 100%;
   min-width: 250px;
   padding: 0.8rem;
   border: 1.5px solid var(--color-azul);
@@ -72,15 +77,20 @@
   display: none;
 }
 
-.label-hamburguesa,
+.PAW-MenuAbrir,
+.PAW-MenuCerrar,
 .icono-carrito {
   display: block;
   cursor: pointer;
   padding: 0.5rem;
-  margin-right: 1rem;
 }
 
-.label-hamburguesa img,
+.PAW-MenuAbrir span,
+.PAW-MenuCerrar span{
+  color: var(--color-texto);
+  font-size: 2.5rem;
+}
+
 .icono-carrito img {
   width: 40px;
   height: auto;
@@ -95,7 +105,7 @@
   border-top: 4px solid var(--color-gris-claro);
 }
 
-#menu-hamburguesa:checked ~ .nav-lista {
+.PAW-MenuAbierto .nav-lista {
   display: flex;
 }
 
@@ -452,7 +462,7 @@ main > header p {
 /* DISEÑO PC */
 @media screen and (min-width: 994px) {
   .Barra-navegacion {
-    padding: 0.4rem 0.2rem;
+    padding: 1rem 1.5rem;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
@@ -461,18 +471,21 @@ main > header p {
   }
 
   .header-busqueda {
+    width: auto;
+    flex: 1;
     min-width: 350px;
-    margin: 0 3rem;
+    margin: 0 1rem;
     justify-content: flex-end;
   }
 
   .busqueda-input {
-    width: 80%;
+    width: 100%;
     max-width: 800px;
     padding: 1rem;
   }
 
-  .label-hamburguesa,
+  .PAW-MenuAbrir,
+  .PAW-MenuCerrar,
   .icono-carrito {
     display: none;
   }

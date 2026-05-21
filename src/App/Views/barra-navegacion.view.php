@@ -1,12 +1,4 @@
 <header class="Barra-navegacion">
-    <label for="menu-hamburguesa" class="label-hamburguesa">
-      <img
-        src="/assets/img/menu-hamburguesa.png"
-        alt="Abrir menú"
-        class="icono-header"
-      />
-    </label>
-
     <figure class="header-logo">
       <img src="/assets/img/logo.png" alt="PAWPrints" />
     </figure>
@@ -33,10 +25,8 @@
       <button type="submit" class="busqueda-btn">Buscar</button>
     </form>
     
-    <nav class="menu-principal">
-    <input type="checkbox" id="menu-hamburguesa" class="menu-hamburguesa-check" />
-
-    <ul class="nav-lista">
+    <nav class="menu-principal" id="paw-menu-root">
+      <ul class="nav-lista">
         <?php foreach ($menu as $item) : ?>
             <li class="<?= $item['li_class'] ?? '' ?>">
                 

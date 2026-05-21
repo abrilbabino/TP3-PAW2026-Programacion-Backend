@@ -20,7 +20,7 @@ body {
   color: var(--color-texto);
   font-family: var(--fuente-cuerpo);
   font-size: 1rem;
-  padding-top: 8rem;
+  padding-top: 125px;
 }
 
 *,
