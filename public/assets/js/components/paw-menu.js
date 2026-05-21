@@ -30,7 +30,13 @@ class PAWMenu {
     });
 
     this.toggleButton.appendChild(this.iconoSpan);
-    this.contenedor.prepend(this.toggleButton);
+    const barraNavegacion = document.querySelector(".Barra-navegacion");
+    
+    if (barraNavegacion) {
+      barraNavegacion.prepend(this.toggleButton); 
+    } else {
+      this.contenedor.prepend(this.toggleButton);
+    }
   }
 
   inicializarMenu() {
