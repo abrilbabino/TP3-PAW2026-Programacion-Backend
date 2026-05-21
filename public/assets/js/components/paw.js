@@ -21,8 +21,8 @@ class PAW {
     return elemento;
   }
 
-  static cargarScript(nombre, url, fnCallback = () => {}) {
-    let elemento = document.querySelector("#" + nombre);
+    static cargarScript(nombre, url, fnCallback = () => {}) {
+        let elemento = document.querySelector("#" + nombre);
         
         if (!elemento) {
             elemento = this.nuevoElemento("script", "", { src: url, id: nombre });
@@ -34,5 +34,12 @@ class PAW {
             document.head.appendChild(elemento);
         }
         return elemento;
+    }
+
+    static cargarCSS(url) {
+        if (document.querySelector(`link[href="${url}"]`)) return;
+        const link = this.nuevoElemento("link", "", {rel: "stylesheet", href: url
+        });
+        document.head.appendChild(link);
     }
 }
