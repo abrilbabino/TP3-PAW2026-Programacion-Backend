@@ -25,7 +25,7 @@
     <p>Explorá nuestra colección de libros.</p>
   </header>
     <section class="barra-resultados">
-        <p>Mostrando <strong><?= count($libros) ?></strong> resultados</p>
+        <p class="barra-resultados__contador" data-paw-contador-resultados>Mostrando 0 resultados</p>
         <nav class="barra-resultados__acciones" aria-label="Acciones del catálogo">
           <a href="/crear-libro" class="btn-descargar">
             <span class="material-symbols-outlined">add</span>
@@ -37,108 +37,9 @@
           </a>
         </nav>
   </section>
-    <section class= "seccion-filtros">
-      <details class="filtros" open>
-        <summary>
-              <img
-                src="assets/img/FILTRAR.png"
-                alt="Iconos de filtros"
-                class="icono-png"
-              />
-              FILTRAR
-            </summary>
 
-          <form method="GET" action="/catalogo">
-
-            <p>Género</p>
-            <select name="genero">
-              <option value="">Todos</option>
-              <?php foreach ($generos as $g): ?>
-                <option value="<?= htmlspecialchars($g->fields['id'],ENT_QUOTES,'UTF-8') ?>" <?= ($request->get('genero') == $g->fields['id']) ? 'selected' : '' ?>>
-                <?= $g->fields['nombre'] ?>
-                </option>
-              <?php endforeach; ?>
-            </select>
-
-            <p>Precio</p>
-            <input type="number" name="precio_min" placeholder="Min" value="<?= htmlspecialchars($request->get('precio_min') ?? '',ENT_QUOTES,'UTF-8') ?>">
-            <input type="number" name="precio_max" placeholder="Max" value="<?= htmlspecialchars($request->get('precio_max') ?? '',ENT_QUOTES,'UTF-8' )?>">
-            <p>*Min. $1800.00 - Max. $900000.00</p>
-
-            <p>Editorial</p>
-            <select name="editorial">
-              <option value="">Todas</option>
-              <?php foreach ($editoriales as $e): ?>
-                <option value="<?= htmlspecialchars($e->fields['id'],ENT_QUOTES,'UTF-8') ?>" <?= ($request->get('editorial') == $e->fields['id']) ? 'selected' : '' ?>>
-                <?= $e->fields['nombre'] ?>
-                </option>
-              <?php endforeach; ?>
-
-            </select>
-
-            <p>Idioma</p>
-            <select name="idioma">
-              <option value="">Todos</option>
-              <?php foreach ($idiomas as $i): ?>
-                <option value="<?= htmlspecialchars($i->fields['id'],ENT_QUOTES,'UTF-8') ?>" <?= ($request->get('idioma') == $i->fields['id']) ? 'selected' : '' ?>>
-                <?= $i->fields['nombre'] ?>
-                </option>
-              <?php endforeach; ?>
-
-            </select>
-
-            <p>Autor</p>
-            <select name="autor">
-              <option value="">Todos</option>
-              <?php foreach ($autores as $a): ?>
-                <option value="<?= htmlspecialchars($a->fields['id'],ENT_QUOTES,'UTF-8') ?>" <?= ($request->get('autor') ?? '') == $a ? 'selected' : '' ?>>
-                  <?= $a->fields['nombre'] ?>
-                </option>
-              <?php endforeach; ?>
-            </select>
-            <form method="GET" action="/catalogo">
-              <button type="submit">Filtrar</button>
-            </form>
-          </form>
-        </details>
-      </section>
-
-      <section class="grilla-libros">
-        <?php 
-        foreach ($libros as $libro): 
-        ?>
-          <article class="tarjeta-libro">
-            <img src="/assets/img/<?= $libro->fields['imagen'] ?>" alt="<?= $libro->fields['titulo'] ?>">
-
-            <p class="tarjeta-titulo"><strong><?= $libro->fields['titulo'] ?></strong></p>
-            <p class="tarjeta-autor"><em>Autor:</em> 
-            <?php 
-              $nombreAutor = "Desconocido";
-              foreach ($autores as $a) {
-                  if ($a->fields['id'] == $libro->fields['autor_id']) {
-                      $nombreAutor = $a->fields['nombre'];
-                      break;
-                  }
-              }
-              echo $nombreAutor;
-            ?>
-            </p>
-            <p class="tarjeta-precio"><em>Precio:</em> $<?= $libro->fields['precio'] ?></p>
-
-            <div class="overlay">
-              <p><?= $libro->fields['descripcion'] ?></p>
-              <a href="/detalle?id=<?= $libro->fields['id'] ?>" class="btn-primario">Ver más</a>
-            </div>
-            <form class="boton-agregarCarrito" action="/agregarCarrito" method="POST">
-              <button type="submit" class="btn-add-carrito">
-                <span class="material-symbols-outlined">add_circle</span>
-              </button>
-            </form>
-          </article>
-        <?php endforeach; ?>
-      </section>
-
-      <?php require __DIR__ . '/paginacion.view.php'; ?>   
+  <!-- Contenedor del componente de filtros -->
+  <div data-paw-filtros data-items-por-pagina="6" data-scroll-infinito="false"></div>
 
   </main>
 

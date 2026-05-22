@@ -1,0 +1,291 @@
+.paw-filtros-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+[data-paw-filtros] {
+  width: 100%;
+}
+
+.paw-filtros-panel {
+  background: var(--color-fondo);
+  border: 1px solid var(--color-gris-claro);
+  border-bottom: 4px solid var(--color-violeta);
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-bottom: 1rem; /* Margen para separar del contenido en mobile */
+}
+
+/* Botón toggle — visible y activo por defecto en mobile */
+.paw-filtros-toggle {
+  display: flex;
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--color-violeta);
+  color: var(--color-fondo);
+  border: none;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+  margin-bottom: 1rem;
+  font-family: var(--fuente-cuerpo);
+}
+
+.paw-filtros-toggle .material-symbols-outlined {
+  font-size: 1.25rem;
+}
+
+/* Contenido colapsable — controlado por JS mediante aria-hidden en mobile */
+.paw-filtros-contenido {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.paw-filtros-contenido[aria-hidden="true"] {
+  display: none;
+}
+
+.paw-filtros-contenido[aria-hidden="false"] {
+  display: flex;
+}
+
+/* --- Secciones de filtro --- */
+.paw-filtros-seccion {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.paw-filtros-label {
+  font-weight: 600;
+  color: var(--color-azul);
+  font-size: 0.95rem;
+}
+
+.paw-filtros-input,
+.paw-filtros-input-precio,
+.paw-filtros-select {
+  width: 100%;
+  min-height: 42px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-gris-claro);
+  border-radius: 5px;
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  font-size: 0.9rem;
+  font-family: var(--fuente-cuerpo);
+  transition: border-color 0.3s;
+}
+
+.paw-filtros-input:focus,
+.paw-filtros-input-precio:focus,
+.paw-filtros-select:focus {
+  outline: none;
+  border-color: var(--color-azul);
+}
+
+.paw-filtros-rango-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.paw-filtros-limpiar {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--color-magenta);
+  color: var(--color-fondo);
+  border: none;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 0.9rem;
+  font-family: var(--fuente-cuerpo);
+}
+
+.paw-filtros-limpiar:hover {
+  background: var(--color-violeta);
+}
+
+/* --- Área de resultados --- */
+.paw-filtros-resultados {
+  flex: 1;
+  min-width: 0;
+}
+
+/* --- Barra de opciones (Mobile: apilada verticalmente) --- */
+.paw-filtros-barra-opciones {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-bottom: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--color-gris-claro);
+  border-radius: 8px;
+  gap: 1rem;
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--color-texto) 15%, transparent);
+}
+
+.paw-filtros-contador {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-texto);
+  margin: 0;
+  font-style: italic;
+}
+
+.paw-filtros-select-orden {
+  width: 100%;
+  min-height: 42px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-gris-claro);
+  border-radius: 5px;
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  font-size: 0.9rem;
+  font-family: var(--fuente-cuerpo);
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.paw-filtros-select-orden:focus {
+  outline: none;
+  border-color: var(--color-azul);
+}
+
+/* --- Estructura de la página en catálogo mobile --- */
+.catalogo-main > .barra-resultados {
+  grid-column: 2 / 4;
+  grid-row: 2;
+}
+
+/* --- Paginación --- */
+.paw-filtros-paginacion {
+  margin-top: 1rem;
+}
+
+.paw-filtros-nav-paginacion {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.paw-filtros-btn-pagina {
+  padding: 0.5rem 1rem;
+  min-width: 44px;
+  text-align: center;
+  color: var(--color-magenta);
+  background: transparent;
+  border: none;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition:
+    background-color 0.3s,
+    transform 0.3s;
+}
+
+.paw-filtros-btn-pagina:hover {
+  background-color: var(--color-amarillo);
+  transform: scale(1.05);
+}
+
+.paw-filtros-btn-pagina.activa {
+  background-color: var(--color-magenta);
+  color: var(--color-fondo);
+  font-weight: bold;
+}
+
+.paw-filtros-btn-anterior,
+.paw-filtros-btn-siguiente {
+  color: var(--color-fondo);
+  background-color: var(--color-magenta);
+  min-width: 100px;
+}
+
+.paw-filtros-btn-anterior:hover,
+.paw-filtros-btn-siguiente:hover {
+  background-color: var(--color-amarillo);
+}
+
+.paw-filtros-puntos {
+  padding: 0.5rem 0.25rem;
+  color: var(--color-violeta);
+}
+
+/* --- Error --- */
+.paw-filtros-error {
+  padding: 1rem;
+  background: var(--color-gris-claro);
+  color: var(--color-magenta);
+  border-radius: 8px;
+  border-left: 4px solid var(--color-magenta);
+  margin-bottom: 1rem;
+}
+
+@media screen and (min-width: 994px) {
+  .catalogo-main > [data-paw-filtros] {
+    grid-column: 2 / 4;
+    grid-row: 3;
+    min-width: 0;
+  }
+
+  /* Cambia a dos columnas: Filtros izquierda + Resultados derecha */
+  .paw-filtros-wrapper {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .paw-filtros-panel {
+    flex: 0 0 290px;
+    position: sticky;
+    top: 12rem;
+    height: fit-content;
+    box-shadow: 0 4px 14px
+      color-mix(in srgb, var(--color-texto) 18%, transparent);
+    margin-bottom: 0; /* Ya no hace falta el margen inferior de mobile */
+  }
+
+  /* En escritorio no hay comportamiento colapsable, todo queda visible */
+  .paw-filtros-toggle {
+    display: none !important;
+  }
+
+  .paw-filtros-contenido {
+    display: flex !important;
+  }
+
+  /* La barra de opciones se vuelve horizontal */
+  .paw-filtros-barra-opciones {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .paw-filtros-select-orden {
+    width: auto;
+    min-width: 240px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .paw-filtros-btn-pagina,
+  .paw-filtros-toggle,
+  .paw-filtros-limpiar,
+  .paw-filtros-input,
+  .paw-filtros-select-orden {
+    transition: none;
+  }
+}
