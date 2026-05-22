@@ -25,42 +25,9 @@
         <?php else: ?>
             <p class="resultado-busqueda">Mostrando los resultados para "<strong><?= htmlspecialchars($termino,ENT_QUOTES,'UTF-8') ?></strong>"</p>
         <?php endif; ?>
-        <section class="grilla-libros">
-        <?php 
-        foreach ($libros as $libro): 
-        ?>
-          <article>
-            <img src="/assets/img/<?= $libro->fields['imagen'] ?>" alt="<?= $libro->fields['titulo'] ?>">
-
-            <p><strong><?= $libro->fields['titulo'] ?></strong></p>
-            <p><em>Autor:</em> 
-            <?php 
-              $nombreAutor = "Desconocido";
-              foreach ($autores as $a) {
-                  if ($a->fields['id'] == $libro->fields['autor_id']) {
-                      $nombreAutor = $a->fields['nombre'];
-                      break;
-                  }
-              }
-              echo $nombreAutor;
-            ?>
-            </p>
-            <p><em>Precio:</em> $<?= $libro->fields['precio'] ?></p>
-
-            <div class="overlay">
-              <p><?= $libro->fields['descripcion'] ?></p>
-              <a href="/detalle?id=<?= $libro->fields['id'] ?>">Ver más</a>
-            </div>
-            <form class="boton-agregarCarrito" action="/agregarCarrito" method="POST">
-              <button type="submit" class="btn-add-carrito">
-                <span class="material-symbols-outlined">add_circle</span>
-              </button>
-            </form>
-          </article>
-        <?php endforeach; ?>
-      </section>
-     
-        <?php require __DIR__ . '/paginacion.view.php'; ?>        
+        
+        <!-- Contenedor del componente de filtros para búsqueda -->
+        <div data-paw-filtros data-items-por-pagina="6" data-scroll-infinito="false"></div>
     </main>
   <?php require __DIR__ . '/footer.view.php'; ?>
   <?php require __DIR__ . '/iniciar-sesion.view.php'; ?>

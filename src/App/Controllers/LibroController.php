@@ -151,4 +151,62 @@ class LibroController extends Controller
  
         require $this->viewsDir . '/busqueda.view.php';
     }
+
+    public function getAllBooksJSON()
+    {
+        header('Content-Type: application/json; charset=utf-8');
+        
+        try {
+            // Obtener todos los libros sin paginación
+            $libros = $this->model->getAll();
+            
+            // Obtener colecciones de metadatos
+            $autores = $this->loadCollection(AutorCollection::class);
+            $generos = $this->loadCollection(GeneroCollection::class);
+            $editoriales = $this->loadCollection(EditorialCollection::class);
+            $idiomas = $this->loadCollection(IdiomaCollection::class);
+            
+            // Crear mapeos para búsqueda rápida
+            $autoresMap = [];
+            $generosMap = [];
+            $editorialesMap = [];
+            $idiomasMap = [];
+            
+            foreach ($autores as $a) {
+                $autoresMap[$a->fields['id']] = $a->fields['nombre'];
+            }
+            foreach ($generos as $g) {
+                $generosMap[$g->fields['id']] = $g->fields['nombre'];
+            }
+            foreach ($editoriales as $e) {
+                $editorialesMap[$e->fields['id']] = $e->fields['nombre'];
+            }
+            foreach ($idiomas as $i) {
+                $idiomasMap[$i->fields['id']] = $i->fields['nombre'];
+            }
+            
+            // Enriquecer libros con datos de relaciones
+            $librosEnriquecidos = [];
+            foreach ($libros as $libro) {
+                $libroData = $libro->fields;
+                $libroData['autor_nombre'] = $autoresMap[$libroData['autor_id']] ?? 'Desconocido';
+                $libroData['genero_nombre'] = $generosMap[$libroData['genero_id']] ?? 'Desconocido';
+                $libroData['editorial_nombre'] = $editorialesMap[$libroData['editorial_id']] ?? 'Desconocida';
+                $libroData['idioma_nombre'] = $idiomasMap[$libroData['idioma_id']] ?? 'Desconocido';
+                $librosEnriquecidos[] = $libroData;
+            }
+            
+            echo json_encode([
+                'success' => true,
+                'data' => $librosEnriquecidos,
+                'count' => count($librosEnriquecidos)
+            ]);
+        } catch (\Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                'success' => false,
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
 }
