@@ -1,0 +1,307 @@
+/* ==========================================================================
+   1. ESTILOS BASE / MOBILE (Por defecto para pantallas chicas)
+   ========================================================================== */
+
+/* Contenedor principal en celular: todo fluye hacia abajo en una sola columna */
+.paw-filtros-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1rem;
+  width: 100%;
+}
+
+/* El panel aside en mobile no tiene columnas */
+.paw-filtros-panel-aside {
+  width: 100%;
+}
+
+/* Botón para abrir/cerrar filtros en celulares */
+.paw-filtros-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--color-violeta);
+  border-radius: 20px;
+  color: var(--color-fondo);
+  font-family: var(--fuente-cuerpo);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Contenedor de los selectores: oculto por defecto en mobile */
+.paw-filtros-panel {
+  display: none; /* Se maneja con el JS usando display: block o la clase .is-open */
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--color-fondo);
+  border: 1px solid var(--color-gris-claro);
+  border-radius: 8px;
+  margin-top: 0.5rem;
+}
+
+.paw-filtros-panel.is-open {
+  display: flex;
+}
+
+/* Campos de entrada y grupos de filtros en mobile */
+.paw-filtros-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.paw-filtros-grupo label {
+  color: var(--color-texto);
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.paw-filtros-grupo select,
+.paw-filtros-precio-rango input {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid var(--color-gris-claro);
+  border-radius: 5px;
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.95rem;
+}
+
+.paw-filtros-grupo select:focus,
+.paw-filtros-precio-rango input:focus {
+  border-color: var(--color-violeta);
+  outline: 2px solid color-mix(in srgb, var(--color-violeta) 25%, transparent);
+  outline-offset: 1px;
+}
+
+.paw-filtros-precio-rango {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Botón limpiar filtros toma todo el ancho en mobile */
+.paw-filtros-btn-limpiar {
+  width: 100%;
+  padding: 0.6rem;
+  background: var(--color-magenta);
+  color: var(--color-fondo);
+  border-radius: 20px;
+  font-family: var(--fuente-cuerpo);
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+}
+
+/* Área derecha en mobile: sigue el flujo hacia abajo */
+.paw-filtros-resultados {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+/* Barra de opciones (contador y ordenamiento) apilada en celular */
+.paw-opciones-barra {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--color-gris-claro);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--color-texto) 10%, transparent);
+}
+
+.paw-contador-resultados {
+  margin: 0;
+  color: var(--color-texto);
+  font-size: 0.95rem;
+}
+
+.paw-ordenamiento-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.paw-ordenamiento-grupo label {
+  color: var(--color-texto);
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.paw-ordenamiento-grupo select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--color-texto) 20%, transparent);
+  border-radius: 5px;
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  font-family: var(--fuente-cuerpo);
+}
+
+.paw-ordenamiento-grupo select:focus {
+  border-color: var(--color-azul);
+  outline: 2px solid color-mix(in srgb, var(--color-azul) 25%, transparent);
+  outline-offset: 1px;
+}
+
+/* Grilla de libros en Mobile: 1 o 2 columnas según tu diseño base */
+.grilla-libros {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1rem;
+  width: 100%;
+  padding: 0;
+}
+
+.paw-filtros-paginacion,
+.paw-filtros-nav-paginacion,
+.paw-paginacion-contenedor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.paw-filtros-nav-paginacion {
+  margin-top: 0.5rem;
+}
+
+.paw-filtros-btn-pagina,
+.paw-paginacion-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  padding: 0.45rem 0.75rem;
+  background-color: var(--color-fondo);
+  border-radius: 20px;
+  color: var(--color-azul);
+  font-family: var(--fuente-cuerpo);
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+}
+
+.paw-filtros-btn-pagina:hover,
+.paw-filtros-btn-pagina:focus-visible,
+.paw-paginacion-btn:hover:not(:disabled),
+.paw-paginacion-btn:focus-visible {
+  background-color: var(--color-amarillo);
+  color: var(--color-texto);
+  outline: none;
+}
+
+.paw-filtros-btn-pagina.activa,
+.paw-paginacion-btn.is-active {
+  background-color: var(--color-magenta);
+  color: var(--color-fondo);
+}
+
+.paw-paginacion-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.paw-filtros-puntos {
+  color: var(--color-texto);
+  font-weight: bold;
+}
+
+/* ==========================================================================
+   2. VISTA DESKTOP / PC (Solo para pantallas desde 994px en adelante)
+   ========================================================================== */
+@media screen and (min-width: 994px) {
+  /* El wrapper se convierte en la estructura de 2 columnas (Filtros izq, Libros der) */
+  .paw-filtros-wrapper {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    align-items: start;
+  }
+
+  /* Ocultamos el botón toggle de mobile porque en PC los filtros están fijos a la vista */
+  .paw-filtros-toggle {
+    display: none;
+  }
+
+  /* Forzamos a que el panel de filtros esté SIEMPRE visible y se quede pegado al hacer scroll */
+  .paw-filtros-panel-aside {
+    position: sticky;
+    top: 20px;
+  }
+
+  .paw-filtros-panel {
+    display: flex;
+    border: none;
+    padding: 0;
+    background: transparent;
+  }
+
+  .paw-filtros-btn-limpiar:hover,
+  .paw-filtros-btn-limpiar:focus-visible {
+    background-color: var(--color-amarillo);
+    color: var(--color-fondo);
+    outline: none;
+  }
+
+  /* La barra de opciones se acuesta horizontalmente (Espacio entre contador y select) */
+  .paw-opciones-barra {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .paw-ordenamiento-grupo {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .paw-ordenamiento-grupo select {
+    width: auto;
+    min-width: 180px;
+  }
+
+  /* Forzamos a la grilla de libros a recuperar sus 3 columnas impecables del catálogo */
+  .grilla-libros {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .seccion-filtros {
+    grid-column: 1 / -1; /* Ocupa desde la columna 1 hasta el final */
+    width: 100%;
+  }
+
+  /* El wrapper ahora sí va a poder repartir sus dos columnas reales */
+  .paw-filtros-wrapper {
+    display: grid;
+    grid-template-columns: 280px 1fr; /* 280px filtros, el resto libros */
+    gap: 2rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: start;
+  }
+
+  /* Forzamos a que la nueva grilla que maneja el JS use las 3 columnas a la derecha */
+  .paw-filtros-resultados .grilla-libros {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+  }
+}
