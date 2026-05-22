@@ -53,3 +53,88 @@ a:hover {
     padding-top: 11rem;
   }
 }
+
+/* --- CLASES UTILITARIAS REUTILIZABLES --- */
+
+.btn-primario,
+.btn-secundario {
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn-primario {
+  background-color: var(--color-magenta);
+  color: var(--color-fondo);
+}
+
+.btn-primario:hover {
+  background-color: var(--color-violeta);
+  color: var(--color-fondo);
+  transform: scale(1.05);
+}
+
+.btn-secundario {
+  background-color: var(--color-azul);
+  color: var(--color-fondo);
+}
+
+.btn-secundario:hover {
+  background-color: var(--color-amarillo);
+  transform: scale(1.05);
+}
+
+.tarjeta-libro {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--color-gris-claro);
+  box-shadow: 0 2px 6px var(--color-texto);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: var(--color-fondo);
+  text-align: left;
+}
+
+.tarjeta-libro:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px var(--color-texto);
+}
+
+.tarjeta-libro img {
+  width: 100%;
+  height: 70%;
+  object-fit: cover;
+  background-color: var(--color-gris-claro);
+  margin: 0;
+}
+
+.tarjeta-titulo {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--color-texto);
+}
+
+.tarjeta-autor {
+  font-style: italic;
+  color: var(--color-texto);
+}
+
+.tarjeta-precio {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-fondo);
+  background: var(--color-texto);
+  padding: 3px 8px;
+  border-radius: 6px;
+  margin: 0;
+  z-index: 2;
+}

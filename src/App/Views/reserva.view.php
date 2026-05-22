@@ -65,7 +65,7 @@
         <?php endif; ?>
       </fieldset>
 
-      <button type="submit">Reservar</button>
+      <button type="submit" class="btn-primario">Reservar</button>
     </form>
   </section>
 </main>

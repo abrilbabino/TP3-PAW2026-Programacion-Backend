@@ -26,7 +26,7 @@
             <span class="material-symbols-outlined simbolos mostrar-contraseña">visibility_off</span>
         </div>
 
-        <button type="submit">Iniciar Sesión</button>
+        <button type="submit" class="btn-primario">Iniciar Sesión</button>
         </form>
         <p>
         ¿No tenes cuenta aún?
@@ -73,6 +73,6 @@
             <span class="material-symbols-outlined simbolos mostrar-contraseña">visibility_off</span>
         </div>
 
-        <button type="submit">Registrarme</button>
+        <button type="submit" class="btn-primario">Registrarme</button>
         </form>
 </aside>

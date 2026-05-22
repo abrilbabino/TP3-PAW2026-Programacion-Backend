@@ -61,26 +61,12 @@
 
 .Formulario button,
 .Formulario .btn-submit {
-  background-color: var(--color-magenta);
-  color: var(--color-fondo);
   padding: 1rem 1rem;
   border-radius: 30px;
-  font-weight: 700;
   text-transform: uppercase;
-  text-shadow: none;
-  transition:
-    background-color 0.3s,
-    transform 0.3s;
-  border: none;
   margin: 2rem auto;
   width: fit-content;
   min-width: 200px;
-}
-
-.Formulario button:hover,
-.Formulario .btn-submit:hover {
-  background-color: var(--color-violeta);
-  transform: scale(1.05);
 }
 
 .Formulario .form-control {
@@ -115,21 +101,9 @@
   margin-bottom: 1rem;
 }
 .btn-volver {
-  display: inline-block;
   margin-top: 2rem;
-  background-color: var(--color-azul);
-  color: var(--color-fondo);
   padding: 1rem 2rem;
   border-radius: 30px;
-  text-decoration: none;
-  font-weight: 800;
-  transition:
-    transform 0.3s ease,
-    background-color 0.3s;
-}
-.btn-volver:hover {
-  background-color: var(--color-amarillo);
-  transform: scale(1.05);
 }
 
 .error-inline {

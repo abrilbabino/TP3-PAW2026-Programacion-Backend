@@ -61,13 +61,13 @@
             <section class="carrusel" data-paw-carousel data-paw-effect="slide">
                 <?php if (isset($relacionados)): ?>
                     <?php foreach ($relacionados as $relacionado): ?>
-                        <article class="libro-relacionado">
+                        <article class="libro-relacionado tarjeta-libro">
                             <a href="/detalle?id=<?= $relacionado->fields['id'] ?>">
                                 <figure>
                                     <img src="/assets/img/<?= $relacionado->fields['imagen'] ?? 'default.png' ?>" alt="<?= $relacionado->fields['titulo'] ?>">
                                 </figure>
-                                <p class="titulo"><?= $relacionado->fields['titulo'] ?></p>
-                                <p class="autor">
+                                <p class="tarjeta-titulo"><?= $relacionado->fields['titulo'] ?></p>
+                                <p class="tarjeta-autor">
                                     <?php 
                                         $nombreAutor = "Desconocido";
                                         foreach ($autores as $a) {
@@ -78,7 +78,7 @@
                                         }
                                         echo $nombreAutor;
                                     ?></p>
-                                <p class="precio">$<?= $relacionado->fields['precio'] ?></p>
+                                <p class="tarjeta-precio">$<?= $relacionado->fields['precio'] ?></p>
                             </a>
                         </article>
                     <?php endforeach; ?>

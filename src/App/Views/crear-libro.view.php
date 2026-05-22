@@ -122,7 +122,7 @@
         <?php endif; ?>
       </fieldset>
 
-      <button type="submit" class="btn-submit">Agregar Libro</button>
+      <button type="submit" class="btn-submit btn-primario">Agregar Libro</button>
     </form>
   </section>
 </main>

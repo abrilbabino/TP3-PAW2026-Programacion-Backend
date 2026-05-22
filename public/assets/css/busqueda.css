@@ -8,15 +8,29 @@
     font-weight: 900;
 }
 
-@media screen and (min-width: 994px) {
+.busqueda .grilla-libros article {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 220px;
+    margin: 0 auto;
+}
 
-    .busqueda .grilla-libros article {
-        max-width: 300px;
-        max-height: 480px;
+.busqueda .grilla-libros article img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+}
+
+@media screen and (min-width: 994px) {
+    .busqueda .grilla-libros {
+        grid-template-columns: repeat(auto-fit, minmax(220px, max-content));
+        justify-content: center;
+        gap: 2rem;
     }
 
-     .busqueda .grilla-libros p {
-        font-size: 1.4rem;
+    .busqueda .grilla-libros article {
+        justify-self: flex-start;
     }
 }
 

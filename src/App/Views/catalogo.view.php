@@ -107,11 +107,11 @@
         <?php 
         foreach ($libros as $libro): 
         ?>
-          <article>
+          <article class="tarjeta-libro">
             <img src="/assets/img/<?= $libro->fields['imagen'] ?>" alt="<?= $libro->fields['titulo'] ?>">
 
-            <p><strong><?= $libro->fields['titulo'] ?></strong></p>
-            <p><em>Autor:</em> 
+            <p class="tarjeta-titulo"><strong><?= $libro->fields['titulo'] ?></strong></p>
+            <p class="tarjeta-autor"><em>Autor:</em> 
             <?php 
               $nombreAutor = "Desconocido";
               foreach ($autores as $a) {
@@ -123,11 +123,11 @@
               echo $nombreAutor;
             ?>
             </p>
-            <p><em>Precio:</em> $<?= $libro->fields['precio'] ?></p>
+            <p class="tarjeta-precio"><em>Precio:</em> $<?= $libro->fields['precio'] ?></p>
 
             <div class="overlay">
               <p><?= $libro->fields['descripcion'] ?></p>
-              <a href="/detalle?id=<?= $libro->fields['id'] ?>">Ver más</a>
+              <a href="/detalle?id=<?= $libro->fields['id'] ?>" class="btn-primario">Ver más</a>
             </div>
             <form class="boton-agregarCarrito" action="/agregarCarrito" method="POST">
               <button type="submit" class="btn-add-carrito">
