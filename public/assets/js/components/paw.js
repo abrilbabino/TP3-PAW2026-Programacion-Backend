@@ -21,8 +21,8 @@ class PAW {
     return elemento;
   }
 
-  static cargarScript(nombre, url, fnCallback = () => {}) {
-    let elemento = document.querySelector("#" + nombre);
+    static cargarScript(nombre, url, fnCallback = () => {}) {
+        let elemento = document.querySelector("#" + nombre);
         
         if (!elemento) {
             elemento = this.nuevoElemento("script", "", { src: url, id: nombre });
@@ -34,5 +34,15 @@ class PAW {
             document.head.appendChild(elemento);
         }
         return elemento;
+    }
+
+    static cargarCSS(url, fnCallback) {
+        if (document.querySelector(`link[href="${url}"]`)) {
+            if (fnCallback) fnCallback();
+                return;
+            }
+        const link = this.nuevoElemento("link", "", {rel: "stylesheet", href: url});
+        if (fnCallback) link.addEventListener("load", fnCallback);
+        document.head.appendChild(link);
     }
 }

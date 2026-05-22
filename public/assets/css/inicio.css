@@ -12,25 +12,17 @@
   border-radius: 10px;
 }
 
-.Bienvenida a {
-  background-color: var(--color-magenta);
-  color: var(--color-fondo);
+.Bienvenida .btn-primario {
   padding: 1rem 6rem;
   border-radius: 30px;
-  font-weight: 700;
   text-transform: uppercase;
-  text-shadow: none;
-  transition:
-    background-color 0.3s,
-    transform 0.3s;
-  border: none;
   margin-top: 2rem;
   margin-bottom: 2rem;
+  text-shadow: none;
 }
 
-.Bienvenida a:hover {
+.Bienvenida .btn-primario:hover {
   background-color: var(--color-amarillo);
-  transform: scale(1.05);
 }
 
 /* PROMOCIONES (Celular) */

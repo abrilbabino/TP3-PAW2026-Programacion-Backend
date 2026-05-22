@@ -10,12 +10,14 @@
     <link rel="stylesheet" href="/assets/css/style.css" />
     
     <title>Page Not Found</title>
+    <script src="/assets/js/components/paw.js"></script>
+    <script src="/assets/js/app.js"></script>
 </head>
 <body>  
     <?php  require __DIR__ . '/barra-navegacion.view.php'?>
     <h1 class="error">Page Not Found</h1>
     <?php require __DIR__ . '/footer.view.php'; ?>
     <?php require __DIR__ . '/iniciar-sesion.view.php'; ?>
-    <?php require __DIR__ . '/carrito.view.php'; ?>
+
 </body>
 </html>

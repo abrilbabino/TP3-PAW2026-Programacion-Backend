@@ -130,4 +130,31 @@ class QueryBuilder
         $sentencia->bindValue(':offset', $offset, PDO::PARAM_INT);
     }
 
+    public function insert(string $table, array $data): int
+    {
+        $fields = [];
+        $placeholders = [];
+        $binds = [];
+
+        foreach ($data as $key => $value) {
+            if ($key === 'id' || $value === null) {
+                continue;
+            }
+            $fields[] = $key;
+            $placeholders[] = ':' . $key;
+            $binds[':' . $key] = $value;
+        }
+
+        $columnList = implode(', ', $fields);
+        $placeholderList = implode(', ', $placeholders);
+        $query = "INSERT INTO {$table} ({$columnList}) VALUES ({$placeholderList})";
+
+        $sentencia = $this->pdo->prepare($query);
+        foreach ($binds as $placeholder => $value) {
+            $sentencia->bindValue($placeholder, $value);
+        }
+        $sentencia->execute();
+
+        return (int) $this->pdo->lastInsertId();
+    }
 }
