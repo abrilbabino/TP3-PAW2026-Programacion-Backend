@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/png" href="/assets/img/icon.png">
   <link rel="stylesheet" href="/assets/css/style.css" />
-  <link rel="stylesheet" href="/assets/css/print.css" media="print" />
+  <link rel="stylesheet" href="/assets/css/pawcarousel.css" />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
@@ -61,13 +61,13 @@
             <section class="carrusel" data-paw-carousel data-paw-effect="slide">
                 <?php if (isset($relacionados)): ?>
                     <?php foreach ($relacionados as $relacionado): ?>
-                        <article class="libro-relacionado">
+                        <article class="libro-relacionado tarjeta-libro">
                             <a href="/detalle?id=<?= $relacionado->fields['id'] ?>">
                                 <figure>
                                     <img src="/assets/img/<?= $relacionado->fields['imagen'] ?? 'default.png' ?>" alt="<?= $relacionado->fields['titulo'] ?>">
                                 </figure>
-                                <p class="titulo"><?= $relacionado->fields['titulo'] ?></p>
-                                <p class="autor">
+                                <p class="tarjeta-titulo"><?= $relacionado->fields['titulo'] ?></p>
+                                <p class="tarjeta-autor">
                                     <?php 
                                         $nombreAutor = "Desconocido";
                                         foreach ($autores as $a) {
@@ -78,7 +78,7 @@
                                         }
                                         echo $nombreAutor;
                                     ?></p>
-                                <p class="precio">$<?= $relacionado->fields['precio'] ?></p>
+                                <p class="tarjeta-precio">$<?= $relacionado->fields['precio'] ?></p>
                             </a>
                         </article>
                     <?php endforeach; ?>
@@ -96,6 +96,6 @@
     </main>
     <?php require __DIR__ . '/footer.view.php'; ?>
     <?php require __DIR__ . '/iniciar-sesion.view.php'; ?>
-    <?php require __DIR__ . '/carrito.view.php'; ?>
+
 </body>
 </html>

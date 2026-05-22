@@ -29,13 +29,13 @@
         <?php else: ?>
           <p>El libro se cargó correctamente en el catálogo.</p>
         <?php endif; ?>
-        <a href="/catalogo" class="btn-volver">VOLVER AL CATÁLOGO</a>
+        <a href="/catalogo" class="btn-volver btn-primario">VOLVER AL CATÁLOGO</a>
     </section>
 </main>
 
 <?php require __DIR__ . '/footer.view.php'; ?>
 <?php require __DIR__ . '/iniciar-sesion.view.php'; ?>
-<?php require __DIR__ . '/carrito.view.php'; ?>
+
 
 </body>
 </html>

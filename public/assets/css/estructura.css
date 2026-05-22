@@ -73,9 +73,6 @@
   margin-top: 0.2rem;
 }
 
-.menu-hamburguesa-check {
-  display: none;
-}
 
 .PAW-MenuAbrir,
 .PAW-MenuCerrar,
@@ -91,10 +88,11 @@
   font-size: 2.5rem;
 }
 
-.icono-carrito img {
-  width: 40px;
-  height: auto;
+.icono-carrito span {
+  color: var(--color-texto);
+  font-size: 2.5rem;
   margin: 0 0.7rem;
+  cursor: pointer;
 }
 
 .nav-lista {
@@ -147,12 +145,19 @@
 
 /* --- LOGIN PANEL --- */
 
-.fondo-login,
-.fondo-registro {
-  display: none;
+.fondo-modal {
+  opacity: 0;
+  pointer-events: none;
   position: fixed;
   inset: 0;
+  background: var(--color-texto);
   z-index: 1100;
+  transition: opacity 0.3s ease;
+}
+
+.fondo-modal.is-active {
+  opacity: 0.5;
+  pointer-events: auto;
 }
 
 .login-panel,
@@ -182,35 +187,13 @@
     visibility 0.3s ease-in-out;
 }
 
-/* --- MOSTRAR CUANDO ESTÁ CHECKED --- */
+/* --- MOSTRAR CUANDO ESTÁ ACTIVO --- */
 
-.login-check:checked ~ .fondo-login {
-  display: block;
-}
-
-.login-check:checked ~ .login-panel {
+.login-panel.is-active,
+.registro-panel.is-active {
   transform: translate(-50%, -50%) scale(1);
   opacity: 1;
   visibility: visible;
-}
-
-.login-check,
-.registro-check {
-  display: none;
-}
-
-.registro-check:checked ~ .fondo-registro {
-  display: block;
-}
-
-.registro-check:checked ~ .registro-panel {
-  transform: translate(-50%, -50%) scale(1);
-  opacity: 1;
-  visibility: visible;
-}
-
-.registro-check:checked ~ .login-panel {
-  display: none;
 }
 
 /* --- ESTILOS INTERNOS DEL FORM --- */
@@ -264,13 +247,9 @@
 
 .login-form button,
 .registro-form button {
-  background-color: var(--color-magenta);
-  color: var(--color-fondo);
   padding: 1rem;
-  border: none;
   border-radius: 5px;
   margin-top: 1rem;
-  cursor: pointer;
 }
 
 .registro-link {
@@ -281,20 +260,37 @@
 .login-cerrar,
 .registro-cerrar {
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1.5rem;
+  background: transparent;
+  border: none;
+  color: var(--color-texto);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.login-cerrar:hover,
+.registro-cerrar:hover {
+  background-color: var(--color-gris-claro);
 }
 
 /* ── CARRITO PANEL */
-.carrito-check {
-  display: none;
-}
-
 .fondo-carrito {
-  display: none;
+  opacity: 0;
+  pointer-events: none;
   position: fixed;
   inset: 0;
   background: var(--color-texto);
   z-index: 1100;
+  transition: opacity 0.35s ease;
+}
+
+.fondo-carrito.is-active {
+  opacity: 0.5;
+  pointer-events: auto;
 }
 
 .carrito-panel {
@@ -310,10 +306,10 @@
   gap: 1.5rem;
   padding: 2rem 1.5rem;
   transform: translateX(100%);
-  transition: transform 0.35s ease;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
-.carrito-check:checked ~ .carrito-panel {
+.carrito-panel.is-active {
   transform: translateX(0);
   box-shadow: -4px 0 20px var(--color-texto);
 }
@@ -335,12 +331,15 @@
 
 .carrito-cerrar {
   cursor: pointer;
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   color: var(--color-texto);
-  padding: 0.3rem 0.6rem;
+  background-color: transparent;
+  padding: 0.3rem;
   border-radius: 50%;
   transition: background-color 0.2s;
-  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: none;
 }
 
@@ -477,6 +476,8 @@ main > header p {
     margin: 0 1rem;
     justify-content: flex-end;
   }
+
+
 
   .busqueda-input {
     width: 100%;

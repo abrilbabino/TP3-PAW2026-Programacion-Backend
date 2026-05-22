@@ -81,6 +81,15 @@ class Controller
             ],
         ];
 
+        if (isset($_SESSION['user'])) {
+            $this->menu[1] = [
+                "name" => "Cerrar sesión",
+                "href" => "/logout",
+                "icon" => "logout",
+                "type" => "link",
+            ];
+        }
+
         if (!is_null($this ->modelName)){
             $qb = new QueryBuilder($connection, $log);
             $model = new $this->modelName;

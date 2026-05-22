@@ -92,11 +92,11 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
-  gap: 0.5rem;
+  gap: 2rem;
   flex-wrap: wrap;
   padding: 0;
   border-top: 2px solid var(--color-gris-claro);
+  justify-content: flex-start;
 }
 
 .compra-reserva p {
@@ -192,118 +192,13 @@
 }
 
 .libro-relacionado {
-  position: relative;
   flex-shrink: 0;
-  width: 190px;
-  aspect-ratio: 160 / 320;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid var(--color-gris-claro);
-  box-shadow: 0 2px 6px var(--color-texto);
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
-  background-color: var(--color-fondo);
-  text-align: left;
+  width: 160px;
+  max-width: 220px;
+  aspect-ratio: 160 / 290;
   scroll-snap-align: start;
   display: flex;
   flex-direction: column;
-}
-
-.libro-relacionado:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px var(--color-texto);
-}
-
-.libro-relacionado .titulo {
-  font-weight: 700;
-  font-size: 0.9rem;
-  color: var(--color-texto);
-  margin-top: 0.5rem;
-}
-
-.libro-relacionado .autor {
-  font-style: italic;
-  color: var(--color-texto);
-}
-
-.libro-relacionado .precio {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--color-fondo);
-  background: var(--color-texto);
-  padding: 3px 8px;
-  border-radius: 6px;
-  margin: 0;
-  z-index: 2;
-}
-
-.libro-relacionado .btn-add-carrito {
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  z-index: 2;
-}
-
-.libro-relacionado .overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: color-mix(in srgb, var(--color-amarillo), transparent);
-  color: var(--color-fondo);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-
-.libro-relacionado:active .overlay,
-.libro-relacionado:hover .overlay,
-.libro-relacionado:focus-within .overlay {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-}
-
-.libro-relacionado .overlay p {
-  display: none;
-}
-.libro-relacionado .overlay a {
-  background: var(--color-magenta);
-  border-radius: 20px;
-  padding: 0.5rem 1rem;
-  font-weight: 700;
-  text-decoration: none;
-  color: var(--color-fondo);
-  transition:
-    background-color 0.3s,
-    transform 0.3s;
-  margin-top: 1rem;
-}
-
-.libro-relacionado .overlay a:hover {
-  transform: scale(1.05);
-}
-
-.libro-relacionado img {
-  width: 100%;
-  height: 70%;
-  aspect-ratio: 2 / 3;
-  object-fit: cover;
-  border-radius: 6px;
-  background-color: var(--color-gris-claro);
 }
 
 .libro-relacionado p {
@@ -312,11 +207,15 @@
   margin: 0;
 }
 
-.libro-relacionado p em {
-  font-weight: 700;
-  font-style: normal;
+.libro-relacionado img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
 }
 
+.libro-relacionado .tarjeta-precio{
+  color: var(--color-fondo);
+}
 .stock-desktop {
   display: none;
 }
@@ -331,7 +230,7 @@
     grid-template-columns: 280px 1fr 390px;
     grid-template-rows: auto auto;
     max-width: 1600px;
-    margin: 0 auto;
+    margin: 0 1rem;
     padding: 3rem 3rem;
     box-sizing: border-box;
     overflow: hidden;
@@ -391,7 +290,6 @@
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: flex-start;
     gap: 0;
   }
 
@@ -448,5 +346,9 @@
 
   .stock-mobile {
     display: none;
+  }
+
+  .libro-relacionado {
+    width: 220px;
   }
 }

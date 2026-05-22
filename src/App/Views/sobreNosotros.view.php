@@ -103,8 +103,6 @@
       require __DIR__ . '/iniciar-sesion.view.php'
     ?>
 
-    <?php
-      require __DIR__ . '/carrito.view.php'
-    ?>
+
   </body>
 </html>

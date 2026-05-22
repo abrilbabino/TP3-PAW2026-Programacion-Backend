@@ -62,64 +62,14 @@
 }
 
 .grilla-libros article {
-  position: relative;
   aspect-ratio: 160 / 290;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid var(--color-gris-claro);
-  box-shadow: 0 2px 6px var(--color-texto);
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
-  background-color: var(--color-fondo);
-  text-align: left;
   justify-self: center;
-  max-width: 220px;
 }
 
-.grilla-libros article:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px var(--color-texto);
-}
-
-/* PORTADA */
-.grilla-libros article img {
-  width: 100%;
-  height: 70%;
-  object-fit: cover;
-  margin: 0;
-}
-
-/* INFO (Título y autor siempre visibles) */
+/* INFO (Márgenes contextuales) */
 .grilla-libros article p {
   margin: 0.3rem 0.2rem;
   font-size: 0.85rem;
-}
-
-.grilla-libros article > p:nth-of-type(1) {
-  font-weight: 700;
-  font-size: 1rem;
-  color: var(--color-texto);
-}
-
-.grilla-libros article > p:nth-of-type(2) {
-  font-style: italic;
-  color: var(--color-texto);
-}
-
-.grilla-libros article p:nth-of-type(3) {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: var(--color-fondo);
-
-  background: var(--color-texto);
-  padding: 2px 6px;
-  border-radius: 6px;
-  margin: 0;
 }
 
 .btn-add-carrito {
@@ -161,25 +111,14 @@
 
 /*BOTON VER MAS*/
 .grilla-libros .overlay a {
-  background: var(--color-magenta);
   border-radius: 20px;
   padding: 0.5rem 1rem;
-  font-weight: 700;
-  text-decoration: none;
-  color: var(--color-fondo);
-  transition:
-    background-color 0.3s,
-    transform 0.3s;
   margin-top: 1rem;
 }
 .grilla-libros .overlay p {
   font-weight: 700;
   color: var(--color-fondo);
-}
-
-.grilla-libros .overlay a:hover {
-  background: var(--color-violeta);
-  transform: scale(1.05);
+  text-shadow: 1.5px var(--color-texto);
 }
 
 .paginacion {
@@ -216,16 +155,9 @@
   font-weight: bold;
 }
 
-.paginacion a.Boton {
-  background-color: var(--color-magenta);
+.paginacion a.paginacion-boton {
   color: var(--color-fondo);
-  font-weight: bold;
   min-width: 120px;
-}
-
-.paginacion a.Boton:hover {
-  background-color: var(--color-violeta);
-  transform: scale(1.05);
 }
 
 /* DISEÑO PC (Más de 768px) */
@@ -259,13 +191,19 @@
 
   .grilla-libros article {
     width: 100%;
-    height: 90%;
+    max-width: 220px;
+    height: 100%;
     max-height: 381px;
     justify-self: right;
     aspect-ratio: 160 / 290;
   }
 
   .grilla-libros article p:nth-of-type(3) {
+  .filtros form input[type="number"] {
+    max-width: 80px;
+  }
+
+  .grilla-libros article .tarjeta-precio {
     font-size: 0.9rem;
     font-weight: 700;
   }

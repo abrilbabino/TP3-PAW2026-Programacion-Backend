@@ -16,6 +16,8 @@ use Paw\Core\Database\ConnectionBuilder;
 
 use Paw\Core\ControllerFactory;
 
+session_start();
+
 $dotenv = Dotenv::createUnsafeImmutable(__DIR__ . '/../../');
 $dotenv->safeLoad();
 $config = new Config;
@@ -52,4 +54,9 @@ $router->get('/crear-libro', 'LibroController@create');
 $router->post('/crear-libro', 'LibroController@store');
 $router->get('/detalle', 'LibroController@detalle');
 $router->get('/buscar', 'LibroController@buscar');
+$router->post('/register', 'AuthController@register');
+$router->get('/register', 'PageController@index');
+$router->post('/login', 'AuthController@login');
+$router->get('/login', 'PageController@index');
+$router->get('/logout', 'AuthController@logout');
 
