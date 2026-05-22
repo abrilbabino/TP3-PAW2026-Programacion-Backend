@@ -72,7 +72,7 @@ class PAWBusquedas {
 
     const lista = PAW.nuevoElemento("ul", "", { class: "paw-busquedas-lista" });
     busquedas.forEach(t => {
-      const icono = PAW.nuevoElemento("span", "", { class: "paw-busquedas-icono" });
+      const icono = PAW.nuevoElemento("span", "schedule", { class: "material-symbols-outlined paw-busquedas-icono" });
       const link = PAW.nuevoElemento("a", t, {
         href: "/buscar?busqueda=" + encodeURIComponent(t),
         class: "paw-busquedas-link"

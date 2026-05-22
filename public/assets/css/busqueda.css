@@ -79,11 +79,12 @@
 .paw-busquedas-icono {
   flex-shrink: 0;
   width: 28px;
-  height: 14px;
-  background-image: url("/assets/img/reloj.svg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 14px;
+  font-size: 16px;
+  color: var(--color-texto);
+  opacity: 0.6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .paw-busquedas-link {

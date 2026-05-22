@@ -9,6 +9,7 @@
       <label for="busqueda" class="busqueda-label"
         >Buscar en el sitio..</label
       >
+      <span class="material-symbols-outlined busqueda-icono">search</span>
       <input
         type="search"
         id="busqueda"
