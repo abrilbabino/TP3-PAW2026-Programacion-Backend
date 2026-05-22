@@ -83,7 +83,7 @@ class PAWCarousel {
     this.crearBotones();
     this.crearPuntos();
     if (this.usarMiniaturas) this.crearMiniaturas();
-    this.irA(0);
+    this.irA(0, false);
     this.eventosSwipe();
     document.addEventListener("keydown", (e) => {
       if (e.key === "ArrowLeft") { this.anterior(); e.preventDefault(); }
@@ -139,12 +139,12 @@ class PAWCarousel {
     this.contenedor.appendChild(this.miniaturas);
   }
 
-  irA(indice) {
+  irA(indice, animar = true) {
     if (indice < 0) indice = this.diapositivas.length - 1;
     if (indice >= this.diapositivas.length) indice = 0;
     this.indice = indice;
 
-    this.diapositivas[indice].scrollIntoView({ behavior: "smooth", inline: "start" });
+    if (animar) this.diapositivas[indice].scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
 
     this._marcarActivos(this.diapositivas, indice);
     if (this.puntos) this._marcarActivos(this.puntos.children, indice);

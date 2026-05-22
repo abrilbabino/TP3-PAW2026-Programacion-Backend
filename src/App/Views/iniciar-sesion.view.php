@@ -6,11 +6,15 @@
         </button>
         </header>
 
-        <form class="login-form">
+        <form class="login-form" action="/login" method="POST">
+        <?php if (isset($_SESSION['error_login'])): ?>
+            <p class="error-auth"><?= $_SESSION['error_login']; unset($_SESSION['error_login']); ?></p>
+        <?php endif; ?>
         <label for="user-login">Usuario</label>
         <input
             type="text"
             id="user-login"
+            name="nombre_usuario"
             placeholder="Ingresá tu usuario"
             required
         />
@@ -20,6 +24,7 @@
             <input
             type="password"
             id="pass-login"
+            name="contrasena"
             placeholder="Ingresá tu contraseña"
             required
             />
@@ -42,14 +47,18 @@
         </button>
         </header>
 
-        <form class="registro-form">
+        <form class="registro-form" action="/register" method="POST">
+        <?php if (isset($_SESSION['error_registro'])): ?>
+            <p class="error-auth"><?= $_SESSION['error_registro']; unset($_SESSION['error_registro']); ?></p>
+        <?php endif; ?>
         <label for="name">Nombre Completo</label>
-        <input type="text" id="name" placeholder="Ingresá tu nombre" required />
+        <input type="text" id="name" name="name" placeholder="Ingresá tu nombre" required />
 
         <label for="mail">Correo Electrónico</label>
         <input
             type="email"
             id="mail"
+            name="email"
             placeholder="Ingresá tu correo electrónico"
             required
         />
@@ -58,6 +67,7 @@
         <input
             type="text"
             id="user-register"
+            name="username"
             placeholder="Ingresá un usuario"
             required
         />
@@ -67,6 +77,7 @@
             <input
             type="password"
             id="pass-register"
+            name="password"
             placeholder="Ingresá tu contraseña"
             required
             />
