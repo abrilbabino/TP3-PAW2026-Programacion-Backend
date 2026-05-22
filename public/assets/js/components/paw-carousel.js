@@ -144,7 +144,7 @@ class PAWCarousel {
     if (indice >= this.diapositivas.length) indice = 0;
     this.indice = indice;
 
-    if (animar) this.diapositivas[indice].scrollIntoView({ behavior: "smooth", inline: "start" });
+    if (animar) this.diapositivas[indice].scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
 
     this._marcarActivos(this.diapositivas, indice);
     if (this.puntos) this._marcarActivos(this.puntos.children, indice);
