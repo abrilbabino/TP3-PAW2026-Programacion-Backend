@@ -241,61 +241,6 @@
   z-index: 2;
 }
 
-.libro-relacionado .btn-add-carrito {
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  z-index: 2;
-}
-
-.libro-relacionado .overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: color-mix(in srgb, var(--color-amarillo), transparent);
-  color: var(--color-fondo);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-
-.libro-relacionado:active .overlay,
-.libro-relacionado:hover .overlay,
-.libro-relacionado:focus-within .overlay {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-}
-
-.libro-relacionado .overlay p {
-  display: none;
-}
-.libro-relacionado .overlay a {
-  background: var(--color-magenta);
-  border-radius: 20px;
-  padding: 0.5rem 1rem;
-  font-weight: 700;
-  text-decoration: none;
-  color: var(--color-fondo);
-  transition:
-    background-color 0.3s,
-    transform 0.3s;
-  margin-top: 1rem;
-}
-
-.libro-relacionado .overlay a:hover {
-  transform: scale(1.05);
-}
 
 .libro-relacionado img {
   width: 100%;
