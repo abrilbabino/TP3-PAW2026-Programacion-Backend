@@ -242,9 +242,8 @@
 }
 
 .paw-filtros-btn-pagina:hover {
-  background: var(--color-violeta);
+  background: var(--color-magenta);
   color: var(--color-fondo);
-  border-color: var(--color-violeta);
 }
 
 .paw-filtros-btn-pagina.activa {
@@ -285,7 +284,7 @@
 
   .catalogo-main > .barra-resultados .barra-resultados__acciones {
     justify-content: flex-end;
-    width: 100%;
+    margin-left: auto;
   }
 
   .catalogo-main > [data-paw-filtros] {

@@ -10,11 +10,15 @@
     color-mix(in srgb, var(--color-texto), transparent);
 }
 
-.barra-resultados p {
+.barra-resultados p,
+.barra-resultados__contador {
   margin: 0;
-  font-style: italic;
   color: var(--color-texto);
   font-size: 1.1rem;
+}
+
+.barra-resultados__contador {
+  font-weight: 700;
 }
 
 .btn-descargar {
@@ -43,6 +47,7 @@
 .barra-resultados__acciones {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   flex-wrap: wrap;
   gap: 0.75rem;
 }

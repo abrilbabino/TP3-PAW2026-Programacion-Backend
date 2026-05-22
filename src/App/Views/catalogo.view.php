@@ -25,6 +25,7 @@
     <p>Explorá nuestra colección de libros.</p>
   </header>
     <section class="barra-resultados">
+        <p class="barra-resultados__contador" data-paw-contador-resultados>Mostrando 0 resultados</p>
         <nav class="barra-resultados__acciones" aria-label="Acciones del catálogo">
           <a href="/crear-libro" class="btn-descargar">
             <span class="material-symbols-outlined">add</span>

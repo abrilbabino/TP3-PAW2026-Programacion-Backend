@@ -23,6 +23,9 @@ class PAWFiltros {
     this.currentPage = 1;
     this.scrollInfinitoActivo = false;
     this.cargandoMas = false;
+    this.elementoContador = document.querySelector(
+      "[data-paw-contador-resultados]",
+    );
 
     this.estado = {
       orden: "titulo-asc",
@@ -279,11 +282,12 @@ class PAWFiltros {
       class: "paw-filtros-barra-opciones",
     });
 
-    // Contador de resultados
-    this.elementoContador = PAW.nuevoElemento("p", "", {
-      class: "paw-filtros-contador",
-    });
-    barra.appendChild(this.elementoContador);
+    if (!this.elementoContador) {
+      this.elementoContador = PAW.nuevoElemento("p", "", {
+        class: "paw-filtros-contador",
+      });
+      barra.appendChild(this.elementoContador);
+    }
 
     // Selector de ordenamiento
     const selectorden = PAW.nuevoElemento("select", "", {
@@ -695,11 +699,10 @@ class PAWFiltros {
       this.librosFiltrados.length,
     );
     const total = this.librosFiltrados.length;
+    const visibles = total === 0 ? 0 : fin - inicio + 1;
 
-    if (total === 0) {
-      this.elementoContador.textContent = "Sin resultados";
-    } else {
-      this.elementoContador.textContent = `Mostrando ${inicio} - ${fin} de ${total} resultados`;
+    if (this.elementoContador) {
+      this.elementoContador.textContent = `Mostrando ${visibles} resultados`;
     }
   }
 
