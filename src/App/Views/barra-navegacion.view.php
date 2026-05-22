@@ -11,7 +11,7 @@
       />
     </label>
 
-    <form action="/buscar" method="GET" class="header-busqueda">
+    <form action="/buscar" method="GET" class="header-busqueda" data-paw-busquedas>
       <label for="busqueda" class="busqueda-label"
         >Buscar en el sitio..</label
       >
@@ -21,6 +21,7 @@
         name="busqueda"
         placeholder="Buscar en el sitio..."
         class="busqueda-input"
+        autocomplete="off"
       />
       <button type="submit" class="busqueda-btn">Buscar</button>
     </form>

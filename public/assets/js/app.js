@@ -10,6 +10,7 @@ class AppPAW {
         this._initCarousel();
         this._initEfectos();
         this.initValidador();
+        this._initBusquedas();
     }
 
     _initMenu() {
@@ -70,6 +71,19 @@ class AppPAW {
       },
     );
   }
+
+  _initBusquedas() {
+        const contenedores = document.querySelectorAll("[data-paw-busquedas]");
+        if (contenedores.length === 0) return;
+        PAW.cargarScript(
+            "PAW-Busquedas-Script", "/assets/js/components/paw-busquedas.js",
+            () => {
+                contenedores.forEach(function(container) {
+                    new PAWBusquedas(container);
+                });
+            },
+        );
+    }
 }
 
 // Se instancia el objeto global para disparar el ciclo de vida de la aplicación

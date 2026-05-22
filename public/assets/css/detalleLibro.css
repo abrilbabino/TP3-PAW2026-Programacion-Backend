@@ -191,21 +191,6 @@
   padding: 1.5rem 1rem 0.5rem;
 }
 
-.carrusel {
-  display: flex;
-  flex-direction: row;
-  gap: 2rem;
-  overflow-x: auto;
-  scroll-padding-left: 5%;
-  flex-wrap: nowrap;
-  padding: 1rem;
-  justify-content: flex-start;
-}
-
-.carrusel::-webkit-scrollbar {
-  display: none;
-}
-
 .libro-relacionado {
   position: relative;
   flex-shrink: 0;
@@ -426,10 +411,6 @@
     width: 180px;
     padding: 0.9rem 0.5rem;
     white-space: nowrap;
-  }
-
-  .carrusel {
-    justify-content: center;
   }
 
   .descripcion-autor article h3 {
