@@ -1,3 +1,7 @@
+.filtros form {
+  display: none;
+}
+
 .barra-resultados {
   display: flex;
   justify-content: space-between;
@@ -10,15 +14,11 @@
     color-mix(in srgb, var(--color-texto), transparent);
 }
 
-.barra-resultados p,
-.barra-resultados__contador {
+.barra-resultados p {
   margin: 0;
+  font-style: italic;
   color: var(--color-texto);
   font-size: 1.1rem;
-}
-
-.barra-resultados__contador {
-  font-weight: 700;
 }
 
 .btn-descargar {
@@ -47,7 +47,6 @@
 .barra-resultados__acciones {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
   flex-wrap: wrap;
   gap: 0.75rem;
 }
@@ -121,6 +120,90 @@
   text-shadow: 1.5px var(--color-texto);
 }
 
+.filtros summary {
+  display: flex;
+  font-size: 1.5rem;
+  font-weight: 700;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+}
+
+.filtros[open] form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0;
+}
+
+.filtros summary img {
+  width: 45px;
+  height: auto;
+  margin-right: 20px;
+}
+.filtros form label {
+  display: none;
+}
+
+.filtros form {
+  flex-wrap: wrap;
+  font-size: 1.2rem;
+  justify-content: center;
+  align-content: center;
+  margin: 1rem 1rem;
+}
+
+.filtros form p {
+  color: var(--color-texto);
+  margin-top: 2rem;
+  margin-bottom: 0.2rem;
+  width: 100%;
+  font-weight: 800;
+}
+
+.filtros form select,
+.filtros form input[type="number"] {
+  width: 100%;
+  padding: 1rem 1rem;
+  font-size: 1rem;
+  border: 1px solid var(--color-gris-claro);
+  border-bottom: 4px solid var(--color-violeta);
+  border-radius: 8px;
+  font-family: var(--fuente-cuerpo);
+  outline: none;
+}
+
+.filtros form button {
+  background-color: var(--color-azul);
+  color: var(--color-fondo);
+  font-weight: bold;
+  font-size: 1rem;
+  border: none;
+  padding: 1rem 3rem;
+  border-radius: 30px;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition:
+    background-color 0.3s,
+    transform 0.3s;
+}
+
+.filtros[open] form button:hover {
+  background-color: var(--color-violeta);
+  transform: scale(1.05);
+}
+
+.filtros form input[type="number"] {
+  margin: 0.5rem;
+  padding: 0.6rem;
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--color-violeta);
+  max-width: 115px;
+}
+
 .paginacion {
   grid-column: 1 / -1;
   text-align: center;
@@ -166,7 +249,7 @@
     grid-template-areas:
       "hero hero hero hero"
       ". barra barra ."
-      ". libros libros ."
+      ". filtros libros ."
       ". . paginacion .";
     display: grid;
     grid-template-columns: 1fr minmax(auto, 300px) minmax(auto, 1000px) 1fr;
@@ -179,6 +262,19 @@
 
   .barra-resultados {
     grid-area: barra;
+  }
+
+  .seccion-filtros {
+    grid-area: filtros;
+    min-width: 300px;
+  }
+
+  .filtros summary {
+    display: none;
+  }
+
+  .filtros form {
+    display: block;
   }
 
   /* Grilla de libros */
@@ -194,11 +290,10 @@
     max-width: 220px;
     height: 100%;
     max-height: 381px;
-    justify-self: right;
+     justify-self: right;
     aspect-ratio: 160 / 290;
   }
 
-  .grilla-libros article p:nth-of-type(3) {
   .filtros form input[type="number"] {
     max-width: 80px;
   }

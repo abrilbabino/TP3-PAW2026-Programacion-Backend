@@ -14,7 +14,6 @@ class AppPAW {
         this._initCarrito();
         this._initModalesAuth();
         this._initUploader();
-        this._initFiltros();
     }
 
     _initMenu() {
@@ -73,38 +72,23 @@ class AppPAW {
             },
         );
     }
-  }
 
-  _initCarousel() {
-    const carruseles = document.querySelectorAll("[data-paw-carousel]");
-    if (carruseles.length === 0) return;
-    PAW.cargarScript(
-      "PAW-Carousel-Script",
-      "/assets/js/components/paw-carousel.js",
-      () => {
-        carruseles.forEach((container) => {
-          new PAWCarousel(container);
+    _initEfectos() {
+        const selector = document.querySelector(".efectos-selector");
+        if (!selector) return;
+        selector.addEventListener("click", function(e) {
+            const btn = e.target.closest(".efecto-btn");
+            if (!btn) return;
+            const carrusel = document.querySelector("[data-paw-carousel]");
+            if (!carrusel || !carrusel.pawCarousel) return;
+            carrusel.pawCarousel.cambiarEfecto(btn.dataset.efecto);
+            selector.querySelectorAll(".efecto-btn").forEach(function(boton) {
+                boton.classList.remove("active");
+            });
+            btn.classList.add("active");
         });
-      },
-    );
-  }
-
-  _initEfectos() {
-    const selector = document.querySelector(".efectos-selector");
-    if (!selector) return;
-    selector.addEventListener("click", function (e) {
-      const btn = e.target.closest(".efecto-btn");
-      if (!btn) return;
-      const carrusel = document.querySelector("[data-paw-carousel]");
-      if (!carrusel || !carrusel.pawCarousel) return;
-      carrusel.pawCarousel.cambiarEfecto(btn.dataset.efecto);
-      selector.querySelectorAll(".efecto-btn").forEach(function (boton) {
-        boton.classList.remove("active");
-      });
-      btn.classList.add("active");
-    });
-  }
-  initValidador() {
+    }
+    initValidador() {
     const libroForm = document.querySelector("#form-nuevo-libro");
     if (!libroForm) {
       return;
@@ -131,24 +115,6 @@ class AppPAW {
             },
         );
     }
-    
-    _initFiltros() {
-    const contenedores = document.querySelectorAll("[data-paw-filtros]");
-    if (contenedores.length === 0) return;
-    PAW.cargarScript(
-      "PAW-Filtros-Script",
-      "/assets/js/components/paw-filtros.js",
-      () => {
-        contenedores.forEach(function (container) {
-          const opciones = {
-            itemsPorPagina: parseInt(container.dataset.itemsPorPagina) || 6,
-            enableScrollInfinito: container.dataset.scrollInfinito !== "false",
-          };
-          new PAWFiltros(container, opciones);
-        });
-      },
-    );
-  }
 
     _initUploader() {
         if (document.querySelector("#portada-uploader")) {

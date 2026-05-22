@@ -49,7 +49,6 @@ $router->get('/reserva', 'ReservaController@reserva');
 $router->post('/reserva/procesar-reserva', 'ReservaController@procesarReserva');
 $router->get('/reserva-exitosa', 'PageController@reservaExitosa');
 $router->get('/catalogo', 'LibroController@catalogo');
-$router->get('/api/libros', 'LibroController@getAllBooksJSON');
 $router->get('/crear-libro', 'LibroController@create');
 $router->post('/crear-libro', 'LibroController@store');
 $router->get('/detalle', 'LibroController@detalle');
