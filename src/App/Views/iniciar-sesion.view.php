@@ -1,9 +1,9 @@
-<input type="checkbox" id="mostrar-login" class="login-check" />
-    <label for="mostrar-login" class="fondo-login"></label>
-    <aside class="login-panel">
+    <aside id="login-panel" class="login-panel">
         <header class="login-header">
         <h2>Iniciar Sesión</h2>
-        <label for="mostrar-login" class="login-cerrar">✕</label>
+        <button type="button" class="login-cerrar">
+            <span class="material-symbols-outlined">close</span>
+        </button>
         </header>
 
         <form class="login-form">
@@ -23,27 +23,23 @@
             placeholder="Ingresá tu contraseña"
             required
             />
-            <span class="material-symbols-outlined simbolos mostrar-contraseña"
-            >visibility_off</span
-            >
+            <span class="material-symbols-outlined simbolos mostrar-contraseña">visibility_off</span>
         </div>
 
         <button type="submit">Iniciar Sesión</button>
         </form>
         <p>
         ¿No tenes cuenta aún?
-        <label for="mostrar-registro" class="registro-link"
-            >Registrate aquí</label
-        >
+        <span class="registro-link" id="btn-abrir-registro">Registrate aquí</span>
         </p>
     </aside>
 
-    <input type="checkbox" id="mostrar-registro" class="registro-check" />
-    <label for="mostrar-registro" class="fondo-registro"></label>
-    <aside class="registro-panel">
+    <aside id="registro-panel" class="registro-panel">
         <header class="registro-header">
         <h2>Registrarme</h2>
-        <label for="mostrar-registro" class="registro-cerrar">✕</label>
+        <button type="button" class="registro-cerrar">
+            <span class="material-symbols-outlined">close</span>
+        </button>
         </header>
 
         <form class="registro-form">
@@ -74,9 +70,7 @@
             placeholder="Ingresá tu contraseña"
             required
             />
-            <span class="material-symbols-outlined simbolos mostrar-contraseña"
-            >visibility_off</span
-            >
+            <span class="material-symbols-outlined simbolos mostrar-contraseña">visibility_off</span>
         </div>
 
         <button type="submit">Registrarme</button>

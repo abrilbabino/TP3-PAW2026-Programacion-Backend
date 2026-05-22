@@ -28,7 +28,6 @@
 }
 
 .header-busqueda .busqueda-input {
-    border: 1px solid var(--color-gris-claro);
     border-radius: 20px;
     padding: 0.75rem 2.4rem 0.75rem 1.2rem;
     background: var(--color-fondo);

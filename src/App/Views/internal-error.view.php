@@ -17,6 +17,6 @@
     <h1 class="error">Error Interno del Servidor</h1>
     <?php require __DIR__ . '/footer.view.php'; ?>
     <?php require __DIR__ . '/iniciar-sesion.view.php'; ?>
-    <?php require __DIR__ . '/carrito.view.php'; ?>
+
 </body>
 </html>

@@ -194,7 +194,7 @@
 .libro-relacionado {
   position: relative;
   flex-shrink: 0;
-  width: 190px;
+  width: 220px;
   aspect-ratio: 160 / 320;
   border-radius: 12px;
   overflow: hidden;
@@ -331,7 +331,7 @@
     grid-template-columns: 280px 1fr 390px;
     grid-template-rows: auto auto;
     max-width: 1600px;
-    margin: 0 auto;
+    margin: 0 1rem;
     padding: 3rem 3rem;
     box-sizing: border-box;
     overflow: hidden;

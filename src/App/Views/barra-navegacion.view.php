@@ -3,13 +3,7 @@
       <img src="/assets/img/logo.png" alt="PAWPrints" />
     </figure>
 
-    <label for="mostrar-carrito" class="icono-carrito">
-      <img
-        src="/assets/img/carrito-de-compras.png"
-        alt="Abrir carrito"
-        class="icono-header"
-      />
-    </label>
+
 
     <form action="/buscar" method="GET" class="header-busqueda" data-paw-busquedas>
       <label for="busqueda" class="busqueda-label"

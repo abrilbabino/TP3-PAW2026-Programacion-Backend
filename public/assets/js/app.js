@@ -11,6 +11,8 @@ class AppPAW {
         this._initEfectos();
         this.initValidador();
         this._initBusquedas();
+        this._initCarrito();
+        this._initModalesAuth();
     }
 
     _initMenu() {
@@ -24,6 +26,34 @@ class AppPAW {
                 let menu = new PAWMenu(navElement);
                 menu.render();
                 },
+            );
+        }
+    }
+
+    _initCarrito() {
+        const barraNavegacion = document.querySelector(".Barra-navegacion");
+        if (barraNavegacion) {
+            PAW.cargarScript(
+                "PAW-Carrito-Script",
+                "/assets/js/components/paw-carrito.js",
+                () => {
+                    let carrito = new PAWCarrito(barraNavegacion);
+                    carrito.render();
+                }
+            );
+        }
+    }
+
+    _initModalesAuth() {
+        // Solo instanciamos si la página tiene los modales (usualmente sí, vienen del layout general)
+        if (document.querySelector("#login-panel") || document.querySelector("#registro-panel")) {
+            PAW.cargarScript(
+                "PAW-ModalesAuth-Script",
+                "/assets/js/components/paw-modales-auth.js",
+                () => {
+                    let modalesAuth = new PAWModalesAuth();
+                    modalesAuth.render();
+                }
             );
         }
     }

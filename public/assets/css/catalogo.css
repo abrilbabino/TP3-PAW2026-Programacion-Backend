@@ -73,7 +73,6 @@
   background-color: var(--color-fondo);
   text-align: left;
   justify-self: center;
-  max-width: 220px;
 }
 
 .grilla-libros article:hover {
@@ -355,6 +354,7 @@
 
   .grilla-libros article {
     width: 100%;
+    max-width: 220px;
     height: 90%;
     max-height: 381px;
      justify-self: right;
