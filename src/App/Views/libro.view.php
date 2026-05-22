@@ -6,10 +6,12 @@
   <link rel="icon" type="image/png" href="/assets/img/icon.png">
   <link rel="stylesheet" href="/assets/css/style.css" />
   <link rel="stylesheet" href="/assets/css/print.css" media="print" />
-  <link
+    <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     />
+    <script src="/assets/js/components/paw.js"></script>
+    <script src="/assets/js/app.js"></script>
     <title>Libro</title>
     <script src="/assets/js/components/paw.js"></script>
     <script src="/assets/js/app.js"></script>
@@ -47,18 +49,18 @@
 
         <section class="descripcion-autor">
             <figure>
-            <img src="/assets/img/<?= isset($autor->fields['imagen']) ? htmlspecialchars($autor->fields['imagen'], ENT_QUOTES, 'UTF-8') : 'default.png' ?>" alt="Fotografía <?= htmlspecialchars($autor->fields['nombre'], ENT_QUOTES, 'UTF-8') ?>" />
-        </figure>
+            <img src="assets/img/<?=$autor->fields['nombre']?>.jpg" alt="Fotografía <?= $autor->fields['nombre'] ?>"/>
+            </figure>
 
             <article>
-                <h3>Descripción del Autor</h3>
+                <h3><?= $autor->fields['nombre']?></h3>
                 <p><?= $autor->fields['biografia']?></p>
             </article>
       </section>
 
         <section>
             <h2>Libros que te podrían gustar</h2>
-            <section class="carrusel">
+            <section class="carrusel" data-paw-carousel data-paw-effect="slide">
                 <?php if (isset($relacionados)): ?>
                     <?php foreach ($relacionados as $relacionado): ?>
                         <article class="libro-relacionado">
@@ -86,6 +88,12 @@
                     <p>No hay libros relacionados en este momento</p>
                 <?php endif; ?>
             </section>
+            <fieldset class="efectos-selector">
+                <legend>Efecto de transición</legend>
+                <button class="efecto-btn active" data-efecto="slide">Slide</button>
+                <button class="efecto-btn" data-efecto="fade">Fade</button>
+                <button class="efecto-btn" data-efecto="zoom">Zoom</button>
+            </fieldset>
         </section>
     </main>
     <?php require __DIR__ . '/footer.view.php'; ?>
