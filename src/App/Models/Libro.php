@@ -47,6 +47,13 @@ class Libro extends Model
 
     public function setDescripcion(string $descripcion)
     {
+        $descripcion = trim($descripcion);
+        if (strlen($descripcion) < 1) {
+            throw new InvalidValueFormatException("La descripción es obligatoria");
+        }
+        if (strlen($descripcion) > 1000) {
+            throw new InvalidValueFormatException("La descripción no debe superar los 1000 caracteres");
+        }
         $this->fields["descripcion"] = $descripcion;
     }
 
@@ -105,8 +112,70 @@ class Libro extends Model
                 continue;
             }
             $method = "set" . ucfirst($field);
-            $this->$method($values[$field]);
+            if (method_exists($this, $method)) {
+                $this->$method($values[$field]);
+            }
         }
+    }
+
+    public function existeLibro(array $data): bool
+    {
+        $titulo = trim((string) ($data['titulo'] ?? ''));
+        $generoId = isset($data['genero_id']) ? (int) $data['genero_id'] : 0;
+        $editorialId = isset($data['editorial_id']) ? (int) $data['editorial_id'] : 0;
+        $autorId = isset($data['autor_id']) ? (int) $data['autor_id'] : 0;
+
+        if ($titulo === '' || $generoId < 1 || $editorialId < 1 || $autorId < 1) {
+            return false;
+        }
+
+        $params = [
+            'titulo' => $titulo,
+            'genero_id' => $generoId,
+            'editorial_id' => $editorialId,
+            'autor_id' => $autorId,
+        ];
+
+        $resultado = $this->queryBuilder->select($this->table, $params);
+        return !empty($resultado);
+    }
+
+    public function insert(array $data, array $imageFile = []): int
+    {
+        if ($this->existeLibro($data)) {
+            throw new InvalidValueFormatException('Ya existe un libro con el mismo título, género, autor y editorial');
+        }
+
+        $this->handleImageUpload($imageFile);
+        $data['imagen'] = $this->fields['imagen'] ?? 'portada.png';
+        $this->set($data);
+
+        return $this->queryBuilder->insert($this->table, $this->fields);
+    }
+
+    private function handleImageUpload(array $imageFile = []): void
+    {
+        if (empty($imageFile) || ($imageFile['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
+            $this->setImagen('portada.png');
+            return;
+        }
+
+        $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+        $originalName = basename($imageFile['name'] ?? '');
+        $extension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+
+        if (!in_array($extension, $allowedExtensions, true)) {
+            throw new InvalidValueFormatException('La imagen debe ser JPG, PNG, WEBP o GIF.');
+        }
+
+        $imagenNombre = uniqid('libro_', true) . '.' . $extension;
+        $destino = __DIR__ . '/../../../public/assets/img/' . $imagenNombre;
+
+        if (!move_uploaded_file($imageFile['tmp_name'] ?? '', $destino)) {
+            throw new InvalidValueFormatException('No se pudo guardar la imagen de portada.');
+        }
+
+        $this->setImagen($imagenNombre);
     }
 
     public function load($id){

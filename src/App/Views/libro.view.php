@@ -11,6 +11,8 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     />
     <title>Libro</title>
+    <script src="/assets/js/components/paw.js"></script>
+    <script src="/assets/js/app.js"></script>
 </head>
 <body>
     <?php require __DIR__ . '/barra-navegacion.view.php'; ?>
@@ -45,8 +47,8 @@
 
         <section class="descripcion-autor">
             <figure>
-            <img src="assets/img/<?=$autor->fields['nombre']?>.jpg" alt="Fotografía <?= $autor->fields['nombre'] ?>"/>
-            </figure>
+            <img src="/assets/img/<?= isset($autor->fields['imagen']) ? htmlspecialchars($autor->fields['imagen'], ENT_QUOTES, 'UTF-8') : 'default.png' ?>" alt="Fotografía <?= htmlspecialchars($autor->fields['nombre'], ENT_QUOTES, 'UTF-8') ?>" />
+        </figure>
 
             <article>
                 <h3>Descripción del Autor</h3>

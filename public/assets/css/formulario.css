@@ -33,6 +33,20 @@
   border: 1px solid var(--color-azul);
 }
 
+.Formulario form input.input-invalido,
+.Formulario form textarea.input-invalido,
+.Formulario form select.input-invalido {
+  border-color: var(--color-magenta);
+}
+
+.msg-error {
+  display: block;
+  color: var(--color-magenta);
+  font-size: 0.875rem;
+  margin-top: 0.35rem;
+  margin-bottom: 0.85rem;
+}
+
 .Formulario fieldset {
   display: flex;
   flex-direction: column;
@@ -45,7 +59,8 @@
   display: none;
 }
 
-.Formulario button {
+.Formulario button,
+.Formulario .btn-submit {
   background-color: var(--color-magenta);
   color: var(--color-fondo);
   padding: 1rem 1rem;
@@ -62,9 +77,19 @@
   min-width: 200px;
 }
 
-.Formulario button:hover {
+.Formulario button:hover,
+.Formulario .btn-submit:hover {
   background-color: var(--color-violeta);
   transform: scale(1.05);
+}
+
+.Formulario .form-control {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 5px;
+  border: 1px solid var(--color-azul);
+  font-family: inherit;
+  font-size: 1rem;
 }
 
 .mensaje-exito {

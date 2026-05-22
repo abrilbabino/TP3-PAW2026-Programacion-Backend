@@ -11,6 +11,8 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     />
   <title>Catálogo</title>
+  <script src="/assets/js/components/paw.js"></script>
+  <script src="/assets/js/app.js"></script>
 </head>
 <body>
 
@@ -24,10 +26,16 @@
   </header>
     <section class="barra-resultados">
         <p>Mostrando <strong><?= count($libros) ?></strong> resultados</p>
-        <a href="/catalogo?<?= http_build_query($request->getAll()) ?>&format=csv" class="btn-descargar">            
-          <span class="material-symbols-outlined">download</span>
-            DESCARGAR CSV
-        </a>
+        <nav class="barra-resultados__acciones" aria-label="Acciones del catálogo">
+          <a href="/crear-libro" class="btn-descargar">
+            <span class="material-symbols-outlined">add</span>
+            AGREGAR LIBRO
+          </a>
+          <a href="/catalogo?<?= http_build_query($request->getAll()) ?>&format=csv" class="btn-descargar">            
+            <span class="material-symbols-outlined">download</span>
+              DESCARGAR CSV
+          </a>
+        </nav>
   </section>
     <section class= "seccion-filtros">
       <details class="filtros" open>

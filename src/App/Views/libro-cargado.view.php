@@ -9,7 +9,7 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0"
     />
-  <title>PawPrints - Reserva Exitosa</title>
+  <title>PawPrints - Libro agregado</title>
   <script src="/assets/js/components/paw.js"></script>
   <script src="/assets/js/app.js"></script>
 </head>
@@ -23,9 +23,12 @@
         <span class="material-symbols-outlined icono-exito">
             check_circle
         </span>
-        <h1>¡Reserva confirmada!</h1>
-        <p>Hemos procesado tu solicitud correctamente.<br> El personal de la librería ha sido notificado por correo electrónico y se pondrá en contacto con usted a la brevedad.</p>
-        
+        <h1>¡Libro agregado exitosamente!</h1>
+        <?php if (!empty($libroTitulo)): ?>
+          <p>El libro "<?= htmlspecialchars($libroTitulo, ENT_QUOTES, 'UTF-8') ?>" se cargó correctamente en el catálogo.</p>
+        <?php else: ?>
+          <p>El libro se cargó correctamente en el catálogo.</p>
+        <?php endif; ?>
         <a href="/catalogo" class="btn-volver">VOLVER AL CATÁLOGO</a>
     </section>
 </main>

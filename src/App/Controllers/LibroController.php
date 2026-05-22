@@ -4,10 +4,12 @@ namespace Paw\App\Controllers;
 
 use Paw\App\Models\AutorCollection;
 use Paw\Core\Controller;
+use Paw\App\Models\Libro;
 use Paw\App\Models\LibroCollection;
 use Paw\App\Models\EditorialCollection;
 use Paw\App\Models\GeneroCollection;
 use Paw\App\Models\IdiomaCollection;
+use Paw\Core\Exceptions\InvalidValueFormatException;
 use Paw\App\Core\Vista;
 
 class LibroController extends Controller
@@ -87,6 +89,49 @@ class LibroController extends Controller
         $relacionados = $this->model->getRelations($filtros);
  
         require $this->viewsDir . '/libro.view.php';
+    }
+
+    public function create()
+    {
+        $request = $this->request;
+        $menu = $this->menu;
+        $redes = $this->redes;
+
+        $generos = $this->loadCollection(GeneroCollection::class);
+        $editoriales = $this->loadCollection(EditorialCollection::class);
+        $idiomas = $this->loadCollection(IdiomaCollection::class);
+        $autores = $this->loadCollection(AutorCollection::class);
+        $errores = [];
+
+        require $this->viewsDir . '/crear-libro.view.php';
+    }
+
+    public function store()
+    {
+        $request = $this->request;
+        $menu = $this->menu;
+        $redes = $this->redes;
+
+        $generos = $this->loadCollection(GeneroCollection::class);
+        $editoriales = $this->loadCollection(EditorialCollection::class);
+        $idiomas = $this->loadCollection(IdiomaCollection::class);
+        $autores = $this->loadCollection(AutorCollection::class);
+
+        $errores = [];
+
+        try {
+            $libro = new Libro();
+            $libro->setQueryBuilder($this->model->getQueryBuilder());
+            $libro->insert($request->post(), $_FILES['imagen'] ?? []);
+
+            $libroTitulo = $request->post()['titulo'] ?? '';
+            require $this->viewsDir . '/libro-cargado.view.php';
+            return;
+        } catch (InvalidValueFormatException $e) {
+            $errores['general'] = $e->getMessage();
+        }
+
+        require $this->viewsDir . '/crear-libro.view.php';
     }
 
     public function buscar()
