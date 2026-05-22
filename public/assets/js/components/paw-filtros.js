@@ -289,7 +289,12 @@ class PAWFiltros {
       barra.appendChild(this.elementoContador);
     }
 
-    // Selector de ordenamiento
+    // Etiqueta y selector de ordenamiento
+    const spanOrden = PAW.nuevoElemento("span", "Ordenar por:", {
+      class: "paw-filtros-label-orden",
+    });
+    barra.appendChild(spanOrden);
+
     const selectorden = PAW.nuevoElemento("select", "", {
       class: "paw-filtros-select-orden",
       "aria-label": "Ordenar por",

@@ -22,7 +22,7 @@
   display: flex;
   width: 100%;
   padding: 0.75rem;
-  background: var(--color-azul);
+  background: var(--color-violeta);
   color: var(--color-fondo);
   border: none;
   border-radius: 30px;
@@ -35,10 +35,6 @@
   transition: background-color 0.3s;
   margin-bottom: 1rem;
   font-family: var(--fuente-cuerpo);
-}
-
-.paw-filtros-toggle:hover {
-  background: var(--color-violeta);
 }
 
 .paw-filtros-toggle .material-symbols-outlined {
@@ -135,6 +131,7 @@
   background: var(--color-gris-claro);
   border-radius: 8px;
   gap: 1rem;
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--color-texto) 15%, transparent);
 }
 
 .paw-filtros-contador {
