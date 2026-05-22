@@ -705,11 +705,4 @@ class PAWFiltros {
       this.elementoContador.textContent = `Mostrando ${visibles} resultados`;
     }
   }
-
-  mostrarError(mensaje) {
-    const error = PAW.nuevoElemento("div", mensaje, {
-      class: "paw-filtros-error",
-    });
-    this.container.appendChild(error);
-  }
 }

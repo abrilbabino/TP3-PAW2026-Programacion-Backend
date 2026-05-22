@@ -1,23 +1,9 @@
-/**
- * Estilos para el componente PAWFiltros
- * Diseño responsivo con atención especial a mobile
- */
-
-/* =====================================================
-   filtros.css — Componente PAWFiltros
-   Responsabilidad: layout del panel lateral + clases
-   propias del JS. TODO lo visual del catálogo (grilla,
-   artículos, overlay, paginación) lo maneja catalogo.css.
-   ===================================================== */
-
-/* --- Wrapper general del componente --- */
 .paw-filtros-wrapper {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 
-/* --- Panel de filtros --- */
 [data-paw-filtros] {
   width: 100%;
 }
@@ -28,11 +14,12 @@
   border-bottom: 4px solid var(--color-violeta);
   border-radius: 8px;
   padding: 1.25rem;
+  margin-bottom: 1rem; /* Margen para separar del contenido en mobile */
 }
 
-/* Botón toggle — visible solo en mobile (se muestra vía media query) */
+/* Botón toggle — visible y activo por defecto en mobile */
 .paw-filtros-toggle {
-  display: none;
+  display: flex;
   width: 100%;
   padding: 0.75rem;
   background: var(--color-azul);
@@ -58,11 +45,19 @@
   font-size: 1.25rem;
 }
 
-/* Contenido colapsable del panel */
+/* Contenido colapsable — controlado por JS mediante aria-hidden en mobile */
 .paw-filtros-contenido {
   display: flex;
   flex-direction: column;
   gap: 1.1rem;
+}
+
+.paw-filtros-contenido[aria-hidden="true"] {
+  display: none;
+}
+
+.paw-filtros-contenido[aria-hidden="false"] {
+  display: flex;
 }
 
 /* --- Secciones de filtro --- */
@@ -130,16 +125,15 @@
   min-width: 0;
 }
 
-/* --- Barra de opciones (contador + orden) --- */
+/* --- Barra de opciones (Mobile: apilada verticalmente) --- */
 .paw-filtros-barra-opciones {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
   margin-bottom: 1rem;
   padding: 1rem 1.25rem;
   background: var(--color-gris-claro);
   border-radius: 8px;
-  flex-wrap: wrap;
   gap: 1rem;
 }
 
@@ -152,6 +146,7 @@
 }
 
 .paw-filtros-select-orden {
+  width: 100%;
   min-height: 42px;
   padding: 0.5rem 0.75rem;
   border: 1px solid var(--color-gris-claro);
@@ -169,7 +164,13 @@
   border-color: var(--color-azul);
 }
 
-/* --- Paginación del componente --- */
+/* --- Estructura de la página en catálogo mobile --- */
+.catalogo-main > .barra-resultados {
+  grid-column: 2 / 4;
+  grid-row: 2;
+}
+
+/* --- Paginación --- */
 .paw-filtros-paginacion {
   margin-top: 1rem;
 }
@@ -212,13 +213,13 @@
 .paw-filtros-btn-anterior,
 .paw-filtros-btn-siguiente {
   color: var(--color-fondo);
-  background-color: var(--color-azul);
+  background-color: var(--color-magenta);
   min-width: 100px;
 }
 
 .paw-filtros-btn-anterior:hover,
 .paw-filtros-btn-siguiente:hover {
-  background-color: var(--color-violeta);
+  background-color: var(--color-amarillo);
 }
 
 .paw-filtros-puntos {
@@ -236,19 +237,14 @@
   margin-bottom: 1rem;
 }
 
-/* =====================================================
-   DESKTOP (≥ 1025px)
-   Activa el layout de dos columnas: panel fijo a la
-   izquierda + resultados a la derecha.
-   catalogo.css ya maneja la grilla de artículos.
-   ===================================================== */
-@media screen and (min-width: 1025px) {
+@media screen and (min-width: 994px) {
   .catalogo-main > [data-paw-filtros] {
     grid-column: 2 / 4;
     grid-row: 3;
     min-width: 0;
   }
 
+  /* Cambia a dos columnas: Filtros izquierda + Resultados derecha */
   .paw-filtros-wrapper {
     flex-direction: row;
     align-items: flex-start;
@@ -262,9 +258,10 @@
     height: fit-content;
     box-shadow: 0 4px 14px
       color-mix(in srgb, var(--color-texto) 18%, transparent);
+    margin-bottom: 0; /* Ya no hace falta el margen inferior de mobile */
   }
 
-  /* El toggle se oculta, el contenido siempre visible */
+  /* En escritorio no hay comportamiento colapsable, todo queda visible */
   .paw-filtros-toggle {
     display: none !important;
   }
@@ -273,53 +270,16 @@
     display: flex !important;
   }
 
-  .paw-filtros-select-orden {
-    min-width: 240px;
-  }
-
-  /* La grilla de libros dentro del componente no necesita
-     max-width ni padding extra — catalogo.css ya la define */
-  .paw-filtros-resultados .grilla-libros {
-    max-width: none;
-    padding: 0;
-    margin: 0;
-  }
-}
-
-/* =====================================================
-   MOBILE (< 1025px)
-   El toggle aparece. El panel se colapsa.
-   La grilla y los artículos los maneja catalogo.css.
-   ===================================================== */
-@media screen and (max-width: 1024px) {
-  .paw-filtros-panel {
-    margin-bottom: 1rem;
-  }
-
-  .paw-filtros-toggle {
-    display: flex;
-  }
-
-  .paw-filtros-contenido[aria-hidden="true"] {
-    display: none;
-  }
-
-  .paw-filtros-contenido[aria-hidden="false"] {
-    display: flex;
-  }
-
+  /* La barra de opciones se vuelve horizontal */
   .paw-filtros-barra-opciones {
-    flex-direction: column;
-    align-items: stretch;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .paw-filtros-select-orden {
-    width: 100%;
-  }
-
-  .catalogo-main > .barra-resultados {
-    grid-column: 2 / 4;
-    grid-row: 2;
+    width: auto;
+    min-width: 240px;
   }
 }
 
