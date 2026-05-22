@@ -13,6 +13,7 @@ class AppPAW {
         this._initBusquedas();
         this._initCarrito();
         this._initModalesAuth();
+        this._initUploader();
     }
 
     _initMenu() {
@@ -113,6 +114,18 @@ class AppPAW {
                 });
             },
         );
+    }
+
+    _initUploader() {
+        if (document.querySelector("#portada-uploader")) {
+            PAW.cargarScript(
+                "PAW-Uploader-Script",
+                "/assets/js/components/paw-uploader.js",
+                () => {
+                    new PAWUploader("#portada-uploader");
+                }
+            );
+        }
     }
 }
 

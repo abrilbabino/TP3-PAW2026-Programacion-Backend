@@ -92,6 +92,12 @@
         <?php if (isset($errores['idioma_id'])): ?>
           <span class="error"><?= htmlspecialchars($errores['idioma_id'], ENT_QUOTES, 'UTF-8') ?></span>
         <?php endif; ?>
+         <label for="descripcion">Descripción</label>
+         
+        <textarea id="descripcion" class="form-control <?= isset($errores['descripcion']) ? 'input-invalido' : '' ?>" name="descripcion" maxlength="1000" required><?= htmlspecialchars($request->post()['descripcion'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
+        <?php if (isset($errores['descripcion'])): ?>
+          <span class="error"><?= htmlspecialchars($errores['descripcion'], ENT_QUOTES, 'UTF-8') ?></span>
+        <?php endif; ?>
       </fieldset>
 
       <fieldset>
@@ -109,16 +115,10 @@
           <span class="error"><?= htmlspecialchars($errores['stock'], ENT_QUOTES, 'UTF-8') ?></span>
         <?php endif; ?>
 
-        <label for="imagen">Imagen de portada</label>
-        <input id="imagen" class="form-control <?= isset($errores['imagen']) ? 'input-invalido' : '' ?>" name="imagen" type="file" accept="image/png, image/jpeg, image/webp, image/gif" />
+        <label>Imagen de portada</label>
+        <div id="portada-uploader" class="paw-uploader-container"></div>
         <?php if (isset($errores['imagen'])): ?>
           <span class="error"><?= htmlspecialchars($errores['imagen'], ENT_QUOTES, 'UTF-8') ?></span>
-        <?php endif; ?>
-
-        <label for="descripcion">Descripción</label>
-        <textarea id="descripcion" class="form-control <?= isset($errores['descripcion']) ? 'input-invalido' : '' ?>" name="descripcion" maxlength="1000" required><?= htmlspecialchars($request->post()['descripcion'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
-        <?php if (isset($errores['descripcion'])): ?>
-          <span class="error"><?= htmlspecialchars($errores['descripcion'], ENT_QUOTES, 'UTF-8') ?></span>
         <?php endif; ?>
       </fieldset>
 

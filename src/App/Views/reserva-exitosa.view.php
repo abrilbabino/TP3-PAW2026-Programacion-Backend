@@ -26,7 +26,7 @@
         <h1>¡Reserva confirmada!</h1>
         <p>Hemos procesado tu solicitud correctamente.<br> El personal de la librería ha sido notificado por correo electrónico y se pondrá en contacto con usted a la brevedad.</p>
         
-        <a href="/catalogo" class="btn-volver">VOLVER AL CATÁLOGO</a>
+        <a href="/catalogo" class="btn-volver btn-primario">VOLVER AL CATÁLOGO</a>
     </section>
 </main>
 
