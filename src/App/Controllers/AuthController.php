@@ -4,6 +4,7 @@ namespace Paw\App\Controllers;
 
 use Paw\Core\Controller;
 use Paw\App\Models\Usuario;
+use Paw\Core\Request;
 
 class AuthController extends Controller
 {
@@ -54,12 +55,12 @@ class AuthController extends Controller
             'contrasenia'     => $passwordHash,
         ]);
 
-        $_SESSION['user'] = [
+        Request::setSession('user', [
             'id'             => $userId,
             'nombre_usuario' => $username,
             'email'          => $email,
             'nombre_completo' => $name,
-        ];
+        ]);
 
         echo json_encode(['status' => 'success']);
         exit;
@@ -79,9 +80,9 @@ class AuthController extends Controller
             exit;
         }
 
-        $usuario = $this->model->findByUsername($username);
+        $usuarioLogueado = $this->model->autenticar($username, $password);
 
-        if (!$usuario || !password_verify($password, $usuario['contrasenia'])) {
+        if (!$usuarioLogueado) {
             echo json_encode([
                 'status' => 'error', 
                 'message' => 'Usuario o contraseña incorrectos.',
@@ -90,12 +91,7 @@ class AuthController extends Controller
             exit;
         }
 
-        $_SESSION['user'] = [
-            'id'              => $usuario['id'],
-            'nombre_usuario'  => $usuario['usuario'],
-            'email'           => $usuario['email'],
-            'nombre_completo' => $usuario['nombre_completo'],
-        ];
+        Request::setSession('user', $usuarioLogueado);
 
         echo json_encode(['status' => 'success']);
         exit;
@@ -103,8 +99,7 @@ class AuthController extends Controller
 
     public function logout()
     {
-        $_SESSION = [];
-        session_destroy();
+        Request::destroySession();
         header('Location: /');
         exit;
     }

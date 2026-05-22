@@ -47,4 +47,31 @@ class Request{
 		return $pagina;
 	}
 
+    public static function session($key, $default = null)
+    {
+        return $_SESSION[$key] ?? $default;
+    }
+
+    public static function setSession($key, $value)
+    {
+        $_SESSION[$key] = $value;
+    }
+
+    public static function removeSession($key)
+    {
+        unset($_SESSION[$key]);
+    }
+
+    public static function hasSession($key)
+    {
+        return isset($_SESSION[$key]);
+    }
+
+    public static function destroySession()
+    {
+        $_SESSION = [];
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_destroy();
+        }
+    }
 }
