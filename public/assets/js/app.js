@@ -14,6 +14,7 @@ class AppPAW {
         this._initCarrito();
         this._initModalesAuth();
         this._initUploader();
+        this._initAuth();
     }
 
     _initMenu() {
@@ -126,6 +127,28 @@ class AppPAW {
                 }
             );
         }
+    }
+
+    mostrarMensajeExito(formElement, options = {}) {
+        PAW.cargarScript(
+            "PAW-Success-Script",
+            "/assets/js/components/paw-success.js",
+            () => {
+                const mensaje = new PAWSuccessMessage(formElement, options);
+                mensaje.mostrar();
+            }
+        );
+    }
+
+    _initAuth() {
+        PAW.cargarScript(
+            "PAW-Auth-Script",
+            "/assets/js/components/paw-auth.js",
+            () => {
+                const auth = new PAWAuth(this);
+                auth.init();
+            }
+        );
     }
 }
 

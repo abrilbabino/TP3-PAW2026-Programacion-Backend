@@ -18,23 +18,30 @@ class AuthController extends Controller
         $username = trim($request->get('username') ?? '');
         $password = $request->get('password') ?? '';
 
+        header('Content-Type: application/json');
+
         if (!$name || !$email || !$username || !$password) {
-            $_SESSION['error_registro'] = 'Completá todos los campos.';
-            header('Location: /');
+            echo json_encode(['status' => 'error', 'message' => 'Completá todos los campos.']);
             exit;
         }
 
         $existente = $this->model->findByUsername($username);
         if ($existente) {
-            $_SESSION['error_registro'] = 'El nombre de usuario ya está en uso.';
-            header('Location: /');
+            echo json_encode([
+                'status' => 'error', 
+                'message' => 'El nombre de usuario ya está en uso.',
+                'errors' => ['username' => 'El nombre de usuario ya está en uso.']
+            ]);
             exit;
         }
 
         $existeEmail = $this->model->findByEmail($email);
         if ($existeEmail) {
-            $_SESSION['error_registro'] = 'El correo electrónico ya está registrado.';
-            header('Location: /');
+            echo json_encode([
+                'status' => 'error', 
+                'message' => 'El correo electrónico ya está registrado.',
+                'errors' => ['email' => 'El correo electrónico ya está registrado.']
+            ]);
             exit;
         }
 
@@ -54,7 +61,7 @@ class AuthController extends Controller
             'nombre_completo' => $name,
         ];
 
-        header('Location: /');
+        echo json_encode(['status' => 'success']);
         exit;
     }
 
@@ -65,17 +72,21 @@ class AuthController extends Controller
         $username = trim($request->get('nombre_usuario') ?? '');
         $password = $request->get('contrasena') ?? '';
 
+        header('Content-Type: application/json');
+
         if (empty($username) || empty($password)) {
-            $_SESSION['error_login'] = 'Completá todos los campos.';
-            header('Location: /');
+            echo json_encode(['status' => 'error', 'message' => 'Completá todos los campos.']);
             exit;
         }
 
         $usuario = $this->model->findByUsername($username);
 
         if (!$usuario || !password_verify($password, $usuario['contrasenia'])) {
-            $_SESSION['error_login'] = 'Usuario o contraseña incorrectos.';
-            header('Location: /');
+            echo json_encode([
+                'status' => 'error', 
+                'message' => 'Usuario o contraseña incorrectos.',
+                'errors' => ['contrasena' => 'Usuario o contraseña incorrectos.']
+            ]);
             exit;
         }
 
@@ -86,7 +97,7 @@ class AuthController extends Controller
             'nombre_completo' => $usuario['nombre_completo'],
         ];
 
-        header('Location: /');
+        echo json_encode(['status' => 'success']);
         exit;
     }
 

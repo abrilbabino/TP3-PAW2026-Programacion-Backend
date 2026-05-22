@@ -1,0 +1,47 @@
+.paw-success-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 2rem;
+  background-color: var(--color-fondo);
+  border: 1px solid var(--color-gris-claro);
+  border-radius: 15px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15);
+  margin: 2rem auto;
+  max-width: 500px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.paw-success-container.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.paw-success-icon {
+  font-size: 80px;
+  color: var(--color-verde);
+  margin-bottom: 1rem;
+}
+
+.paw-success-title {
+  color: var(--color-azul);
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  font-family: var(--fuente-titulos);
+}
+
+.paw-success-message {
+  color: var(--color-texto);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.paw-success-btn {
+  padding: 1rem 3rem;
+  border-radius: 25px;
+}
