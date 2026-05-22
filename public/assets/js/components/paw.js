@@ -36,10 +36,13 @@ class PAW {
         return elemento;
     }
 
-    static cargarCSS(url) {
-        if (document.querySelector(`link[href="${url}"]`)) return;
-        const link = this.nuevoElemento("link", "", {rel: "stylesheet", href: url
-        });
+    static cargarCSS(url, fnCallback) {
+        if (document.querySelector(`link[href="${url}"]`)) {
+            if (fnCallback) fnCallback();
+                return;
+            }
+        const link = this.nuevoElemento("link", "", {rel: "stylesheet", href: url});
+        if (fnCallback) link.addEventListener("load", fnCallback);
         document.head.appendChild(link);
     }
 }

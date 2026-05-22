@@ -6,7 +6,7 @@
     display: block;
     position: relative;
     overflow: hidden;
-    padding: 0;
+    padding: 0 2.5rem 0 0.75rem;
     max-width: 100%;
     margin: 0;
 }
@@ -27,14 +27,18 @@
     display: none;
 }
 
+.paw-carousel-track-center {
+    justify-content: center;
+}
+
 .paw-carousel-track > .paw-carousel-slide {
     flex: 0 0 auto;
-    width: 260px;
+    width: 200px;
     display: flex;
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
-    padding: 0 1rem;
+    padding: 0 0.3rem;
     transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
@@ -63,8 +67,8 @@
     box-shadow: 0 2px 12px var(--color-violeta);
 }
 
-.paw-carousel-prev { left: 0.25rem; }
-.paw-carousel-next { right: 0.25rem; }
+.paw-carousel-prev { left: 0.01rem; }
+.paw-carousel-next { right: 0.20rem; }
 
 .paw-carousel-dots {
     display: flex;
@@ -174,6 +178,10 @@
     width: 100vw;
     height: 100vh;
     max-width: none;
+}
+
+.paw-carousel-full {
+    padding: 0;
 }
 
 .paw-carousel-full .paw-carousel-track {
@@ -290,7 +298,7 @@
 
 @media screen and (min-width: 994px) {
     .paw-carousel {
-        max-width: 750px;
+        max-width: 850px;
         margin: 0 auto;
     }
 

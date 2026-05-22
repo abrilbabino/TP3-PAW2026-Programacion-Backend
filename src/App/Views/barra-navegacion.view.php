@@ -13,6 +13,7 @@
         type="search"
         id="busqueda"
         name="busqueda"
+        value="<?= htmlspecialchars($_GET['busqueda'] ?? '') ?>"
         placeholder="Buscar en el sitio..."
         class="busqueda-input"
         autocomplete="off"

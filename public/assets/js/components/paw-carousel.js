@@ -14,12 +14,17 @@ class PAWCarousel {
   }
 
   render() {
-    if (!this.contenedor) {
-      return;
-    }
+    if (!this.contenedor) return;
 
-    PAW.cargarCSS("/assets/css/pawcarousel.css");
+    this.contenedor.style.display = "none";
 
+    PAW.cargarCSS("/assets/css/pawcarousel.css", () => {
+      this._iniciar();
+    });
+  }
+
+  _iniciar() {
+    this.contenedor.style.display = "";
     this.contenedor.classList.add("paw-carousel");
     if (this.contenedor.dataset.pawFull !== undefined) {
       this.contenedor.classList.add("paw-carousel-full");
@@ -39,6 +44,10 @@ class PAWCarousel {
     }, this);
     this.contenedor.appendChild(this.carril);
     this.diapositivas = [...this.carril.children];
+
+    if (this.diapositivas.length <= 2) {
+      this.carril.classList.add("paw-carousel-track-center");
+    }
 
     const imagenes = this.contenedor.querySelectorAll("img");
     if (imagenes.length > 0) {
