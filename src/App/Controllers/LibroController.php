@@ -43,6 +43,74 @@ class LibroController extends Controller
         require $this->viewsDir . '/catalogo.view.php';
     }
 
+    public function apiLibros() {
+        header('Content-Type: application/json');
+        
+        $autores = $this->loadCollection(AutorCollection::class); 
+        $generos = $this->loadCollection(GeneroCollection::class);
+        $editoriales = $this->loadCollection(EditorialCollection::class);
+        $idiomas = $this->loadCollection(IdiomaCollection::class);
+        
+        $resultado = $this->model->getAll(); 
+        
+        $librosData = [];
+        foreach ($resultado as $libro) {
+            $nombreAutor = "Desconocido";
+            foreach ($autores as $a) {
+                if ($a->fields['id'] == $libro->fields['autor_id']) {
+                    $nombreAutor = $a->fields['nombre'];
+                    break;
+                }
+            }
+            
+            $nombreGenero = "Otros";
+            foreach ($generos as $g) {
+                if ($g->fields['id'] == $libro->fields['genero_id']) {
+                    $nombreGenero = $g->fields['nombre'];
+                    break;
+                }
+            }
+
+            $nombreEditorial = "Otros";
+            foreach ($editoriales as $e) {
+                if ($e->fields['id'] == $libro->fields['editorial_id']) {
+                    $nombreEditorial = $e->fields['nombre'];
+                    break;
+                }
+            }
+
+            $nombreIdioma = "Otros";
+            foreach ($idiomas as $i) {
+                if ($i->fields['id'] == $libro->fields['idioma_id']) {
+                    $nombreIdioma = $i->fields['nombre'];
+                    break;
+                }
+            }
+
+            $librosData[] = [
+                'id' => $libro->fields['id'],
+                'titulo' => $libro->fields['titulo'],
+                'imagen' => $libro->fields['imagen'],
+                'autor_id' => $libro->fields['autor_id'],
+                'autor_nombre' => $nombreAutor,
+                'genero_id' => $libro->fields['genero_id'],
+                'genero_nombre' => $nombreGenero,
+                'editorial_id' => $libro->fields['editorial_id'],
+                'editorial_nombre' => $nombreEditorial,
+                'idioma_id' => $libro->fields['idioma_id'],
+                'idioma_nombre' => $nombreIdioma,
+                'precio' => floatval($libro->fields['precio']),
+                'descripcion' => $libro->fields['descripcion'] ?? ''
+            ];
+        }
+
+        echo json_encode([
+            'success' => true,
+            'data' => $librosData
+        ]);
+        exit;
+    }
+
     private function loadCollection($className){
         $model = new $className;
         $model->setQueryBuilder($this->model->getQueryBuilder());
