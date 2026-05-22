@@ -213,6 +213,13 @@
   display: none;
 }
 
+.error-auth {
+    color: var(--color-magenta);
+    font-size: 0.95rem;
+    text-align: center;
+    margin: 0;
+}
+
 /* --- ESTILOS INTERNOS DEL FORM --- */
 
 .login-header,
