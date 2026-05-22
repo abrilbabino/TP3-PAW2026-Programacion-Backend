@@ -20,22 +20,15 @@ class LibroController extends Controller
         $request= $this->request;
         $menu    = $this->menu;
         $redes   = $this->redes;
-
-        $filtros = $this->getFiltros();
-        $page = $request->paginaActual();
         $formato = $request->get('format') ?? 'html'; 
 
-        $resultado = $this->model->getPaginated($filtros, $page);
-
-        $libros = $resultado['items'];
-        $pagination = $resultado['pagination'];
-
-        $generos = $this->loadCollection(GeneroCollection::class);
-        $editoriales = $this-> loadCollection(EditorialCollection::class);
-        $idiomas = $this->loadCollection(IdiomaCollection::class);
-        $autores = $this->loadCollection(AutorCollection::class); 
-
         if ($formato === 'csv') {
+            $libros = $this->model->getAll();
+            $generos = $this->loadCollection(GeneroCollection::class);
+            $editoriales = $this->loadCollection(EditorialCollection::class);
+            $idiomas = $this->loadCollection(IdiomaCollection::class);
+            $autores = $this->loadCollection(AutorCollection::class); 
+
             require $this->viewsDir . '/catalogo_csv.view.php';
             return;
         }
@@ -53,20 +46,6 @@ class LibroController extends Controller
         $model = new $className;
         $model->setQueryBuilder($this->model->getQueryBuilder());
         return $model;
-    }
-
-    private function getFiltros()
-    {
-        $request = $this->request;
-        return[
-            'genero_id'    => $request->get('genero'),
-            'idioma_id'    => $request->get('idioma'),
-            'autor_id'  => $request->get('autor'),
-            'editorial_id' => $request->get('editorial'),
-            'precio_min' => $request->get('precio_min'),
-            'precio_max' => $request->get('precio_max'),
-            ];
-        
     }
 
     public function detalle()
@@ -146,8 +125,6 @@ class LibroController extends Controller
         $resultado  = $this->model->buscarPaginated($termino,$page);
         $libros     = $resultado['items'];
         $pagination = $resultado['pagination'];
- 
-        $autores = $this->loadCollection(AutorCollection::class);
  
         require $this->viewsDir . '/busqueda.view.php';
     }

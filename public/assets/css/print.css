@@ -1,7 +1,7 @@
 @media print {
   .Barra-navegacion,
   .footer-principal,
-  .filtros,
+  [data-paw-filtros],
   .btn-descargar,
   .btn-add-carrito,
   .boton-agregarCarrito,
