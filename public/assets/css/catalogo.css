@@ -260,10 +260,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 15px;
   width: 100%;
   flex-wrap: wrap;
   margin: 1rem;
+}
+
+.paginacion .paw-filtros-nav-paginacion{
+  display: flex;
+  flex-direction: row;
+  gap:0.5rem;
 }
 .paw-filtros-btn-pagina,
 .paw-paginacion-btn,
