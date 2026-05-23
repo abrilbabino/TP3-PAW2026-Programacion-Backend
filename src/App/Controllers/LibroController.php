@@ -23,7 +23,6 @@ class LibroController extends Controller
 
         $filtros = $this->getFiltros();
         $page = $request->paginaActual();
-        $formato = $request->get('format') ?? 'html'; 
 
         $resultado = $this->model->getPaginated($filtros, $page);
 
@@ -34,11 +33,6 @@ class LibroController extends Controller
         $editoriales = $this-> loadCollection(EditorialCollection::class);
         $idiomas = $this->loadCollection(IdiomaCollection::class);
         $autores = $this->loadCollection(AutorCollection::class); 
-
-        if ($formato === 'csv') {
-            require $this->viewsDir . '/catalogo_csv.view.php';
-            return;
-        }
 
         require $this->viewsDir . '/catalogo.view.php';
     }

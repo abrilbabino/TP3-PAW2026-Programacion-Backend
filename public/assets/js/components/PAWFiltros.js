@@ -69,6 +69,16 @@ class PAWFiltros {
         const accionesHTML = this.container.querySelector('.barra-resultados__acciones');
         const botonesAccion = accionesHTML ? accionesHTML.cloneNode(true) : null;
 
+        if (botonesAccion) {
+            const btnDescargar = botonesAccion.querySelector('a[href*="format=csv"]');
+            if (btnDescargar) {
+                btnDescargar.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.descargarCSV();
+                });
+            }
+        }
+
         // 2. Limpiar el contenedor
         this.container.innerHTML = "";
 
@@ -322,5 +332,43 @@ class PAWFiltros {
             if (valorA > valorB) return direccion === "asc" ? 1 : -1;
             return 0;
         });
+    }
+
+    descargarCSV() {
+        const cabeceras = ["ID", "Título", "Autor", "Género", "Editorial", "Idioma", "Precio", "Descripción"];
+        let csvContent = cabeceras.join(";") + "\n";
+
+        // Cálculo del slice para la página actual
+        const currentPage = this.visualizacion.currentPage || 1;
+        const itemsPorPagina = this.visualizacion.itemsPorPagina || this.opciones.itemsPorPagina;
+        const inicio = (currentPage - 1) * itemsPorPagina;
+        const fin = inicio + itemsPorPagina;
+        
+        const librosPaginaActual = this.librosFiltrados.slice(inicio, fin);
+
+        librosPaginaActual.forEach(libro => {
+            const fila = [
+                libro.id,
+                libro.titulo,
+                libro.autor_nombre,
+                libro.genero_nombre,
+                libro.editorial_nombre,
+                libro.idioma_nombre,
+                libro.precio,
+                libro.descripcion
+            ].map(valor => `"${String(valor || '').replace(/"/g, '""')}"`);
+            
+            csvContent += fila.join(";") + "\n";
+        });
+
+        const bom = "\uFEFF";
+        const blob = new Blob([bom + csvContent], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "catalogo.csv";
+        a.click();
+        URL.revokeObjectURL(url);
     }
 }
