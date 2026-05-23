@@ -1,3 +1,8 @@
+/* Ocultar el fallback dinámico de JS en la grilla de búsqueda (evita duplicados con PHP) */
+.busqueda .grilla-libros .resultado-busqueda {
+  display: none;
+}
+
 .resultado-busqueda {
   text-align: center;
   margin: 4rem;
@@ -107,6 +112,11 @@
   color: var(--color-violeta);
   font-weight: 700;
   font-size: 1rem;
+}
+
+.busqueda .grilla-libros {
+  padding: 1rem;
+  gap: 1rem;
 }
 
 @media screen and (min-width: 994px) {

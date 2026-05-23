@@ -20,47 +20,15 @@
         <header>
             <h1>Resultado de búsqueda</h1>
         </header>
-        <?php if(empty($resultado['items'])): ?>
+        <?php if(empty(json_decode($librosJson, true))): ?>
             <p class="resultado-busqueda">No se encuentran resultados para "<strong><?= htmlspecialchars($termino,ENT_QUOTES,'UTF-8') ?></strong>"</p>
         <?php else: ?>
             <p class="resultado-busqueda">Mostrando los resultados para "<strong><?= htmlspecialchars($termino,ENT_QUOTES,'UTF-8') ?></strong>"</p>
         <?php endif; ?>
-        <section class="grilla-libros">
-        <?php 
-        foreach ($libros as $libro): 
-        ?>
-          <article class="tarjeta-libro">
-            <img src="/assets/img/<?= $libro->fields['imagen'] ?>" alt="<?= $libro->fields['titulo'] ?>">
-
-            <p class="tarjeta-titulo"><strong><?= $libro->fields['titulo'] ?></strong></p>
-            <p class="tarjeta-autor"><em>Autor:</em> 
-            <?php 
-              $nombreAutor = "Desconocido";
-              foreach ($autores as $a) {
-                  if ($a->fields['id'] == $libro->fields['autor_id']) {
-                      $nombreAutor = $a->fields['nombre'];
-                      break;
-                  }
-              }
-              echo $nombreAutor;
-            ?>
-            </p>
-            <p class="tarjeta-precio"><em>Precio:</em> $<?= $libro->fields['precio'] ?></p>
-
-            <div class="overlay">
-              <p><?= $libro->fields['descripcion'] ?></p>
-              <a href="/detalle?id=<?= $libro->fields['id'] ?>" class="btn-primario">Ver más</a>
-            </div>
-            <form class="boton-agregarCarrito" action="/agregarCarrito" method="POST">
-              <button type="submit" class="btn-add-carrito">
-                <span class="material-symbols-outlined">add_circle</span>
-              </button>
-            </form>
-          </article>
-        <?php endforeach; ?>
-      </section>
-     
-        <?php require __DIR__ . '/paginacion.view.php'; ?>        
+        <div data-paw-resultados-busqueda='<?= htmlspecialchars($librosJson, ENT_QUOTES, 'UTF-8') ?>' data-items-por-pagina="6">
+            <section class="grilla-libros"></section>
+            <nav class="paginacion"></nav>
+        </div>
     </main>
   <?php require __DIR__ . '/footer.view.php'; ?>
   <?php require __DIR__ . '/iniciar-sesion.view.php'; ?>

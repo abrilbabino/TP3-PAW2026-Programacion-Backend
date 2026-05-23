@@ -11,6 +11,7 @@ class AppPAW {
     this._initEfectos();
     this.initValidador();
     this._initBusquedas();
+    this._initResultadosBusqueda();
     this._initCarrito();
     this._initModalesAuth();
     this._initUploader();
@@ -142,6 +143,33 @@ class AppPAW {
           new PAWBusquedas(container);
         });
       },
+    );
+  }
+
+  _initResultadosBusqueda() {
+    const contenedor = document.querySelector("[data-paw-resultados-busqueda]");
+    if (!contenedor) return;
+
+    PAW.cargarScript(
+      "PAW-Visualizacion-Script",
+      "/assets/js/components/PAWVisualizacion.js",
+      () => {
+        try {
+          const librosJson = contenedor.dataset.pawResultadosBusqueda;
+          const libros = JSON.parse(librosJson);
+          const itemsPorPagina = parseInt(contenedor.dataset.itemsPorPagina) || 6;
+          
+          const grilla = contenedor.querySelector(".grilla-libros");
+          const paginacion = contenedor.querySelector(".paginacion");
+          
+          if (grilla && paginacion) {
+            const visualizacion = new PAWVisualizacion(grilla, paginacion, itemsPorPagina);
+            visualizacion.actualizarDatos(libros);
+          }
+        } catch (error) {
+          console.error("Error al inicializar visualización de búsqueda:", error);
+        }
+      }
     );
   }
 

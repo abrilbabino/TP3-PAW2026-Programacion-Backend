@@ -209,13 +209,31 @@ class LibroController extends Controller
  
         $menu  = $this->menu;
         $redes = $this->redes;
-        $page  = $request->paginaActual();
  
-        $resultado  = $this->model->buscarPaginated($termino,$page);
-        $libros     = $resultado['items'];
-        $pagination = $resultado['pagination'];
- 
+        $libros = $this->model->buscar($termino);
         $autores = $this->loadCollection(AutorCollection::class);
+ 
+        $librosData = [];
+        foreach ($libros as $libro) {
+            $nombreAutor = "Desconocido";
+            foreach ($autores as $a) {
+                if ($a->fields['id'] == $libro->fields['autor_id']) {
+                    $nombreAutor = $a->fields['nombre'];
+                    break;
+                }
+            }
+
+            $librosData[] = [
+                'id' => $libro->fields['id'],
+                'titulo' => $libro->fields['titulo'],
+                'imagen' => $libro->fields['imagen'],
+                'autor_nombre' => $nombreAutor,
+                'precio' => floatval($libro->fields['precio']),
+                'descripcion' => $libro->fields['descripcion'] ?? ''
+            ];
+        }
+
+        $librosJson = json_encode($librosData);
  
         require $this->viewsDir . '/busqueda.view.php';
     }
