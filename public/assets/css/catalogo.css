@@ -112,6 +112,36 @@
   outline: 2px solid color-mix(in srgb, var(--color-azul) 25%, transparent);
 }
 
+.paw-items-grupo {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.paw-items-grupo label {
+  color: var(--color-texto);
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.paw-items-grupo .paw-items-input {
+  width: 5rem;
+  padding: 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--color-texto) 20%, transparent);
+  border-radius: 5px;
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  font-family: var(--fuente-cuerpo);
+  text-align: center;
+}
+
+.paw-items-grupo .paw-items-input:focus {
+  border-color: var(--color-azul);
+  outline: 2px solid color-mix(in srgb, var(--color-azul) 25%, transparent);
+}
+
 /* FILTROS (Inyectado por PAWFiltros) */
 .paw-filtros-toggle {
   display: flex;
@@ -271,6 +301,7 @@
   display: flex;
   flex-direction: row;
   gap:0.5rem;
+  flex-shrink: 0;
 }
 .paw-filtros-btn-pagina,
 .paw-paginacion-btn,
@@ -319,8 +350,41 @@
   cursor: not-allowed;
 }
 .paw-filtros-puntos {
+  display: inline;
+  padding: 0 0.25rem;
   color: var(--color-texto);
   font-weight: bold;
+}
+
+.paw-paginacion-desborda .paw-filtros-nav-paginacion {
+  margin-left: -0.9rem;
+}
+
+.paw-paginacion-ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.2rem;
+  padding: 0 0.15rem;
+  color: var(--color-texto);
+  font-weight: bold;
+  font-size: 0.9rem;
+  user-select: none;
+}
+
+@media screen and (max-width: 993px) {
+  .paw-paginacion-btn {
+    min-width: 2rem;
+    min-height: 2rem;
+    padding: 0.25rem 0.4rem;
+    font-size: 0.8rem;
+  }
+  .paw-filtros-btn-anterior,
+  .paw-filtros-btn-siguiente {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.4rem;
+    min-width: auto;
+  }
 }
 
 /* ==========================================================================

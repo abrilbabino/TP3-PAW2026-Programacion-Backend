@@ -248,6 +248,24 @@ class PAWFiltros {
         grupoOrden.appendChild(this.selectOrden);
         barra.appendChild(grupoOrden);
 
+        const grupoItems = PAW.nuevoElemento("div", "", {
+            class: "paw-items-grupo",
+        });
+        grupoItems.appendChild(PAW.nuevoElemento("label", "Libros por página: "));
+
+        this.inputItems = PAW.nuevoElemento("input", "", {
+            type: "number",
+            min: "1",
+            max: "100",
+            step: "1",
+            value: String(this.opciones.itemsPorPagina),
+            class: "paw-items-input",
+            "aria-label": "Cantidad por página",
+        });
+
+        grupoItems.appendChild(this.inputItems);
+        barra.appendChild(grupoItems);
+
         return barra;
     }
 
@@ -274,6 +292,14 @@ class PAWFiltros {
                 this.estado.orden = this.selectOrden.value;
                 this.aplicarFiltros();
             });
+        });
+
+        this.inputItems.addEventListener("input", () => {
+            const nuevoValor = parseInt(this.inputItems.value);
+            if (nuevoValor >= 1 && nuevoValor !== this.visualizacion.itemsPorPagina) {
+                this.visualizacion.itemsPorPagina = nuevoValor;
+                this.visualizacion.actualizarDatos(this.librosFiltrados);
+            }
         });
 
         this.btnLimpiar.addEventListener("click", () => {

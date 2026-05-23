@@ -124,24 +124,57 @@ class PAWVisualizacion {
         btnAnt.addEventListener("click", () => this.irAPagina(this.currentPage - 1));
         nav.appendChild(btnAnt);
 
-        // Páginas individuales
-        const maxBotones = window.innerWidth < 768 ? 5 : 7;
-        let inicio = Math.max(1, this.currentPage - Math.floor(maxBotones / 2));
-        let fin = Math.min(totalPaginas, inicio + maxBotones - 1);
+        const esMovil = window.innerWidth < 994;
+        const maxPaginas = esMovil ? 1 : 3;
 
-        if (fin - inicio + 1 < maxBotones) {
-            inicio = Math.max(1, fin - maxBotones + 1);
-        }
-
-        for (let i = inicio; i <= fin; i++) {
-            const btnNum = PAW.nuevoElemento("button", String(i), {
+        const crearPagina = (num) => {
+            const btn = PAW.nuevoElemento("button", String(num), {
                 class: "paw-paginacion-btn",
             });
-            if (i === this.currentPage) {
-                btnNum.classList.add("is-active");
+            if (num === this.currentPage) btn.classList.add("is-active");
+            btn.addEventListener("click", () => this.irAPagina(num));
+            return btn;
+        };
+
+        const crearElipsis = () => {
+            return PAW.nuevoElemento("span", "...", {
+                class: "paw-paginacion-ellipsis",
+            });
+        };
+
+        if (totalPaginas <= maxPaginas + 1) {
+            for (let i = 1; i <= totalPaginas; i++) {
+                nav.appendChild(crearPagina(i));
             }
-            btnNum.addEventListener("click", () => this.irAPagina(i));
-            nav.appendChild(btnNum);
+        } else {
+            nav.appendChild(crearPagina(1));
+
+            let inicio = this.currentPage - Math.floor(maxPaginas / 2);
+            let fin = inicio + maxPaginas - 1;
+
+            if (inicio < 2) {
+                fin += (2 - inicio);
+                inicio = 2;
+            }
+            if (fin > totalPaginas - 1) {
+                inicio -= (fin - (totalPaginas - 1));
+                fin = totalPaginas - 1;
+            }
+            if (inicio < 2) inicio = 2;
+
+            if (inicio > 2) {
+                nav.appendChild(crearElipsis());
+            }
+
+            for (let i = inicio; i <= fin; i++) {
+                nav.appendChild(crearPagina(i));
+            }
+
+            if (fin < totalPaginas - 1) {
+                nav.appendChild(crearElipsis());
+            }
+
+            nav.appendChild(crearPagina(totalPaginas));
         }
 
         // Botón Siguiente
@@ -151,8 +184,13 @@ class PAWVisualizacion {
         if (this.currentPage === totalPaginas) btnSig.disabled = true;
         btnSig.addEventListener("click", () => this.irAPagina(this.currentPage + 1));
         nav.appendChild(btnSig);
-
         this.contenedorPaginacion.appendChild(nav);
+
+        if (totalPaginas > 5 && window.innerWidth < 994) {
+            this.contenedorPaginacion.classList.add("paw-paginacion-desborda");
+        } else {
+            this.contenedorPaginacion.classList.remove("paw-paginacion-desborda");
+        }
     }
 
     irAPagina(pagina) {
