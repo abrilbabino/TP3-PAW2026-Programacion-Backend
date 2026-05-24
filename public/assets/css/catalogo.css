@@ -229,6 +229,7 @@
 }
 .grilla-libros article {
   aspect-ratio: 160 / 290;
+  max-height: 380px;
   justify-self: center;
   position: relative;
 }
