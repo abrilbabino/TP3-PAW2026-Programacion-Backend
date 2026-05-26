@@ -4,6 +4,7 @@ namespace Paw\App\Controllers;
 
 use Paw\Core\Controller;
 use Paw\App\Models\Usuario;
+use Paw\Core\Request;
 
 class AuthController extends Controller
 {
@@ -18,23 +19,30 @@ class AuthController extends Controller
         $username = trim($request->get('username') ?? '');
         $password = $request->get('password') ?? '';
 
+        header('Content-Type: application/json');
+
         if (!$name || !$email || !$username || !$password) {
-            $_SESSION['error_registro'] = 'Completá todos los campos.';
-            header('Location: /');
+            echo json_encode(['status' => 'error', 'message' => 'Completá todos los campos.']);
             exit;
         }
 
         $existente = $this->model->findByUsername($username);
         if ($existente) {
-            $_SESSION['error_registro'] = 'El nombre de usuario ya está en uso.';
-            header('Location: /');
+            echo json_encode([
+                'status' => 'error', 
+                'message' => 'El nombre de usuario ya está en uso.',
+                'errors' => ['username' => 'El nombre de usuario ya está en uso.']
+            ]);
             exit;
         }
 
         $existeEmail = $this->model->findByEmail($email);
         if ($existeEmail) {
-            $_SESSION['error_registro'] = 'El correo electrónico ya está registrado.';
-            header('Location: /');
+            echo json_encode([
+                'status' => 'error', 
+                'message' => 'El correo electrónico ya está registrado.',
+                'errors' => ['email' => 'El correo electrónico ya está registrado.']
+            ]);
             exit;
         }
 
@@ -47,14 +55,14 @@ class AuthController extends Controller
             'contrasenia'     => $passwordHash,
         ]);
 
-        $_SESSION['user'] = [
+        Request::setSession('user', [
             'id'             => $userId,
             'nombre_usuario' => $username,
             'email'          => $email,
             'nombre_completo' => $name,
-        ];
+        ]);
 
-        header('Location: /');
+        echo json_encode(['status' => 'success']);
         exit;
     }
 
@@ -65,35 +73,33 @@ class AuthController extends Controller
         $username = trim($request->get('nombre_usuario') ?? '');
         $password = $request->get('contrasena') ?? '';
 
+        header('Content-Type: application/json');
+
         if (empty($username) || empty($password)) {
-            $_SESSION['error_login'] = 'Completá todos los campos.';
-            header('Location: /');
+            echo json_encode(['status' => 'error', 'message' => 'Completá todos los campos.']);
             exit;
         }
 
-        $usuario = $this->model->findByUsername($username);
+        $usuarioLogueado = $this->model->autenticar($username, $password);
 
-        if (!$usuario || !password_verify($password, $usuario['contrasenia'])) {
-            $_SESSION['error_login'] = 'Usuario o contraseña incorrectos.';
-            header('Location: /');
+        if (!$usuarioLogueado) {
+            echo json_encode([
+                'status' => 'error', 
+                'message' => 'Usuario o contraseña incorrectos.',
+                'errors' => ['contrasena' => 'Usuario o contraseña incorrectos.']
+            ]);
             exit;
         }
 
-        $_SESSION['user'] = [
-            'id'              => $usuario['id'],
-            'nombre_usuario'  => $usuario['usuario'],
-            'email'           => $usuario['email'],
-            'nombre_completo' => $usuario['nombre_completo'],
-        ];
+        Request::setSession('user', $usuarioLogueado);
 
-        header('Location: /');
+        echo json_encode(['status' => 'success']);
         exit;
     }
 
     public function logout()
     {
-        $_SESSION = [];
-        session_destroy();
+        Request::destroySession();
         header('Location: /');
         exit;
     }
