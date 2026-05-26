@@ -1,4 +1,5 @@
 class PAWAuth {
+    //Captura las referencias a los nodos del DOM (formularios y botones de cierre) utilizando querySelector para mantener el estado del componente.
     constructor(appInstance) {
         this.app = appInstance;
         this.loginForm = document.querySelector(".login-form");
@@ -8,6 +9,8 @@ class PAWAuth {
         this.registroCloseBtn = document.querySelector(".registro-cerrar");
     }
 
+    // Registra los listeners de eventos (submit y click).
+    // Implementa el patrón de Delegación de Eventos en el document.body para detectar clics en el fondo-modal.
     init() {
         if (this.loginForm) {
             this.loginForm.addEventListener("submit", (e) => this.handleAuthSubmit(e, this.loginForm, true));
@@ -33,22 +36,27 @@ class PAWAuth {
         });
     }
 
+    // Manejador asíncrono para el envío de formularios.
     async handleAuthSubmit(e, form, isLogin) {
         if (e.defaultPrevented) return;
+        // Cancela el envío tradicional http para procesarlo vía AJAX.
         e.preventDefault();
 
         this.limpiarErrores(form);
 
+        // Serializa los datos del formulario automáticamente.
         const formData = new FormData(form);
         const url = form.action || window.location.href;
         const method = form.method || "POST";
 
         try {
+            // Realiza peticiones HTTP asíncronas.
             const response = await fetch(url, {
                 method: method.toUpperCase(),
                 body: formData
             });
 
+            // Parsea el flujo de respuesta de JSON a un objeto JS.
             const data = await response.json();
 
             if (data.status === 'success') {
@@ -77,6 +85,8 @@ class PAWAuth {
         }
     }
 
+    // mostrarErroresInline: Manipula el DOM para inyectar mensajes de error.
+    // Utiliza createElement para construir el nodo en memoria y insertAdjacentElement para posicionarlo debajo del input correspondiente.
     mostrarErroresInline(form, data) {
         if (data.errors && Object.keys(data.errors).length > 0) {
             Object.keys(data.errors).forEach(key => {
@@ -99,18 +109,20 @@ class PAWAuth {
         }
     }
 
+    // Inyecta un mensaje de error global usando insertBefore para colocarlo al principio del formulario.
     mostrarErrorGeneral(form, mensaje) {
         const errorP = document.createElement('p');
         errorP.className = 'error-auth';
         errorP.textContent = mensaje;
         form.insertBefore(errorP, form.firstChild);
     }
-
+    // Recorre el DOM buscando los nodos de error previos (querySelectorAll) y los destruye (.remove()) para evitar duplicados.
     limpiarErrores(form) {
         form.querySelectorAll('.msg-error, .error-auth').forEach(el => el.remove());
         form.querySelectorAll('.input-invalido').forEach(el => el.classList.remove('input-invalido'));
     }
 
+    // Utiliza el método reset() de la API de formularios para vaciar los inputs y luego invoca la limpieza visual de errores.
     limpiarFormulario(form) {
         form.reset();
         this.limpiarErrores(form);

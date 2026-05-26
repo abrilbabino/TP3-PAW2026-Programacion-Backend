@@ -1,4 +1,6 @@
 class PAWCarrito {
+  // Define el estado base y prepara las referencias a los nodos del DOM.
+  
   constructor(contenedor) {
     this.contenedor = contenedor;
     this.triggerButton = null;
@@ -7,7 +9,7 @@ class PAWCarrito {
     this.fondoOverlay = null;
     this.closeBtn = null;
   }
-
+  //  Implementa una cláusula para evitar errores si el contenedor principal no existe en la vista actual.
   render() {
     if (!this.contenedor) {
       console.warn("PAWCarrito: contenedor inválido.");
@@ -19,6 +21,8 @@ class PAWCarrito {
     this.registrarEventos();
   }
 
+  // crearBoton: Construye el disparador del carrito. 
+  // Utiliza Node.insertBefore() de la API del DOM para posicionar el ícono estratégicamente antes del buscador.
   crearBoton() {
     if (this.contenedor.querySelector('.icono-carrito')) {
       this.triggerButton = this.contenedor.querySelector('.icono-carrito');
@@ -41,6 +45,8 @@ class PAWCarrito {
     }
   }
 
+  // Construye el panel lateral y el overlay en memoria.
+  // Los inyecta directamente en el document.body  para garantizar que el CSS los posicione por encima de toda la aplicación.
   crearEstructura() {
     // Si ya existe en el DOM, no lo volvemos a crear
     if (document.querySelector('.carrito-panel')) return;
@@ -98,6 +104,8 @@ class PAWCarrito {
     document.body.appendChild(this.carritoPanel);
   }
 
+  //Asigna los escuchadores de eventos. 
+  // Utiliza e.preventDefault() para anular el comportamiento nativo de la etiqueta <label>. 
   registrarEventos() {
     // Abrir carrito al hacer clic en el disparador (ícono móvil)
     this.triggerButton.addEventListener("click", (e) => {
@@ -129,7 +137,9 @@ class PAWCarrito {
     }
   }
 
-  abrirCarrito() {
+  // abrirCarrito / cerrarCarrito: Modifican el estado lógico y actualizan el DOM utilizando classList.add/remove. 
+  // JS gestiona el estado y CSS se encarga exclusivamente de las transiciones visuales.
+    abrirCarrito() {
     if (!this.carritoPanel || !this.fondoOverlay) return;
 
     this.carritoPanel.classList.add("is-active");

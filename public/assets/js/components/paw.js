@@ -1,8 +1,3 @@
-/*
- * public/assets/js/components/paw.js
- * Utilidades globales de PAW para crear nodos y cargar dependencias.
- */
-
 class PAW {
   static nuevoElemento(tag, contenido = null, atributos = {}) {
     let elemento = document.createElement(tag);

@@ -1,4 +1,6 @@
 class PAWCarousel {
+  // Inicializa el estado base. 
+  // Utiliza la propiedad .dataset del DOM para leer configuraciones personalizadas (data-*) pasadas desde el HTML.
   constructor(contenedor) {
     this.contenedor = contenedor;
     this.efecto = contenedor.dataset.pawEffect || "slide";
@@ -23,6 +25,8 @@ class PAWCarousel {
     });
   }
 
+  // Transforma el DOM. Utiliza el operador spread para convertir el HTMLCollection de hijos en un Array real, filtrando nodos no deseados.
+  // Luego reconstruye la estructura semántica agrupándolos en un carril (<ul>).
   _iniciar() {
     this.contenedor.style.display = "";
     this.contenedor.classList.add("paw-carousel");
@@ -59,6 +63,8 @@ class PAWCarousel {
     this.contenedor.pawCarousel = this;
   }
 
+  // Escucha eventos asíncronos ('load', 'error') de las imágenes. 
+  // Calcula el porcentaje matemáticamente para la etiqueta <progress> y utiliza setTimeout para sincronizar el remove del nodo con la transición CSS.
   mostrarProgreso(imagenes) {
     const capa = PAW.nuevoElemento("div", "", { class: "paw-carousel-progress" });
     const barra = PAW.nuevoElemento("progress", "", { class: "paw-carousel-progress-bar", value: 0, max: 100 });
@@ -88,6 +94,8 @@ class PAWCarousel {
     });
   }
 
+  // Genera dinámicamente los botones y atajos de teclado (keydown).
+  // Emplea el método Function.prototype.bind() en los listeners para preservar la instancia actual de la clase frente al scope del evento DOM.
   construir() {
     this.crearBotones();
     this.crearPuntos();
@@ -148,6 +156,8 @@ class PAWCarousel {
     this.contenedor.appendChild(this.miniaturas);
   }
 
+  // Controla el estado del índice (manejando el desbordamiento).
+  // Utiliza  Element.scrollIntoView() con scroll suave (smooth) delegando la animación de desplazamiento al motor del navegador.
   irA(indice, animar = true) {
     if (indice < 0) indice = this.diapositivas.length - 1;
     if (indice >= this.diapositivas.length) indice = 0;
@@ -160,6 +170,7 @@ class PAWCarousel {
     if (this.miniaturas) this._marcarActivos(this.miniaturas.children, indice);
   }
 
+  // Itera sobre colecciones de nodos usando classList.toggle() evaluando la condición booleana para encender o apagar la clase activa.
   _marcarActivos(lista, indice) {
     for (let i = 0; i < lista.length; i++) {
       lista[i].classList.toggle("active", i === indice);
@@ -176,6 +187,9 @@ class PAWCarousel {
     this.irA(this.indice);
   }
 
+  // Implementa Touch Events para soporte móvil.
+  // Compara e.touches[0].clientX (touchstart vs touchend) para deducir el vector del arrastre. 
+  // Usa .bind(this) para no perder el contexto de la instancia de clase.
   eventosSwipe() {
     let inicioX = 0;
     this.contenedor.addEventListener("touchstart", function(e) {

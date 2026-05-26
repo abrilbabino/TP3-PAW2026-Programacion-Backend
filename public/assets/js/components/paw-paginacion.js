@@ -1,4 +1,6 @@
 class PAWPaginacion {
+  // Inicializa el estado fusionando opciones por defecto con el spread operator (...).
+  // Implementa el Patrón de Delegación de Eventos en el contenedor padre, utilizando e.target.closest() para capturar clics en los botones dinámicos sin necesidad de reasignar listeners en cada renderizado.
   constructor(container, opciones = {}) {
     this.container = container;
     this.opciones = {
@@ -24,6 +26,7 @@ class PAWPaginacion {
     this.renderizar();
   }
 
+  // Métodos de cálculo: Utilizan el objeto estándar Math (ceil, max, min) para derivar matemáticamente los rangos de índices (slice) y el total de páginas.
   obtenerRango() {
     const inicio = (this.paginaActual - 1) * this.opciones.itemsPorPagina;
     const fin = inicio + this.opciones.itemsPorPagina;
@@ -42,6 +45,7 @@ class PAWPaginacion {
     return Math.ceil(this.totalItems / this.opciones.itemsPorPagina);
   }
 
+  // Valida los límites de navegación, actualiza el estado interno y ejecuta la función de callback (onCambioPagina) inyectada por el orquestador para volver a renderizar la grilla de datos.
   irAPagina(pagina) {
     const totalPaginas = this.obtenerTotalPaginas();
 
@@ -57,6 +61,9 @@ class PAWPaginacion {
     }
   }
 
+  // Reconstruye la barra de navegación. 
+  // Accede a window.innerWidth para aplicar lógica responsive en JS, reduciendo la cantidad de botones en dispositivos móviles. 
+  // Implementa un algoritmo de "ventana deslizante" con (...) para manejar volúmenes grandes.
   renderizar() {
     this.container.innerHTML = "";
 
@@ -123,7 +130,9 @@ class PAWPaginacion {
     this.container.appendChild(nav);
   }
 
-  crearBoton(texto, pagina, clasesExtra = []) {
+  // fábrica de nodos) que construye las etiquetas <a>.
+  // Incorpora directivas de Accesibilidad Web (ARIA) como 'aria-label' y 'aria-current="page"' para indicar semánticamente la página activa a los lectores de pantalla.
+    crearBoton(texto, pagina, clasesExtra = []) {
     const clases = ["paw-filtros-btn-pagina", ...clasesExtra];
     const atributos = {
       href: "#",

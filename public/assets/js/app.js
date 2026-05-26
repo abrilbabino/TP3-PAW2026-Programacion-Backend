@@ -95,8 +95,8 @@ class AppPAW {
     });
   }
   initValidador() {
-    const libroForm = document.querySelector("#form-nuevo-libro");
-    if (!libroForm) {
+    const forms = document.querySelectorAll("#form-nuevo-libro, #form-reserva");
+    if (forms.length === 0) {
       return;
     }
 
@@ -104,7 +104,7 @@ class AppPAW {
       "paw-validador",
       "/assets/js/components/paw-validador.js",
       () => {
-        new PAWValidador(libroForm);
+        forms.forEach(form => new PAWValidador(form));
       },
     );
   }

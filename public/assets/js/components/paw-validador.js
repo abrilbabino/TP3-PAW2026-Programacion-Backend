@@ -1,9 +1,6 @@
-/*
- * public/assets/js/components/paw-validador.js
- * Validador de formularios para PAW.
- */
-
 class PAWValidador {
+  // Emplea Array.from() y .filter() evaluando la propiedad nativa 'willValidate' para recolectar únicamente los campos de formulario sujetos a validación.
+  // Apaga la validación visual nativa del navegador mediante el atributo 'novalidate'.
   constructor(formulario) {
     this.formulario = formulario;
     this.inputs = Array.from(
@@ -19,6 +16,9 @@ class PAWValidador {
     this.registrarEventos();
   }
 
+  // Asigna listeners.
+  // Usa 'blur' para validar cuando el usuario termina de interactuar con el campo.
+  // Usa 'input' condicionado para proveer feedback en tiempo real únicamente si el campo ya se encontraba en un estado inválido.
   registrarEventos() {
     this.inputs.forEach((input) => {
       input.addEventListener("blur", () => this.validarCampo(input));
@@ -34,6 +34,9 @@ class PAWValidador {
     );
   }
 
+  // Intercepta el evento de envío. 
+  // Utiliza Array.prototype.reduce() para computar el estado global del formulario.
+  // Si es inválido, detiene el request (preventDefault) y emplea Array.prototype.find() junto con el método nativo .focus() para dirigir la atención al primer campo erróneo.
   handleSubmit(event) {
     const formularioValido = this.inputs.reduce((esValido, input) => {
       const campoValido = this.validarCampo(input);
@@ -51,6 +54,7 @@ class PAWValidador {
     }
   }
 
+  // validarCampo: Evalúa el estado mediante input.checkValidity() de la API de validación.
   validarCampo(input) {
     if (input.checkValidity()) {
       this.limpiarError(input);
@@ -62,6 +66,7 @@ class PAWValidador {
     return false;
   }
 
+  // mostrarError: Inyecta el mensaje dinámicamente usando insertAdjacentElement('afterend').
   mostrarError(input, mensaje) {
     this.limpiarError(input);
     input.classList.add("input-invalido");
@@ -73,6 +78,7 @@ class PAWValidador {
     input.insertAdjacentElement("afterend", mensajeElemento);
   }
 
+  // limpiarError: Realiza DOM Traversal usando input.nextElementSibling para identificar y remover (.remove()) el nodo de error asociado sin afectar el resto del árbol.
   limpiarError(input) {
     input.classList.remove("input-invalido");
 
@@ -82,6 +88,8 @@ class PAWValidador {
     }
   }
 
+  // Accede al objeto ValidityState (input.validity).
+  // Mapea las flags booleanas nativas (valueMissing, typeMismatch, tooShort) generadas automáticamente por los atributos hacia mensajes legibles en español.
   obtenerMensajeError(input) {
     const validity = input.validity;
 

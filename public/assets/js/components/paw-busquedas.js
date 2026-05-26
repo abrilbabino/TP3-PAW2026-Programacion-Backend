@@ -1,4 +1,5 @@
 class PAWBusquedas {
+  // Inicializa las referencias del DOM y define la clave de almacenamiento.
   constructor(formulario) {
     this.formulario = formulario;
     this.input = formulario.querySelector("input[name='busqueda']");
@@ -11,12 +12,14 @@ class PAWBusquedas {
     this.registrarEventos();
   }
 
+  // Utiliza  URLSearchParams para inspeccionar la query string (window.location.search) y guardar la búsqueda automáticamente.
   guardarSiHayTerminoEnURL() {
     const params = new URLSearchParams(window.location.search);
     const termino = params.get("busqueda");
     if (termino) this.guardar(termino);
   }
 
+  // obtener: Lee de localStorage. Utiliza JSON.parse() porque el almacenamiento nativo del navegador solo admite Strings.
   obtener() {
     try {
       const datos = localStorage.getItem(this.clave);
@@ -26,6 +29,8 @@ class PAWBusquedas {
     }
   }
 
+  // Aplica filter, spread operator y slice para evitar  duplicados y mantener una cola estricta con las últimas 5 búsquedas. 
+  // Luego persiste los datos serializándolos con JSON.stringify().
   guardar(termino) {
     if (!termino || termino.trim() === "") return;
     const anteriores = this.obtener().filter(busqueda => busqueda !== termino);
@@ -33,6 +38,7 @@ class PAWBusquedas {
     localStorage.setItem(this.clave, JSON.stringify(busquedas));
   }
 
+  // Inyecta dinámicamente el contenedor en el DOM.
   crearDropdown() {
     this.dropdown = PAW.nuevoElemento("div", "", {
       class: "paw-busquedas-dropdown"
@@ -40,6 +46,8 @@ class PAWBusquedas {
     this.formulario.appendChild(this.dropdown);
   }
 
+  // Asocia el guardado al submit y controla la visibilidad con focus/blur.
+  // El setTimeout en el evento blur retrasa la ocultación 200ms para permitir que los eventos click en los enlaces del historial se procesen antes de desaparecer el contenedor.
   registrarEventos() {
     this.formulario.addEventListener("submit", () => {
       const termino = this.input.value.trim();
@@ -57,10 +65,12 @@ class PAWBusquedas {
     });
   }
 
+  // Renderiza el historial. Utiliza las propiedades de geometría del DOM
   mostrar() {
     const busquedas = this.obtener();
     if (busquedas.length === 0) return;
-
+    
+    // (offsetLeft, offsetTop, offsetWidth) para posicionar dinámicamente el dropdown debajo del input.
     this.dropdown.style.left = this.input.offsetLeft + "px";
     this.dropdown.style.top = (this.input.offsetTop + this.input.offsetHeight + 6) + "px";
     this.dropdown.style.width = this.input.offsetWidth + "px";
@@ -70,6 +80,7 @@ class PAWBusquedas {
       PAW.nuevoElemento("h3", "Últimas búsquedas", { class: "paw-busquedas-titulo" })
     );
 
+    // Al construir el enlace, usa encodeURIComponent() para asegurar que el string de búsqueda viaje de forma segura por la URL HTTP sin romper la sintaxis.
     const lista = PAW.nuevoElemento("ul", "", { class: "paw-busquedas-lista" });
     busquedas.forEach(t => {
       const icono = PAW.nuevoElemento("span", "schedule", { class: "material-symbols-outlined paw-busquedas-icono" });
@@ -85,6 +96,7 @@ class PAWBusquedas {
     this.dropdown.style.display = "block";
   }
 
+  // Remueve el elemento del flujo visual alterando el display.
   ocultar() {
     this.dropdown.style.display = "none";
   }
