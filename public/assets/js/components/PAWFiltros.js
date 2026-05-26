@@ -1,7 +1,3 @@
-/*
- * public/assets/js/components/PAWFiltros.js
- * Manejo de Estado, Filtros y Ordenamiento (Desacoplado)
- */
 class PAWFiltros {
     constructor(container, opciones = {}) {
         this.container = typeof container === 'string' ? document.getElementById(container) : container;
@@ -26,6 +22,7 @@ class PAWFiltros {
         this.init();
     }
 
+    // Utiliza 'await' para garantizar que la UI y el puente de visualización solo se construyan una vez que AJAX haya sido resuelta exitosamente con los datos del servidor.
     async init() {
         try {
             await this.cargarLibros();
@@ -45,9 +42,17 @@ class PAWFiltros {
         }
     }
 
+    // Utiliza la Fetch API para obtener el catálogo.
+    // Implementa manejo estricto de errores validando la propiedad response.ok.
+    // Usa Array.prototype.map() y el Spread Operator (...) para clonar los objetos y aplicar tipos (parseFloat) sobre el precio.
     async cargarLibros() {
         try {
             const response = await fetch(this.opciones.urlAPI);
+            
+            if (!response.ok) {
+                throw new Error(`Error HTTP: ${response.status}`);
+            }
+            
             const resultado = await response.json();
 
             if (!resultado.success) {
@@ -181,6 +186,9 @@ class PAWFiltros {
         return panel;
     }
 
+    // Genera las etiquetas <select> dinámicamente.
+    // Utiliza la estructura de datos Map (ES6) para limpiar duplicados eficientemente.
+    // Ordena los items aplicando String.prototype.localeCompare() para respetar la semántica y los caracteres especiales del idioma español.
     crearFiltroSelect(titulo, nombreFiltro, campoLabel) {
         const seccion = PAW.nuevoElemento("div", "", { class: "paw-filtros-grupo" });
         seccion.appendChild(PAW.nuevoElemento("label", titulo));
@@ -340,6 +348,7 @@ class PAWFiltros {
         this.visualizacion.actualizarDatos(this.librosFiltrados);
     }
 
+    // Utiliza Desestructuración de Arreglos para separar el criterio y la dirección, para luego aplicar Array.sort() con un algoritmo comparador personalizado.
     ordenarLibros() {
         const [criterio, direccion] = this.estado.orden.split("-");
 
@@ -360,6 +369,10 @@ class PAWFiltros {
         });
     }
 
+    // Exporta los datos al vuelo utilizando Blob API.
+    // Concatena el prefijo BOM (\uFEFF) para garantizar que Excel parsee el UTF-8 correctamente.
+    // Construye el archivo mediante new Blob() y URL.createObjectURL(), forzando 
+    // la descarga a través de un click virtual en un nodo <a> desconectado del DOM.
     descargarCSV() {
         const cabeceras = ["ID", "Título", "Autor", "Género", "Editorial", "Idioma", "Precio", "Descripción"];
         let csvContent = cabeceras.join(";") + "\n";

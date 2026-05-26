@@ -28,7 +28,7 @@
   <section class="Formulario">
     <h2>Formulario de Reserva</h2>
 
-    <form action="/reserva/procesar-reserva" method="POST">
+    <form id="form-reserva" action="/reserva/procesar-reserva" method="POST">
 
       <fieldset>
         <legend>Datos Personales</legend>

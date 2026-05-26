@@ -5,7 +5,7 @@ class PAWUploader {
 
         this.init();
     }
-
+    // Construye la UI dinámicamente ocultando el <input type="file"> nativo y reemplazándolo visualmente con una zona de Drag & Drop personalizada.
     init() {
         // Crear el input oculto
         this.inputOculto = PAW.nuevoElemento("input", "", {
@@ -58,6 +58,10 @@ class PAWUploader {
         this.registrarEventos();
     }
 
+    // Implementa la Drag and Drop.
+    // e.preventDefault() en 'dragover' y 'drop' para anular la acción por defecto del navegador.
+    // Captura el archivo soltado mediante el objeto e.dataTransfer.files.
+    // Delega el evento 'click' de la zona visual al input oculto.
     registrarEventos() {
         // Eventos de drag and drop en la dropZone
         this.dropZone.addEventListener('dragover', (e) => {
@@ -97,6 +101,8 @@ class PAWUploader {
         });
     }
 
+    // Utiliza la interfaz FileReader para manipular binarios en el cliente. 
+    // Lee el archivo asíncronamente con readAsDataURL() y, al resolverse el evento 'onload', inyecta la cadena resultante en el atributo src de la imagen para generar una previsualización en tiempo real.
     procesarArchivo(archivo) {
         this.mostrarError(""); // Limpiar errores
 
@@ -119,6 +125,7 @@ class PAWUploader {
         reader.readAsDataURL(archivo);
     }
 
+    // Manipula el DOM para informar al usuario sobre validaciones fallidas de MIME type (ej. si no subió una imagen).
     mostrarError(mensaje) {
         if (mensaje) {
             this.mensajeError.textContent = mensaje;

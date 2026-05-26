@@ -1,7 +1,3 @@
-/*
- * public/assets/js/components/PAWVisualizacion.js
- * Manejo de Paginación y Render de la Grilla de Libros (Desacoplado)
- */
 class PAWVisualizacion {
     constructor(contenedorLibros, contenedorPaginacion, itemsPorPagina = 6) {
         this.contenedorLibros = contenedorLibros;
@@ -11,6 +7,8 @@ class PAWVisualizacion {
         this.libros = [];
     }
 
+    // Actúa como puente entre la capa lógica (Filtros) y la Vista. 
+    // Reinicia el estado de paginación (currentPage = 1) para evitar índices fuera de rango al recibir un nuevo set de datos filtrados.
     actualizarDatos(nuevosLibros) {
         this.libros = nuevosLibros;
         this.currentPage = 1;
@@ -21,6 +19,9 @@ class PAWVisualizacion {
         this.renderizarLibros();
     }
 
+    // Borra el DOM previo (innerHTML = "").
+    // Emplea Template Literals (``) de ES6 para inyectar dinámicamente el contador.
+    // Utiliza Array.prototype.slice() para extraer funcionalmente la sublista de libros que corresponde estrictamente a la ventana matemática de la página actual.
     renderizarLibros() {
         this.contenedorLibros.innerHTML = "";
         
@@ -107,6 +108,7 @@ class PAWVisualizacion {
         return articulo;
     }
 
+    // Accede al BOM (window.innerWidth) para adaptar dinámicamente la amplitud de la barra de paginación, aplicando un algoritmo de ventana matemática restringida en móviles.
     renderizarPaginacion(totalPaginas) {
         this.contenedorPaginacion.innerHTML = "";
         if (totalPaginas <= 1) return;
@@ -193,13 +195,14 @@ class PAWVisualizacion {
         }
     }
 
+    // Ejecuta la validación de límites matemáticos antes de mutar el estado.
     irAPagina(pagina) {
         const totalPaginas = Math.ceil(this.libros.length / this.itemsPorPagina);
         if (pagina >= 1 && pagina <= totalPaginas) {
             this.currentPage = pagina;
             this.render();
             
-            // Scroll suave hacia la grilla de libros
+            // Utiliza Element.scrollIntoView({ behavior: 'smooth' }) para devolver el foco visual del usuario al inicio de la grilla tras la transición de página.
             this.contenedorLibros.scrollIntoView({
                 behavior: "smooth",
                 block: "start",

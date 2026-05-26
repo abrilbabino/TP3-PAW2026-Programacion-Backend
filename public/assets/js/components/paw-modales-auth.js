@@ -1,4 +1,5 @@
 class PAWModalesAuth {
+  // Captura referencias del DOM usando querySelector
   constructor() {
     this.loginPanel = document.querySelector("#login-panel");
     this.registroPanel = document.querySelector("#registro-panel");
@@ -24,6 +25,8 @@ class PAWModalesAuth {
     this.registrarEventos();
   }
 
+  // Verifica la preexistencia del nodo para evitar duplicados en el DOM.
+  // Inyecta el contenedor directamente en el body.
   crearOverlay() {
     // Evitamos duplicar el overlay si ya se inyectó
     if (document.querySelector('.fondo-modal')) {
@@ -38,6 +41,9 @@ class PAWModalesAuth {
     document.body.appendChild(this.fondoOverlay);
   }
 
+  // Itera sobre la NodeList de triggers asignando listeners.
+  // Usa preventDefault() para anular el comportamiento nativo de los <label>.
+  // En la transición Login -> Registro, manipula el DOM  para mantener el overlay activo.
   registrarEventos() {
     // Eventos para abrir el modal de Login
     this.loginTriggers.forEach(trigger => {
@@ -103,6 +109,9 @@ class PAWModalesAuth {
     if (this.fondoOverlay) this.fondoOverlay.classList.remove("is-active");
   }
 
+  // Implementa navegación relativa por el árbol DOM 
+  // Mediante previousElementSibling para encontrar el input asociado.
+  // Modifica la propiedad .type del nodo dinámicamente para alternar la visibilidad de la password.
   inicializarTogglePasswords() {
     const toggleBtns = document.querySelectorAll('.mostrar-contraseña');
     toggleBtns.forEach(btn => {

@@ -1,8 +1,4 @@
 class PAWSuccessMessage {
-  /**
-   * @param {HTMLElement} formElement - El formulario a ocultar/reemplazar
-   * @param {Object} options - Opciones de configuración (titulo, mensaje, textoBoton, urlBoton)
-   */
   constructor(formElement, options = {}) {
     this.formElement = formElement;
     this.titulo = options.titulo || "¡Operación exitosa!";
@@ -13,6 +9,8 @@ class PAWSuccessMessage {
     PAW.cargarCSS("/assets/css/paw-success.css");
   }
 
+  // Aplica estilos en línea para un fade-out.
+  // Utiliza setTimeout() para sincronizar el cambio de display: "none" cuando termina la transición CSS.
   mostrar() {
     if (!this.formElement) return;
 
@@ -41,6 +39,7 @@ class PAWSuccessMessage {
         class: "btn-primario paw-success-btn" 
       });
 
+      // Element.append() para insertar múltiples nodos hijos simultáneamente.
       contenedor.append(icono, titulo, mensaje, boton);
       
       // 3. Insertar justo después del formulario original
