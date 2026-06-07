@@ -26,5 +26,8 @@ COPY . /var/www/html/
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer install --no-dev --optimize-autoloader
 
-# 8. Asignar permisos al usuario de Apache
-RUN chown -R www-data:www-data /var/www/html/
+# 8. Asignar permisos al usuario de Apache y crear el archivo de logs
+RUN chown -R www-data:www-data /var/www/html/ && \
+    touch /var/www/html/app.log && \
+    chown www-data:www-data /var/www/html/app.log && \
+    chmod 664 /var/www/html/app.log
