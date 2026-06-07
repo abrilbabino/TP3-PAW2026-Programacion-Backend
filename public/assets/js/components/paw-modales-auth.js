@@ -23,6 +23,11 @@ class PAWModalesAuth {
     this.crearOverlay();
     this.inicializarTogglePasswords();
     this.registrarEventos();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('login') && urlParams.get('login') === 'true') {
+      this.abrirLogin();
+    }
   }
 
   // Verifica la preexistencia del nodo para evitar duplicados en el DOM.

@@ -108,6 +108,15 @@ class Controller
                 "icon" => "logout",
                 "type" => "link",
             ];
+
+            if (isset($_SESSION['user']['rol']) && $_SESSION['user']['rol'] === 'staff') {
+                array_splice($this->menu, 5, 0, [[
+                    "href" => "/pedidos",
+                    "name" => "Pedidos",
+                    "icon"  => "admin_panel_settings",
+                    "type"  => "link"
+                ]]);
+            }
         }
 
         // Exponer globales manuales en Twig 

@@ -61,7 +61,9 @@ class PAWAuth {
 
             if (data.status === 'success') {
                 if (isLogin) {
-                    window.location.reload();
+                    const currentUrl = new URL(window.location.href);
+                    currentUrl.searchParams.delete('login');
+                    window.location.href = currentUrl.href;
                 } else {
                     if (this.app && typeof this.app.mostrarMensajeExito === 'function') {
                         this.app.mostrarMensajeExito(form, {

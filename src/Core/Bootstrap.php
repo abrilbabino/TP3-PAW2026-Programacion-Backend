@@ -48,6 +48,7 @@ $router->get('/sobreNosotros', 'PageController@sobreNosotros');
 $router->get('/reserva', 'ReservaController@reserva');
 $router->post('/reserva/procesar-reserva', 'ReservaController@procesarReserva');
 $router->get('/reserva-exitosa', 'PageController@reservaExitosa');
+$router->get('/pedidos', 'ReservaController@pedidos');
 $router->get('/catalogo', 'LibroController@catalogo');
 $router->get('/api/libros', 'LibroController@apiLibros');
 $router->get('/crear-libro', 'LibroController@create');

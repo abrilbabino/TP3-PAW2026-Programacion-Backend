@@ -30,6 +30,7 @@
           <button type="submit">Agregar al Carrito</button>
           </form>
           <form class="boton-reservar" action="/reserva" method="GET">
+              <input type="hidden" name="libro" value="{{ libro.fields.titulo }}">
               <button type="submit">Reservar Gratis</button>
           </form>
       </section>

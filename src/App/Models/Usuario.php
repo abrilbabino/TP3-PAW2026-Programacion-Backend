@@ -39,6 +39,7 @@ class Usuario extends Model
             'nombre_usuario'  => $usuario['usuario'],
             'email'           => $usuario['email'],
             'nombre_completo' => $usuario['nombre_completo'],
+            'rol'             => $usuario['rol'] ?? 'cliente',
         ];
     }
 }

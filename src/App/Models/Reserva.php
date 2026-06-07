@@ -7,6 +7,8 @@ use Exception;
 
 class Reserva extends Model{
     
+    public $table = 'reservas';
+
     public $fields = [
         "nombre" => null,
         "email" => null,
@@ -21,6 +23,11 @@ class Reserva extends Model{
         $this->fields["telefono"] = $datos["tel"] ?? null;
         $this->fields["cantidad"] = $datos["cantidad"] ?? null;
         $this->fields["libro"] = $datos["libro"] ?? null;
+    }
+
+    public function insert()
+    {
+        return $this->queryBuilder->insert($this->table, $this->fields);
     }
 
     public function validar() {
