@@ -59,33 +59,31 @@ class PAWVisualizacion {
         });
 
         const titulo = PAW.nuevoElemento("p", "", { class: "tarjeta-titulo" });
-        const tituloFuerte = PAW.nuevoElemento("strong", libro.titulo, {});
-        titulo.appendChild(tituloFuerte);
+        titulo.appendChild(document.createTextNode(libro.titulo));
 
         const autor = PAW.nuevoElemento("p", "", { class: "tarjeta-autor" });
-        const autorEm = PAW.nuevoElemento("em", "Autor: ", {});
-        autor.appendChild(autorEm);
-        autor.appendChild(document.createTextNode(libro.autor_nombre || "Desconocido"));
+        autor.appendChild(document.createTextNode(`Autor: ${libro.autor_nombre}`));
 
-        const precioVal = parseFloat(libro.precio).toFixed(2);
+        const precioVal = typeof libro.precio === 'string' ? parseFloat(libro.precio).toFixed(2) : Number(libro.precio).toFixed(2);
         const precio = PAW.nuevoElemento("p", "", { class: "tarjeta-precio" });
         const precioEm = PAW.nuevoElemento("em", "Precio: ", {});
         precio.appendChild(precioEm);
         precio.appendChild(document.createTextNode(`$${precioVal}`));
 
         const overlay = PAW.nuevoElemento("div", "", { class: "overlay" });
-        const descripcion = PAW.nuevoElemento("p", libro.descripcion || "", {});
-        const link = PAW.nuevoElemento("a", "Ver más", {
+        const pDesc = PAW.nuevoElemento("p", "");
+        pDesc.appendChild(document.createTextNode(libro.descripcion || "Sin descripción"));
+        const btnVerMas = PAW.nuevoElemento("a", "Ver más", {
+            class: "btn-primario",
             href: `/detalle?id=${libro.id}`,
-            class: "btn-primario"
         });
-        overlay.appendChild(descripcion);
-        overlay.appendChild(link);
+        overlay.appendChild(pDesc);
+        overlay.appendChild(btnVerMas);
 
-        const formulario = PAW.nuevoElemento("form", "", {
-            class: "boton-agregarCarrito",
-            action: "/agregarCarrito",
+        const formAdd = PAW.nuevoElemento("form", "", {
             method: "POST",
+            action: `/agregarCarrito`,
+            "data-paw-carrito-form": "true",
         });
         const boton = PAW.nuevoElemento("button", "", {
             type: "submit",
@@ -96,14 +94,14 @@ class PAWVisualizacion {
         });
         icono.textContent = "add_circle";
         boton.appendChild(icono);
-        formulario.appendChild(boton);
+        formAdd.appendChild(boton);
 
         articulo.appendChild(img);
         articulo.appendChild(titulo);
         articulo.appendChild(autor);
         articulo.appendChild(precio);
         articulo.appendChild(overlay);
-        articulo.appendChild(formulario);
+        articulo.appendChild(formAdd);
 
         return articulo;
     }

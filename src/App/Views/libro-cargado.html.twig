@@ -1,0 +1,18 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block title %}PawPrints - Libro agregado{% endblock %}
+
+{% block main %}
+    <section class="mensaje-exito">
+        <span class="material-symbols-outlined icono-exito">
+            check_circle
+        </span>
+        <h1>¡Libro agregado exitosamente!</h1>
+        {% if libroTitulo is defined and libroTitulo is not empty %}
+          <p>El libro "{{ libroTitulo|escape }}" se cargó correctamente en el catálogo.</p>
+        {% else %}
+          <p>El libro se cargó correctamente en el catálogo.</p>
+        {% endif %}
+        <a href="/catalogo" class="btn-volver btn-primario">VOLVER AL CATÁLOGO</a>
+    </section>
+{% endblock %}

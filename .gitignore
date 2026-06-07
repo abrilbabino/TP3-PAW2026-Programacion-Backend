@@ -11,3 +11,6 @@
 /logs/*.log
 
 /public/assets/img/*
+
+# Caché de Twig
+/src/App/views/cache/

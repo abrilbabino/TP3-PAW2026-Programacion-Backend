@@ -4,6 +4,8 @@ namespace Paw\Core;
 
 use Paw\Core\Model;
 use Paw\Core\Database\QueryBuilder;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 class Controller
 {
@@ -11,6 +13,7 @@ class Controller
     protected $menu;
     protected $redes;
     protected $model;
+    protected Environment $twig;
 
     public ?string $modelName = null; 
     
@@ -21,9 +24,26 @@ class Controller
     {
         $this->request = $request;
         $this->log = $log;
-        $this -> viewsDir = __DIR__ . "/../App/Views";
+        $this->viewsDir = __DIR__ . "/../App/views";
 
-        $this -> menu = [
+        // Configuración de Twig 
+        $loader = new FilesystemLoader($this->viewsDir);
+        
+        // Crear directorio de caché si no existe
+        $cacheDir = $this->viewsDir . '/cache';
+        if (!is_dir($cacheDir)) {
+            mkdir($cacheDir, 0777, true);
+        }
+
+        $this->twig = new Environment($loader, [
+            'cache' => $cacheDir,
+            'auto_reload' => true, // Para desarrollo, recarga automática de plantillas
+        ]);
+
+        // Variables Globales de Twig
+        $this->twig->addGlobal('session', $_SESSION ?? []);
+        
+        $this->menu = [
             [
                 "href" => "/",
                 "name" => "Inicio",
@@ -90,16 +110,20 @@ class Controller
             ];
         }
 
-        if (!is_null($this ->modelName)){
+        // Exponer globales manuales en Twig 
+        $this->twig->addGlobal('menu', $this->menu);
+        $this->twig->addGlobal('redes', $this->redes);
+
+        if (!is_null($this->modelName)){
             $qb = new QueryBuilder($connection, $log);
             $model = new $this->modelName;
-            $model -> setQueryBuilder($qb);
-            $this -> setModel($model);
+            $model->setQueryBuilder($qb);
+            $this->setModel($model);
         }
     }
 
     public function setModel(Model $model)
     {
-        $this -> model = $model;
+        $this->model = $model;
     }
 }

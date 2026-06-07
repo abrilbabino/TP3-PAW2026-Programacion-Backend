@@ -12,9 +12,7 @@ class ReservaController extends Controller{
 
     public function reserva()
     {
-        $menu = $this->menu;
-        $redes = $this->redes;
-        require $this->viewsDir . '/reserva.view.php';
+        echo $this->twig->render('reserva.html.twig');
     }
 
     public function procesarReserva()
@@ -30,7 +28,10 @@ class ReservaController extends Controller{
         $errores = $this->model->validar();
 
         if(count($errores) > 0){
-            require $this->viewsDir . '/reserva.view.php';
+            echo $this->twig->render('reserva.html.twig', [
+                'errores' => $errores,
+                'app' => ['request' => $request]
+            ]);
         }
         else{
             $destinatario = $config->get('MAIL_PERSONAL'); 

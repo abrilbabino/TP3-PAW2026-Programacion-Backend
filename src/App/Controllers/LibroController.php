@@ -34,7 +34,16 @@ class LibroController extends Controller
         $idiomas = $this->loadCollection(IdiomaCollection::class);
         $autores = $this->loadCollection(AutorCollection::class); 
 
-        require $this->viewsDir . '/catalogo.view.php';
+        echo $this->twig->render('catalogo.html.twig', [
+            'libros' => $libros,
+            'pagination' => $pagination,
+            'generos' => $generos,
+            'editoriales' => $editoriales,
+            'idiomas' => $idiomas,
+            'autores' => $autores,
+            'query_string' => http_build_query($request->getAll()),
+            'app' => ['request' => $request]
+        ]);
     }
 
     public function apiLibros() {
@@ -150,7 +159,28 @@ class LibroController extends Controller
  
         $relacionados = $this->model->getRelations($filtros);
  
-        require $this->viewsDir . '/libro.view.php';
+        $relacionadosRicos = [];
+        foreach ($relacionados as $rel) {
+            $nombreAutor = 'Desconocido';
+            foreach ($autores as $a) {
+                if ($a->fields['id'] == $rel->fields['autor_id']) {
+                    $nombreAutor = $a->fields['nombre'];
+                    break;
+                }
+            }
+            // Creamos un array con el objeto modelo y el nombre del autor agregado artificialmente
+            $relacionadosRicos[] = [
+                'libro' => $rel,
+                'autor_nombre' => $nombreAutor
+            ];
+        }
+
+        echo $this->twig->render('libro.html.twig', [
+            'libro' => $libro,
+            'autor' => $autor,
+            'relacionados' => $relacionadosRicos,
+            'app' => ['request' => $request]
+        ]);
     }
 
     public function create()
@@ -165,7 +195,14 @@ class LibroController extends Controller
         $autores = $this->loadCollection(AutorCollection::class);
         $errores = [];
 
-        require $this->viewsDir . '/crear-libro.view.php';
+        echo $this->twig->render('crear-libro.html.twig', [
+            'generos' => $generos,
+            'editoriales' => $editoriales,
+            'idiomas' => $idiomas,
+            'autores' => $autores,
+            'errores' => $errores,
+            'app' => ['request' => $request]
+        ]);
     }
 
     public function store()
@@ -187,13 +224,23 @@ class LibroController extends Controller
             $libro->insert($request->post(), $_FILES['imagen'] ?? []);
 
             $libroTitulo = $request->post()['titulo'] ?? '';
-            require $this->viewsDir . '/libro-cargado.view.php';
+            echo $this->twig->render('libro-cargado.html.twig', [
+                'libroTitulo' => $libroTitulo,
+                'app' => ['request' => $request]
+            ]);
             return;
         } catch (InvalidValueFormatException $e) {
             $errores['general'] = $e->getMessage();
         }
 
-        require $this->viewsDir . '/crear-libro.view.php';
+        echo $this->twig->render('crear-libro.html.twig', [
+            'generos' => $generos,
+            'editoriales' => $editoriales,
+            'idiomas' => $idiomas,
+            'autores' => $autores,
+            'errores' => $errores,
+            'app' => ['request' => $request]
+        ]);
     }
 
     public function buscar()
@@ -229,6 +276,11 @@ class LibroController extends Controller
 
         $librosJson = json_encode($librosData);
  
-        require $this->viewsDir . '/busqueda.view.php';
+        echo $this->twig->render('busqueda.html.twig', [
+            'termino' => $termino,
+            'librosJson' => $librosJson,
+            'libros' => $librosData,
+            'app' => ['request' => $request]
+        ]);
     }
 }

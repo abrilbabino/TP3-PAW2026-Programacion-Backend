@@ -1,0 +1,18 @@
+<nav class="paginacion" aria-label="Navegación de páginas">
+    {% if pagination.hasPrev() %}
+        <a href="?{{ app.request.getAll()|merge({'pagina': pagination.currentPage - 1})|url_encode }}" class="btn-primario paginacion-boton">Atrás</a>
+    {% endif %}
+
+    {% for i in 1..pagination.totalPages %}
+        {% if pagination.totalPages > 0 %}
+            <a href="?{{ app.request.getAll()|merge({'pagina': i})|url_encode }}"
+                class="{{ i == pagination.currentPage ? 'pagina-activa' : '' }}">
+            {{ i }}
+            </a>
+        {% endif %}
+    {% endfor %}
+
+    {% if pagination.hasNext() %}
+        <a href="?{{ app.request.getAll()|merge({'pagina': pagination.currentPage + 1})|url_encode }}" class="btn-primario paginacion-boton">Siguiente</a>
+    {% endif %}
+</nav>

@@ -2,7 +2,7 @@ class PAWFiltros {
     constructor(container, opciones = {}) {
         this.container = typeof container === 'string' ? document.getElementById(container) : container;
         this.opciones = {
-            urlAPI: "/api/libros",
+            urlAPI: opciones.urlAPI || "/api/libros",
             itemsPorPagina: opciones.itemsPorPagina || 6,
             ...opciones,
         };

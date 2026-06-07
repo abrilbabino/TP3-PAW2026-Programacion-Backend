@@ -1,0 +1,29 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block title %}Catálogo - PawPrints{% endblock %}
+
+{% block main_attributes %}class="catalogo-main"{% endblock %}
+
+{% block main %}
+  <header class="hero-catalogo">
+    <h1>Catálogo de Libros</h1>
+    <p>Explorá nuestra colección de libros.</p>
+  </header>
+  
+  <section id="contenedor-filtros-catalogo" data-paw-filtros data-items-por-pagina="6">
+    <section class="barra-resultados">
+        <p>Mostrando <strong>{{ libros|length }}</strong> resultados</p>
+        <nav class="barra-resultados__acciones" aria-label="Acciones del catálogo">
+          <a href="/crear-libro" class="btn-descargar">
+            <span class="material-symbols-outlined">add</span>
+            AGREGAR LIBRO
+          </a>
+          {# Para reconstruir query string en Twig podríamos pasar the query o usar app.request #}
+          <a href="/catalogo?{{ query_string }}&format=csv" class="btn-descargar">            
+            <span class="material-symbols-outlined">download</span>
+              DESCARGAR CSV
+          </a>
+        </nav>
+    </section>
+  </section>   
+{% endblock %}
