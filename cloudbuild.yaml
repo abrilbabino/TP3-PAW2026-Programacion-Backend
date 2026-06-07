@@ -1,15 +1,13 @@
-logging: CLOUD_LOGGING_ONLY
-
 steps:
-  # 1. Construir la imagen y etiquetarla con la ruta correcta de Artifact Registry
+  # 1. Construir la imagen
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'us-central1-docker.pkg.dev/project-f3583ede-db03-4872-95c/cloud-run-source-deploy/pawprints:$COMMIT_SHA', '.']
 
-  # 2. Empujar la imagen al repositorio correcto
+  # 2. Empujar la imagen al repositorio
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'us-central1-docker.pkg.dev/project-f3583ede-db03-4872-95c/cloud-run-source-deploy/pawprints:$COMMIT_SHA']
 
-  # 3. Desplegar en Cloud Run usando la imagen que acabamos de subir
+  # 3. Desplegar en Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'bash'
     args:
@@ -19,3 +17,7 @@ steps:
           --image us-central1-docker.pkg.dev/project-f3583ede-db03-4872-95c/cloud-run-source-deploy/pawprints:$COMMIT_SHA \
           --region us-central1 \
           --platform managed
+
+# configuracion del registro
+options:
+  logging: CLOUD_LOGGING_ONLY
