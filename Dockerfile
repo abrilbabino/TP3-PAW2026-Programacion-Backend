@@ -4,7 +4,11 @@ FROM php:8.4-apache
 RUN a2enmod rewrite
 
 # 2. Instalar extensiones
-RUN docker-php-ext-install pdo_mysql
+RUN apt-get update && apt-get install -y \
+    libzip-dev \
+    zip \
+    unzip \
+    && docker-php-ext-install pdo_mysql zip
 
 # 3. Configurar Apache para apuntar a la carpeta /public
 RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
