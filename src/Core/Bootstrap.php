@@ -6,6 +6,7 @@ use Paw\Core\Config;
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use Monolog\Formatter\JsonFormatter;
 
 use Dotenv\Dotenv;
 
@@ -27,6 +28,7 @@ $request = new Request;
 $log = new Logger('pawprints-app');
 $handler = new StreamHandler($config->get("LOG_PATH"));
 $handler->setLevel($config->get("LOG_LEVEL"));
+$handler->setFormatter(new JsonFormatter());
 $log->pushHandler($handler);
 
 $whoops = new \Whoops\Run;
