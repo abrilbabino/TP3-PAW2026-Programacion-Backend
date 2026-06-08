@@ -260,6 +260,8 @@ class LibroController extends Controller
 
         try {
             $postData = $request->post();
+            
+
 
             // Lógica para autocompletar dinámicamente: Si viene "new_Nombre", creamos el registro
             $clasesModelos = [
@@ -283,7 +285,7 @@ class LibroController extends Controller
                 }
             }
 
-            $libroMain->insert($postData, $_FILES['imagen'] ?? []);
+            $libroMain->insert($postData, $request->file('imagen') ?? []);
 
             $libroTitulo = $request->post()['titulo'] ?? '';
             echo $this->twig->render('libro-cargado.html.twig', [
@@ -292,7 +294,34 @@ class LibroController extends Controller
             ]);
             return;
         } catch (InvalidValueFormatException $e) {
-            $errores['general'] = $e->getMessage();
+            $msg = $e->getMessage();
+            $msgLower = strtolower($msg);
+            
+            if (strpos($msgLower, 'título') !== false || strpos($msgLower, 'titulo') !== false) {
+                if (strpos($msgLower, 'ya existe un libro') !== false) {
+                    $errores['general'] = $msg;
+                } else {
+                    $errores['titulo'] = $msg;
+                }
+            } elseif (strpos($msgLower, 'descripción') !== false || strpos($msgLower, 'descrip') !== false) {
+                $errores['descripcion'] = $msg;
+            } elseif (strpos($msgLower, 'precio') !== false) {
+                $errores['precio'] = $msg;
+            } elseif (strpos($msgLower, 'género') !== false || strpos($msgLower, 'genero') !== false) {
+                $errores['genero_id'] = $msg;
+            } elseif (strpos($msgLower, 'editorial') !== false) {
+                $errores['editorial_id'] = $msg;
+            } elseif (strpos($msgLower, 'idioma') !== false) {
+                $errores['idioma_id'] = $msg;
+            } elseif (strpos($msgLower, 'stock') !== false) {
+                $errores['stock'] = $msg;
+            } elseif (strpos($msgLower, 'autor') !== false) {
+                $errores['autor_id'] = $msg;
+            } elseif (strpos($msgLower, 'imagen') !== false) {
+                $errores['imagen'] = $msg;
+            } else {
+                $errores['general'] = $msg;
+            }
         }
 
         echo $this->twig->render('crear-libro.html.twig', [
@@ -301,6 +330,7 @@ class LibroController extends Controller
             'idiomas' => $idiomas,
             'autores' => $autores,
             'errores' => $errores,
+
             'app' => ['request' => $request]
         ]);
     }

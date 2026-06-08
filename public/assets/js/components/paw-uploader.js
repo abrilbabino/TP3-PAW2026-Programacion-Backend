@@ -30,16 +30,25 @@ class PAWUploader {
         });
 
         // Contenedor para el preview (oculto por defecto)
-        this.previewContainer = PAW.nuevoElemento("div", "", {
+        this.previewContainer = PAW.nuevoElemento("figure", "", {
             class: "preview-container",
-            style: "display: none;"
+            style: "display: none; position: relative;"
         });
         this.imagenPreview = PAW.nuevoElemento("img", "", {
             class: "preview-imagen"
         });
+        
+        this.btnEliminar = PAW.nuevoElemento("button", "close", {
+            type: "button",
+            class: "material-symbols-outlined btn-eliminar-imagen",
+            title: "Eliminar imagen",
+            style: "display: none;"
+        });
+
         this.previewContainer.appendChild(this.imagenPreview);
 
         // Añadir elementos a la dropZone
+        this.dropZone.appendChild(this.btnEliminar);
         this.dropZone.appendChild(this.icono);
         this.dropZone.appendChild(this.textoMensaje);
         this.dropZone.appendChild(this.previewContainer);
@@ -92,6 +101,19 @@ class PAWUploader {
             this.inputOculto.click();
         });
 
+        // Evento para eliminar imagen seleccionada
+        this.btnEliminar.addEventListener('click', (e) => {
+            e.stopPropagation(); // Evita que se dispare el click del dropZone
+            this.inputOculto.value = ""; // Limpia el input nativo
+            
+            // Restaura la interfaz inicial
+            this.previewContainer.style.display = "none";
+            this.btnEliminar.style.display = "none";
+            this.imagenPreview.src = "";
+            this.icono.style.display = "block";
+            this.textoMensaje.style.display = "block";
+        });
+
         // Cambio en el input nativo (cuando el usuario selecciona por clic)
         this.inputOculto.addEventListener('change', (e) => {
             if (this.inputOculto.files && this.inputOculto.files.length > 0) {
@@ -121,6 +143,7 @@ class PAWUploader {
             this.icono.style.display = "none";
             this.textoMensaje.style.display = "none";
             this.previewContainer.style.display = "flex";
+            this.btnEliminar.style.display = "flex";
         };
         reader.readAsDataURL(archivo);
     }

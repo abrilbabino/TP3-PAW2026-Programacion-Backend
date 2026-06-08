@@ -86,7 +86,10 @@ class PAWCrearLibro {
     }
 
     buscarLibro() {
-        const isbn = this.inputSearch.value.trim();
+        let isbn = this.inputSearch.value.trim();
+        // Sanitizar ISBN para remover guiones, espacios o caracteres invisibles
+        isbn = isbn.replace(/[^a-zA-Z0-9X]/gi, '');
+        
         if (!isbn) {
             this.statusMsg.textContent = "Por favor, ingresá un ISBN válido.";
             this.statusMsg.style.color = "red";
@@ -116,7 +119,9 @@ class PAWCrearLibro {
                     }
                 }
                 if (descriptionStr && this.inputDescripcion) {
-                    this.inputDescripcion.value = descriptionStr.substring(0, 255);
+                    this.inputDescripcion.value = descriptionStr;
+                    // Trigger input event to let PAWValidador evaluate immediately if needed
+                    this.inputDescripcion.dispatchEvent(new Event('input', { bubbles: true }));
                 }
 
                 if (this.hiddenIsbnCover) this.hiddenIsbnCover.value = isbn;

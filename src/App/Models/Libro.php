@@ -184,6 +184,9 @@ class Libro extends Model
     private function handleImageUpload(array $data, array $imageFile = []): void
     {
         if (empty($imageFile) || ($imageFile['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
+            
+
+
             // Intentar recuperar portada de Open Library si se proporcionó un ISBN
             if (!empty($data['isbn_cover'])) {
                 $isbn = preg_replace('/[^0-9X]/i', '', $data['isbn_cover']);
@@ -224,6 +227,8 @@ class Libro extends Model
 
         $this->setImagen($imagenNombre);
     }
+
+
 
     public function load($id){
         if(!is_numeric($id)||$id < 0){

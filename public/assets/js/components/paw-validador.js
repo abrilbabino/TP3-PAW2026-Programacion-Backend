@@ -56,6 +56,11 @@ class PAWValidador {
 
   // validarCampo: Evalúa el estado mediante input.checkValidity() de la API de validación.
   validarCampo(input) {
+    if (input.maxLength > 0 && input.value.length > input.maxLength) {
+      this.mostrarError(input, `No puede superar ${input.maxLength} caracteres.`);
+      return false;
+    }
+
     if (input.checkValidity()) {
       this.limpiarError(input);
       return true;
