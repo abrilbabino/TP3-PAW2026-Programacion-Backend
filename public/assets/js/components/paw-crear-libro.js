@@ -116,7 +116,7 @@ class PAWCrearLibro {
                     }
                 }
                 if (descriptionStr && this.inputDescripcion) {
-                    this.inputDescripcion.value = descriptionStr.substring(0, 1000);
+                    this.inputDescripcion.value = descriptionStr.substring(0, 255);
                 }
 
                 if (this.hiddenIsbnCover) this.hiddenIsbnCover.value = isbn;

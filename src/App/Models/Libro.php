@@ -51,8 +51,8 @@ class Libro extends Model
         if (strlen($descripcion) < 1) {
             throw new InvalidValueFormatException("La descripción es obligatoria");
         }
-        if (strlen($descripcion) > 1000) {
-            throw new InvalidValueFormatException("La descripción no debe superar los 1000 caracteres");
+        if (strlen($descripcion) > 255) {
+            throw new InvalidValueFormatException("La descripción no debe superar los 255 caracteres");
         }
         $this->fields["descripcion"] = $descripcion;
     }
