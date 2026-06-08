@@ -6,11 +6,34 @@
         </button>
     </header>
     <section class="carrito-contenido">
-        <p class="carrito-vacio">El carrito está vacío.</p>
-        <!-- Lógica de carrito puede ir aquí -->
+        {% set total = 0 %}
+        {% if session.carrito is defined and session.carrito|length > 0 %}
+            <ul class="carrito-lista">
+            {% for item in session.carrito %}
+                {% set subtotal = item.precio * item.cantidad %}
+                {% set total = total + subtotal %}
+                <li class="carrito-item carrito-item-simple">
+                    <h4 class="carrito-item-titulo">{{ item.titulo }}</h4>
+                    <strong class="carrito-item-precio">${{ subtotal|number_format(2, '.', ',') }}</strong>
+                    <form action="/actualizarCarrito" method="POST" class="carrito-item-form" data-paw-actualizar-carrito="true">
+                        <input type="hidden" name="libro_id" value="{{ item.id }}">
+                        <label for="cant-{{ item.id }}" class="carrito-item-label">Cant:</label>
+                        <input id="cant-{{ item.id }}" type="number" name="cantidad" value="{{ item.cantidad }}" min="0" class="carrito-item-input">
+                    </form>
+                </li>
+            {% endfor %}
+            </ul>
+            <h3 class="carrito-total">Total: ${{ total|number_format(2, '.', ',') }}</h3>
+        {% else %}
+            <p class="carrito-vacio">El carrito está vacío.</p>
+        {% endif %}
     </section>
     <footer class="carrito-footer">
-        <button class="btn-secundario">Vaciar</button>
-        <button class="btn-primario">Comprar</button>
+        {% if session.carrito is defined and session.carrito|length > 0 %}
+            <form action="/vaciarCarrito" method="POST" style="display:inline;">
+                <button type="submit" class="btn-secundario">Vaciar</button>
+            </form>
+            <button class="btn-primario" onclick="alert('Próximamente: Finalizar Compra')">Comprar</button>
+        {% endif %}
     </footer>
 </aside>

@@ -78,6 +78,28 @@ class QueryBuilder
         return (int) $sentencia->fetchColumn();
     }
 
+    public function buscarPorTitulo(string $termino, int $limit = 0, int $offset = 0): array
+    {
+        $query = "SELECT * FROM libro WHERE titulo LIKE :termino";
+        $query = $this->addPagination($query, $limit);
+
+        $sentencia = $this->pdo->prepare($query);
+        $sentencia->bindValue(':termino', "%{$termino}%");
+        $this->bindPagination($sentencia, $limit, $offset);
+        $sentencia->execute();
+
+        return $sentencia->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function buscarPorTituloCount(string $termino): int
+    {
+        $query = "SELECT COUNT(*) as total FROM libro WHERE titulo LIKE :termino";
+        $sentencia = $this->pdo->prepare($query);
+        $sentencia->bindValue(':termino', "%{$termino}%");
+        $sentencia->execute();
+        return (int) $sentencia->fetchColumn();
+    }
+
     private function buildWhere(array $params, string $operator = 'AND', array $precios = []): array
     {
         $conditions = [];

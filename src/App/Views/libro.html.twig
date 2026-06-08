@@ -29,6 +29,7 @@
           <p><strong>$<span itemprop="price">{{ libro.fields.precio }}</span></strong></p>
           <span class="stock-desktop">Stock Disponible</span>
           <form class="boton-agregarCarrito" action="/agregarCarrito" method="POST">
+              <input type="hidden" name="libro_id" value="{{ libro.fields.id }}">
               <button type="submit">Agregar al Carrito</button>
           </form>
           <form class="boton-reservar" action="/reserva" method="GET">

@@ -80,6 +80,19 @@ class LibroCollection extends Model
         ];
     }
 
+    public function buscarPorTituloPaginated(string $termino, int $page, int $perPage = 6): array
+    {
+        $total      = $this->queryBuilder->buscarPorTituloCount($termino);
+        $pagination = new Pagination($page, $perPage, $total);
+ 
+        $libros = $this->queryBuilder->buscarPorTitulo($termino, $pagination->perPage, $pagination->offset);
+ 
+        return [
+            'items'      => $this->mapearLibros($libros),
+            'pagination' => $pagination,
+        ];
+    }
+
 
     // --- Helpers privados ---
  

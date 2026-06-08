@@ -123,6 +123,14 @@ class PAWVisualizacion {
             action: `/agregarCarrito`,
             "data-paw-carrito-form": "true",
         });
+        
+        const inputId = PAW.nuevoElemento("input", "", {
+            type: "hidden",
+            name: "libro_id",
+            value: libro.id
+        });
+        formAdd.appendChild(inputId);
+
         const boton = PAW.nuevoElemento("button", "", {
             type: "submit",
             class: "btn-add-carrito",

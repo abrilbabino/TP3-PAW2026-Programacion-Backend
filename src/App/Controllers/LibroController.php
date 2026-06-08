@@ -11,6 +11,7 @@ use Paw\App\Models\GeneroCollection;
 use Paw\App\Models\IdiomaCollection;
 use Paw\Core\Exceptions\InvalidValueFormatException;
 use Paw\App\Core\Vista;
+use Paw\Core\Request;
 
 class LibroController extends Controller
 {
@@ -114,13 +115,40 @@ class LibroController extends Controller
         exit;
     }
 
+    public function apiBuscar() {
+        header('Content-Type: application/json');
+        
+        $request = $this->request;
+        $termino = trim($request->get('q') ?? '');
+        
+        if (empty($termino)) {
+            echo json_encode(['success' => true, 'data' => []]);
+            exit;
+        }
+
+        $resultado = $this->model->buscarPorTituloPaginated($termino, 1, 5);
+        $librosData = [];
+        foreach ($resultado['items'] as $libro) {
+            $librosData[] = [
+                'id' => $libro->fields['id'],
+                'titulo' => $libro->fields['titulo']
+            ];
+        }
+
+        echo json_encode([
+            'success' => true,
+            'data' => $librosData
+        ]);
+        exit;
+    }
+
     private function loadCollection($className){
         $model = new $className;
         $model->setQueryBuilder($this->model->getQueryBuilder());
         return $model->getAll();
     }
 
-    private function loadCollectionModel($className){
+    private function loadModel($className){
         $model = new $className;
         $model->setQueryBuilder($this->model->getQueryBuilder());
         return $model;
@@ -148,7 +176,7 @@ class LibroController extends Controller
         $id    = $request->get('id');
         $libro = $this->model->get($id);
  
-        $autorModel = $this->loadCollectionModel(AutorCollection::class); 
+        $autorModel = $this->loadModel(AutorCollection::class); 
         $autor = $autorModel->get($libro->fields['autor_id']);
         $autores = $autorModel->getAll();
 
@@ -185,6 +213,12 @@ class LibroController extends Controller
 
     public function create()
     {
+        $userSession = Request::session('user');
+        if (!$userSession || ($userSession['rol'] ?? '') !== 'staff') {
+            header('Location: /catalogo');
+            exit;
+        }
+
         $request = $this->request;
         $menu = $this->menu;
         $redes = $this->redes;
@@ -207,6 +241,12 @@ class LibroController extends Controller
 
     public function store()
     {
+        $userSession = Request::session('user');
+        if (!$userSession || ($userSession['rol'] ?? '') !== 'staff') {
+            header('Location: /catalogo');
+            exit;
+        }
+
         $request = $this->request;
         $menu = $this->menu;
         $redes = $this->redes;
@@ -229,42 +269,21 @@ class LibroController extends Controller
                 'idioma_id' => \Paw\App\Models\Idioma::class
             ];
 
+            $libroMain = new Libro();
+            $libroMain->setQueryBuilder($this->model->getQueryBuilder());
+
             foreach ($clasesModelos as $campo => $claseModelo) {
                 if (isset($postData[$campo]) && strpos($postData[$campo], 'new_') === 0) {
                     $nuevoNombre = substr($postData[$campo], 4);
                     
-                    $modeloEntidad = new $claseModelo();
-                    $modeloEntidad->setQueryBuilder($this->model->getQueryBuilder());
+                    $modeloEntidad = $this->loadModel($claseModelo);
                     
-                    // Verificamos si ya existe en la base de datos para evitar duplicados
-                    $existente = $modeloEntidad->findBy(['nombre' => $nuevoNombre]);
-                    
-                    if (!empty($existente)) {
-                        $nuevoId = $existente[0]['id'];
-                    } else {
-                        // Usamos el Modelo para validar y guardar
-                        $modeloEntidad->set(['nombre' => $nuevoNombre]);
-                        $nuevoId = $modeloEntidad->save();
-
-                        // Si es un autor nuevo y tenemos su OLID, descargamos su foto
-                        if ($campo === 'autor_id' && !empty($postData['author_olid'])) {
-                            $olid = str_replace('/authors/', '', $postData['author_olid']);
-                            $imageUrl = "https://covers.openlibrary.org/a/olid/{$olid}-L.jpg";
-                            $imageData = @file_get_contents($imageUrl);
-                            // Verificamos que sea una imagen válida (>100 bytes para evitar el gif transparente 1x1 por defecto)
-                            if ($imageData && strlen($imageData) > 100) {
-                                $imagePath = __DIR__ . '/../../../public/assets/img/autor_' . $nuevoNombre . '.jpg';
-                                file_put_contents($imagePath, $imageData);
-                            }
-                        }
-                    }
+                    $nuevoId = $libroMain->obtenerIdRelacion($modeloEntidad, $nuevoNombre, $postData['author_olid'] ?? null);
                     $postData[$campo] = (string)$nuevoId;
                 }
             }
 
-            $libro = new Libro();
-            $libro->setQueryBuilder($this->model->getQueryBuilder());
-            $libro->insert($postData, $_FILES['imagen'] ?? []);
+            $libroMain->insert($postData, $_FILES['imagen'] ?? []);
 
             $libroTitulo = $request->post()['titulo'] ?? '';
             echo $this->twig->render('libro-cargado.html.twig', [
