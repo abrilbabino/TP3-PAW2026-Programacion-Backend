@@ -101,15 +101,12 @@ class Router{
             $this->logger
                  ->debug("Status Code: 404 - Libro Not Found", ["ERROR" => $e] );
             $this->call($controller, $method,[$e]);
-        }catch (Exception $e) {
+        } catch (Exception $e) {
             list($controller, $method) = $this->getController($this->internalError, 'GET');
             $this->logger
                  ->error("Status Code: 500 - Internal Server Error", ["ERROR" => $e] );
-            // Temporary debug output
-            echo "<h2>Error Fatal:</h2><pre>" . $e->getMessage() . "</pre>";
-            $this->call($controller, $method,[$e]);
-        }/* finally {
-            $this->call($controller, $method);
-        }*/
+            
+            $this->call($controller, $method, [$e]);
+        }
     }
 }

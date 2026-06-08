@@ -12,9 +12,12 @@ class ErrorController extends Controller
         http_response_code(404);
         echo $this->twig->render('not-found.html.twig');
     }
-    public function internalError()
+    public function internalError($e = null)
     {
         http_response_code(500);
+        if ($e) {
+            echo "<h2>Error Fatal Original:</h2><pre>" . $e->getMessage() . "</pre>";
+        }
         echo $this->twig->render('internal-error.html.twig');
     }
     public function invalidFormat($e){
