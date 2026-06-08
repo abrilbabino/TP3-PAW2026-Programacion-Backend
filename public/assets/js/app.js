@@ -20,6 +20,18 @@ class AppPAW {
     this._initCrearLibro();
     this._initAutocomplete();
     this._initPedidos();
+    this._initSobreNosotros();
+  }
+
+  _initSobreNosotros() {
+    const tarjetas = document.querySelectorAll(".sobreNosotros-tarjeta");
+    if (tarjetas.length === 0) return;
+
+    tarjetas.forEach(tarjeta => {
+      tarjeta.addEventListener("click", () => {
+        tarjeta.classList.toggle("expandida");
+      });
+    });
   }
 
   _initPedidos() {
