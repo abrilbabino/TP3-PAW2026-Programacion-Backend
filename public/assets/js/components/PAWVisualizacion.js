@@ -51,18 +51,39 @@ class PAWVisualizacion {
     }
 
     crearTarjetaLibro(libro) {
-        const articulo = PAW.nuevoElemento("article", "", { class: "tarjeta-libro" });
+        const articulo = PAW.nuevoElemento("article", "", {
+            class: "tarjeta-libro",
+            itemprop: "itemListElement",
+            itemscope: "",
+            itemtype: "https://schema.org/ListItem"
+        });
+
+        const wrapperBook = PAW.nuevoElemento("div", "", {
+            itemprop: "item",
+            itemscope: "",
+            itemtype: "https://schema.org/Book",
+            style: "display: contents"
+        });
 
         const img = PAW.nuevoElemento("img", "", {
             src: `/assets/img/${libro.imagen}`,
             alt: libro.titulo,
+            itemprop: "image",
         });
 
-        const titulo = PAW.nuevoElemento("p", "", { class: "tarjeta-titulo" });
+        const titulo = PAW.nuevoElemento("p", "", { class: "tarjeta-titulo", itemprop: "name" });
         titulo.appendChild(document.createTextNode(libro.titulo));
 
-        const autor = PAW.nuevoElemento("p", "", { class: "tarjeta-autor" });
-        autor.appendChild(document.createTextNode(`Autor: ${libro.autor_nombre}`));
+        const autor = PAW.nuevoElemento("p", "", {
+            class: "tarjeta-autor",
+            itemprop: "author",
+            itemscope: "",
+            itemtype: "https://schema.org/Person"
+        });
+        autor.appendChild(document.createTextNode("Autor: "));
+        const autorNombreSpan = PAW.nuevoElemento("span", "", { itemprop: "name" });
+        autorNombreSpan.appendChild(document.createTextNode(libro.autor_nombre));
+        autor.appendChild(autorNombreSpan);
 
         const precioVal = typeof libro.precio === 'string' ? parseFloat(libro.precio).toFixed(2) : Number(libro.precio).toFixed(2);
         const precio = PAW.nuevoElemento("p", "", { class: "tarjeta-precio" });
@@ -70,8 +91,25 @@ class PAWVisualizacion {
         precio.appendChild(precioEm);
         precio.appendChild(document.createTextNode(`$${precioVal}`));
 
+        const offers = PAW.nuevoElemento("div", "", {
+            itemprop: "offers",
+            itemscope: "",
+            itemtype: "https://schema.org/Offer",
+            style: "display: contents"
+        });
+        const priceCurrency = PAW.nuevoElemento("meta", "", {
+            itemprop: "priceCurrency",
+            content: "ARS"
+        });
+        const price = PAW.nuevoElemento("meta", "", {
+            itemprop: "price",
+            content: precioVal
+        });
+        offers.appendChild(priceCurrency);
+        offers.appendChild(price);
+
         const overlay = PAW.nuevoElemento("div", "", { class: "overlay" });
-        const pDesc = PAW.nuevoElemento("p", "");
+        const pDesc = PAW.nuevoElemento("p", "", { itemprop: "description" });
         pDesc.appendChild(document.createTextNode(libro.descripcion || "Sin descripción"));
         const btnVerMas = PAW.nuevoElemento("a", "Ver más", {
             class: "btn-primario",
@@ -96,12 +134,15 @@ class PAWVisualizacion {
         boton.appendChild(icono);
         formAdd.appendChild(boton);
 
-        articulo.appendChild(img);
-        articulo.appendChild(titulo);
-        articulo.appendChild(autor);
-        articulo.appendChild(precio);
-        articulo.appendChild(overlay);
-        articulo.appendChild(formAdd);
+        wrapperBook.appendChild(img);
+        wrapperBook.appendChild(titulo);
+        wrapperBook.appendChild(autor);
+        wrapperBook.appendChild(precio);
+        wrapperBook.appendChild(offers);
+        wrapperBook.appendChild(overlay);
+        wrapperBook.appendChild(formAdd);
+
+        articulo.appendChild(wrapperBook);
 
         return articulo;
     }

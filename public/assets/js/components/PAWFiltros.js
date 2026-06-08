@@ -102,7 +102,11 @@ class PAWFiltros {
         this.container.appendChild(barraOpciones);
 
         // 5. Crear Grilla (Área: libros)
-        this.contenedorLibros = PAW.nuevoElemento("section", "", { class: "grilla-libros" });
+        this.contenedorLibros = PAW.nuevoElemento("section", "", {
+            class: "grilla-libros",
+            itemscope: "",
+            itemtype: "https://schema.org/ItemList"
+        });
         this.container.appendChild(this.contenedorLibros);
 
         // 6. Crear Paginación (Área: paginacion)

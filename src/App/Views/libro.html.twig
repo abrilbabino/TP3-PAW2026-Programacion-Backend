@@ -7,27 +7,29 @@
 {% endblock %}
 
 {% block main %}
+<article itemscope itemtype="https://schema.org/Book">
   <section class="detalle-libro">
       <figure>
-          <img src="/assets/img/{{ libro.fields.imagen|default('default.png') }}" alt="Portada {{ libro.fields.titulo }}" />
+          <img itemprop="image" src="/assets/img/{{ libro.fields.imagen|default('default.png') }}" alt="Portada {{ libro.fields.titulo }}" />
           <figcaption>
-          <h2>{{ libro.fields.titulo }}</h2>
+          <h2 itemprop="name">{{ libro.fields.titulo }}</h2>
           <span class="stock-mobile">Stock Disponible</span>
           </figcaption>
       </figure>
-
       <article class="descripcion-libro">
           <h2>Descripción</h2>
-          <p>{{ libro.fields.descripcion }}</p>
+          <p itemprop="description">{{ libro.fields.descripcion }}</p>
           <h2>Autor</h2>
-          <p>{{ autor.fields.nombre }}</p>
+          <p itemprop="author" itemscope itemtype="https://schema.org/Person">
+              <span itemprop="name">{{ autor.fields.nombre }}</span>
+          </p>
       </article>
-
-      <section class="compra-reserva">
-          <p><strong>${{ libro.fields.precio }}</strong></p>
+      <section class="compra-reserva" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+          <meta itemprop="priceCurrency" content="ARS" />
+          <p><strong>$<span itemprop="price">{{ libro.fields.precio }}</span></strong></p>
           <span class="stock-desktop">Stock Disponible</span>
           <form class="boton-agregarCarrito" action="/agregarCarrito" method="POST">
-          <button type="submit">Agregar al Carrito</button>
+              <button type="submit">Agregar al Carrito</button>
           </form>
           <form class="boton-reservar" action="/reserva" method="GET">
               <input type="hidden" name="libro" value="{{ libro.fields.titulo }}">
@@ -35,17 +37,16 @@
           </form>
       </section>
   </section>
-
-  <section class="descripcion-autor">
+  <section class="descripcion-autor" itemprop="author" itemscope itemtype="https://schema.org/Person">
       <figure>
-      <img src="assets/img/{{ autor.fields.nombre }}.jpg" alt="Fotografía {{ autor.fields.nombre }}"/>
+          <img itemprop="image" src="/assets/img/{{ autor.fields.nombre }}.jpg" alt="Fotografía {{ autor.fields.nombre }}"/>
       </figure>
-
       <article>
-          <h3>{{ autor.fields.nombre }}</h3>
-          <p>{{ autor.fields.biografia }}</p>
+          <h3 itemprop="name">{{ autor.fields.nombre }}</h3>
+          <p itemprop="description">{{ autor.fields.biografia }}</p>
       </article>
-</section>
+  </section>
+</article>
 
   <section>
       <h2>Libros que te podrían gustar</h2>
