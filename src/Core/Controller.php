@@ -24,7 +24,7 @@ class Controller
     {
         $this->request = $request;
         $this->log = $log;
-        $this->viewsDir = __DIR__ . "/../App/views";
+        $this->viewsDir = __DIR__ . '/../App/Views';
 
         // Configuración de Twig 
         $loader = new FilesystemLoader($this->viewsDir);
