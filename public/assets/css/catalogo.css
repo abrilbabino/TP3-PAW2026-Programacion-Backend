@@ -373,6 +373,7 @@
   user-select: none;
 }
 .catalogo-main .resultado-busqueda {
+  grid-column: 1/-1;
   padding: 20px;
   margin-bottom: 15px;
   color: var(--color-magenta);
