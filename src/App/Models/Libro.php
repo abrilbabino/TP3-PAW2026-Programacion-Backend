@@ -140,6 +140,34 @@ class Libro extends Model
         return !empty($resultado);
     }
 
+    public function obtenerIdRelacion($modeloEntidad, string $nuevoNombre, ?string $authorOlid = null): int
+    {
+        // Verificamos si ya existe en la base de datos para evitar duplicados
+        $existente = $modeloEntidad->findBy(['nombre' => $nuevoNombre]);
+        
+        if (!empty($existente)) {
+            return $existente[0]['id'];
+        }
+
+        // Usamos el Modelo para validar y guardar
+        $modeloEntidad->set(['nombre' => $nuevoNombre]);
+        $nuevoId = $modeloEntidad->save();
+
+        // Si es un autor nuevo y tenemos su OLID, descargamos su foto
+        if ($modeloEntidad instanceof \Paw\App\Models\Autor && !empty($authorOlid)) {
+            $olid = str_replace('/authors/', '', $authorOlid);
+            $imageUrl = "https://covers.openlibrary.org/a/olid/{$olid}-L.jpg";
+            $imageData = @file_get_contents($imageUrl);
+            // Verificamos que sea una imagen válida (>100 bytes para evitar el gif transparente 1x1 por defecto)
+            if ($imageData && strlen($imageData) > 100) {
+                $imagePath = __DIR__ . '/../../../public/assets/img/autor_' . $nuevoNombre . '.jpg';
+                file_put_contents($imagePath, $imageData);
+            }
+        }
+
+        return $nuevoId;
+    }
+
     public function insert(array $data, array $imageFile = []): int
     {
         if ($this->existeLibro($data)) {
