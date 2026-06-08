@@ -53,6 +53,7 @@ $router->get('/reserva-exitosa', 'PageController@reservaExitosa');
 $router->get('/pedidos', 'ReservaController@pedidos');
 $router->get('/catalogo', 'LibroController@catalogo');
 $router->get('/api/libros', 'LibroController@apiLibros');
+$router->get('/api/libros/buscar', 'LibroController@apiBuscar');
 $router->get('/crear-libro', 'LibroController@create');
 $router->post('/crear-libro', 'LibroController@store');
 $router->get('/detalle', 'LibroController@detalle');

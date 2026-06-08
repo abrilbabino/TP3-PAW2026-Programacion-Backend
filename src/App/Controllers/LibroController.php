@@ -115,6 +115,33 @@ class LibroController extends Controller
         exit;
     }
 
+    public function apiBuscar() {
+        header('Content-Type: application/json');
+        
+        $request = $this->request;
+        $termino = trim($request->get('q') ?? '');
+        
+        if (empty($termino)) {
+            echo json_encode(['success' => true, 'data' => []]);
+            exit;
+        }
+
+        $resultado = $this->model->buscarPorTituloPaginated($termino, 1, 5);
+        $librosData = [];
+        foreach ($resultado['items'] as $libro) {
+            $librosData[] = [
+                'id' => $libro->fields['id'],
+                'titulo' => $libro->fields['titulo']
+            ];
+        }
+
+        echo json_encode([
+            'success' => true,
+            'data' => $librosData
+        ]);
+        exit;
+    }
+
     private function loadCollection($className){
         $model = new $className;
         $model->setQueryBuilder($this->model->getQueryBuilder());
