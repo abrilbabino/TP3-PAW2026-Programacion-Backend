@@ -19,6 +19,21 @@ class AppPAW {
     this._initAuth();
     this._initCrearLibro();
     this._initAutocomplete();
+    this._initPedidos();
+  }
+
+  _initPedidos() {
+    const pedidosRows = document.querySelectorAll(".pedido-row");
+    if (pedidosRows.length === 0) return;
+
+    pedidosRows.forEach(row => {
+      row.addEventListener("click", () => {
+        // Alternar clase para expandir o contraer la fila
+        if (window.innerWidth < 994) {
+          row.classList.toggle("is-expanded");
+        }
+      });
+    });
   }
 
   _initAutocomplete() {

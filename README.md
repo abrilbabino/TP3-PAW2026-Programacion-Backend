@@ -55,14 +55,22 @@ php -S localhost:3000 -t public
 
 Luego, acceda a http://localhost:3000 en su navegador.
 
-### Deploy
-
-### Google cloud
+## Deploy en Google cloud
 
 https://pawprints-262741693052.us-central1.run.app
 
-### Ngrok
+### Credenciales para probar funciones solo para administradores:
+Usuario:
+```bash
+admin
+```
 
+Contraseña:
+```bash
+admindemo123
+```
+
+## Ngrok
 _Para probar la aplicación con todas sus funcionalidades activas (incluyendo el servicio de correo):_  
 La aplicación se encuentra disponible de forma temporal a través de un túnel de ngrok.  
 **Solicitud de acceso**: Por favor, contactar para obtener el enlace activo de la sesión actual.

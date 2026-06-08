@@ -34,8 +34,11 @@
                     </thead>
                     <tbody>
                         {% for pedido in pedidos %}
-                            <tr>
-                                <td data-label="ID">#{{ pedido.id }}</td>
+                            <tr class="pedido-row">
+                                <td data-label="ID" class="td-id">
+                                    <span class="id-text">#{{ pedido.id }}</span>
+                                    <span class="material-symbols-outlined expand-icon">expand_more</span>
+                                </td>
                                 <td data-label="Fecha">{{ pedido.fecha|date("d/m/Y H:i") }}</td>
                                 <td data-label="Cliente"><strong>{{ pedido.nombre|escape }}</strong></td>
                                 <td data-label="Email"><a href="mailto:{{ pedido.email|escape }}">{{ pedido.email|escape }}</a></td>
