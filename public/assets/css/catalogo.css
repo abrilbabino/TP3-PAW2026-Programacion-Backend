@@ -298,10 +298,10 @@
   margin: 1rem;
 }
 
-.paginacion .paw-filtros-nav-paginacion{
+.paginacion .paw-filtros-nav-paginacion {
   display: flex;
   flex-direction: row;
-  gap:0.5rem;
+  gap: 0.5rem;
   flex-shrink: 0;
 }
 .paw-filtros-btn-pagina,
@@ -371,6 +371,14 @@
   font-weight: bold;
   font-size: 0.9rem;
   user-select: none;
+}
+.catalogo-main .resultado-busqueda {
+  padding: 20px;
+  margin-bottom: 15px;
+  color: var(--color-magenta);
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: center;
 }
 
 @media screen and (max-width: 993px) {
