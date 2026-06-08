@@ -40,8 +40,6 @@ php -S localhost:3000 -t public
 Luego, acceda a http://localhost:3000 en su navegador.
 
 ### Deploy 
-https://tp3-paw2026-programacion-backend-production-6fa0.up.railway.app  
-*Aclaración: La funcionalidad de envío de correos electrónicos no está disponible en este entorno debido a que el plan gratuito de Railway restringe el puerto SMTP. 
 
 ### Ngrok
 *Para probar la aplicación con todas sus funcionalidades activas (incluyendo el servicio de correo):*  

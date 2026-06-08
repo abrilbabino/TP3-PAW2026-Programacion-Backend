@@ -16,8 +16,8 @@ RUN sed -i 's/80/8080/g' /etc/apache2/sites-available/000-default.conf /etc/apac
 # 4. Configurar Apache para apuntar a la carpeta /public
 RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
 
-# 5. Permitir el uso de archivos .htaccess en la carpeta public
-RUN sed -i '/<Directory \/var\/www\/html\/public>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
+# 5. Permitir el uso de archivos .htaccess
+RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 
 # 6. Copiar el código fuente
 COPY . /var/www/html/
@@ -26,5 +26,8 @@ COPY . /var/www/html/
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer install --no-dev --optimize-autoloader
 
-# 8. Asignar permisos al usuario de Apache
-RUN chown -R www-data:www-data /var/www/html/
+# 8. Asignar permisos al usuario de Apache y crear el archivo de logs
+RUN chown -R www-data:www-data /var/www/html/ && \
+    touch /var/www/html/app.log && \
+    chown www-data:www-data /var/www/html/app.log && \
+    chmod 664 /var/www/html/app.log

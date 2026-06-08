@@ -19,8 +19,16 @@ class ConnectionBuilder
             $port = $config -> get('DB_PORT');
             $charset = $config -> get('DB_CHARSET');
 
+            if (strpos($hostname, '/') === 0) {
+                // Cloud Run (Unix Socket) connection
+                $dsn = "{$adapter}:unix_socket={$hostname};dbname={$dbname};charset={$charset}";
+            } else {
+                // Standard TCP connection
+                $dsn = "{$adapter}:host={$hostname};dbname={$dbname};port={$port};charset={$charset}";
+            }
+
             return new PDO(
-                "{$adapter}:host={$hostname};dbname={$dbname};port={$port};charset={$charset}",
+                $dsn,
                 $config -> get('DB_USERNAME'),
                 $config -> get('DB_PASSWORD'),
                 [
