@@ -28,6 +28,7 @@
                         {{ item.name }}
                     </a>
                 {% else %}
+                    <input type="checkbox" id="{{ item.for }}" style="display: none;" aria-hidden="true">
                     <label for="{{ item.for }}" class="nav-link">
                         <span class="material-symbols-outlined simbolos">{{ item.icon }}</span>
                         {{ item.name }}

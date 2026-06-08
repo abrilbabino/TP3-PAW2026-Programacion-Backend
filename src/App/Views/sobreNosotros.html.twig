@@ -2,15 +2,14 @@
 
 {% block title %}PawPrints - Sobre Nosotros{% endblock %}
 
-{% block main_attributes %}class="sobreNosotros-contenedor"{% endblock %}
+{% block main_attributes %}class="sobreNosotros-contenedor" itemscope itemtype="https://schema.org/Organization"{% endblock %}
 
 {% block main %}
-<div itemscope itemtype="https://schema.org/Organization" style="display: contents;">
   <meta itemprop="name" content="PAWPrints" />
   <meta itemprop="description" content="PAWPrints es una librería física y en línea comprometida con la difusión de la literatura y el servicio comunitario." />
 
   <header class="sobreNosotros-encabezado">
-    <h1>Sobre PawPrints</h1>
+    <h1 itemprop="name">Sobre PawPrints</h1>
     <p>
       Aprende más sobre nuestra historia, misión y servicios a la comunidad
     </p>
@@ -85,63 +84,7 @@
       </article>
     </section>
   </section>
-<article itemscope itemtype="https://schema.org/Organization">
-  <meta itemprop="name" content="PAWPrints" />
-  <meta itemprop="description" content="PAWPrints es una librería física y en línea comprometida con la difusión de la literatura y el servicio comunitario." />
-  <header class="sobreNosotros-encabezado">
-    <h1>Sobre PawPrints</h1>
-    <p>Aprende más sobre nuestra historia, misión y servicios a la comunidad</p>
-  </header>
-  <section class="sobreNosotros-seccion">
-    <h2>Nuestra historia</h2>
-    <section class="sobreNosotros-contenedor-tarjetas">
-      <article class="sobreNosotros-tarjeta">
-        <img src="/assets/img/nuestroOrigen.png" alt="Origen de nuestra librería" class="img-cuadrada" />
-        <section class="sobreNosotros-tarjeta-cuerpo">
-          <h3>Nuestros Orígenes</h3>
-          <p>Fundada en 2004 empezamos como...</p>
-        </section>
-      </article>
-    </section>
-  </section>
-  <section class="sobreNosotros-seccion">
-    <h2>Nuestra misión</h2>
-    <section class="sobreNosotros-contenedor-tarjetas">
-      <article class="sobreNosotros-tarjeta">
-        <img src="/assets/img/nuestraMision.png" alt="Nuestra Declaración de Misión" class="img-cuadrada" />
-        <section class="sobreNosotros-tarjeta-cuerpo">
-          <h3>Declaración</h3>
-          <p>Lo que nos impulsa a servir a nuestra comunidad y ...</p>
-        </section>
-      </article>
-    </section>
-  </section>
-  <section class="sobreNosotros-seccion">
-    <h2>Nuestros servicios</h2>
-    <section class="sobreNosotros-contenedor-tarjetas">
-      <article class="sobreNosotros-tarjeta">
-        <img src="/assets/img/serviciosComunitario.png" alt="Eventos Comunitarios" class="img-cuadrada" />
-        <section class="sobreNosotros-tarjeta-cuerpo">
-          <h3>Servicios Comunitarios</h3>
-          <p>Organizamos lecturas de libros semanales...</p>
-          <footer class="sobreNosotros-etiquetas">
-            <small>Eventos</small>
-            <small>Talleres</small>
-          </footer>
-        </section>
-      </article>
-      <article class="sobreNosotros-tarjeta">
-        <img src="/assets/img/recomendacionLibros.png" alt="Recomendaciones de Libros" class="img-cuadrada" />
-        <section class="sobreNosotros-tarjeta-cuerpo">
-          <h3>Recomendaciones de Libros</h3>
-          <p>Nuestro personal ofrece recomendaciones...</p>
-          <footer class="sobreNosotros-etiquetas">
-            <small>Servicio Personalizado</small>
-          </footer>
-        </section>
-      </article>
-    </section>
-  </section>
+
   <section class="sobreNosotros-seccion">
     <h2>Nuestros fundadores</h2>
     <section class="sobreNosotros-contenedor-tarjetas">
@@ -183,5 +126,4 @@
       </article>
     </section>
   </section>
-</article>
 {% endblock %}
