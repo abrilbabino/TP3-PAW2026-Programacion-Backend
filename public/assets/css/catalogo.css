@@ -223,9 +223,10 @@
 /* GRILLA LIBROS */
 .grilla-libros {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
   width: 100%;
+  scroll-margin-top: 140px;
 }
 .grilla-libros article {
   aspect-ratio: 160 / 290;
@@ -271,7 +272,7 @@
 }
 .grilla-libros article:active .overlay,
 .grilla-libros article:hover .overlay,
-.grilla-libros article:focus-within .overlay {
+.grilla-libros article:focus-within:not(:focus) .overlay {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
@@ -285,6 +286,12 @@
   font-weight: 700;
   color: var(--color-fondo);
   text-shadow: 1.5px var(--color-texto);
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0 1rem;
 }
 
 /* PAGINACION BASE */
@@ -442,6 +449,7 @@
     padding: 0;
     gap: 1rem;
     justify-self: center;
+    scroll-margin-top: 13rem;
   }
 
   .grilla-libros article {

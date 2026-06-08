@@ -242,7 +242,6 @@ class PAWVisualizacion {
         }
     }
 
-    // Ejecuta la validación de límites matemáticos antes de mutar el estado.
     irAPagina(pagina) {
         const totalPaginas = Math.ceil(this.libros.length / this.itemsPorPagina);
         if (pagina >= 1 && pagina <= totalPaginas) {
@@ -254,6 +253,12 @@ class PAWVisualizacion {
                 behavior: "smooth",
                 block: "start",
             });
+
+            const primerLibro = this.contenedorLibros.querySelector(".tarjeta-libro");
+            if (primerLibro) {
+                primerLibro.setAttribute("tabindex", "-1");
+                primerLibro.focus({ preventScroll: true });
+            }
         }
     }
 }

@@ -118,11 +118,22 @@ a:hover {
   font-weight: 700;
   font-size: 1rem;
   color: var(--color-texto);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .tarjeta-autor {
   font-style: italic;
   color: var(--color-texto);
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 35px;
 }
 
 .tarjeta-precio {

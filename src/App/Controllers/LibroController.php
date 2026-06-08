@@ -189,6 +189,11 @@ class LibroController extends Controller
  
         $relacionadosRicos = [];
         foreach ($relacionados as $rel) {
+            // Evitar que el libro actual aparezca en relacionados
+            if ($rel->fields['id'] == $libro->fields['id']) {
+                continue;
+            }
+
             $nombreAutor = 'Desconocido';
             foreach ($autores as $a) {
                 if ($a->fields['id'] == $rel->fields['autor_id']) {
