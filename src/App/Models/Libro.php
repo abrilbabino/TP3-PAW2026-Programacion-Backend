@@ -57,52 +57,52 @@ class Libro extends Model
         $this->fields["descripcion"] = $descripcion;
     }
 
-    public function setPrecio(float $precio)
+    public function setPrecio($precio)
     {
-        if ($precio < 0) {
-            throw new InvalidValueFormatException("El precio no puede ser negativo");
+        if (!is_numeric($precio) || $precio < 0) {
+            throw new InvalidValueFormatException("El precio no puede ser negativo y debe ser un número válido");
         }
-        $this->fields["precio"] = $precio;
+        $this->fields["precio"] = (float)$precio;
     }
 
-     public function setGenero_Id(int $generoId)
+     public function setGenero_Id($generoId)
     {
-        if ($generoId < 1) {
+        if (!is_numeric($generoId) || $generoId < 1) {
             throw new InvalidValueFormatException("El ID del género debe ser mayor a 0");
         }
-        $this->fields["genero_id"] = $generoId;
+        $this->fields["genero_id"] = (int)$generoId;
     }
 
-     public function setEditorial_Id(int $editorialId)
+     public function setEditorial_Id($editorialId)
     {
-        if ($editorialId < 1) {
+        if (!is_numeric($editorialId) || $editorialId < 1) {
             throw new InvalidValueFormatException("El ID de la editorial debe ser mayor a 0");
         }
-        $this->fields["editorial_id"] = $editorialId;
+        $this->fields["editorial_id"] = (int)$editorialId;
     }
 
-     public function setIdioma_Id(int $idiomaId)
+     public function setIdioma_Id($idiomaId)
     {
-        if ($idiomaId < 1) {
+        if (!is_numeric($idiomaId) || $idiomaId < 1) {
             throw new InvalidValueFormatException("El ID del idioma debe ser mayor a 0");
         }
-        $this->fields["idioma_id"] = $idiomaId;
+        $this->fields["idioma_id"] = (int)$idiomaId;
     }
 
-    public function setStock(int $stock)
+    public function setStock($stock)
     {
-        if ($stock < 0) {
-            throw new InvalidValueFormatException("El stock no puede ser negativo");
+        if (!is_numeric($stock) || $stock < 0) {
+            throw new InvalidValueFormatException("El stock no puede ser negativo y debe ser un número");
         }
-        $this->fields["stock"] = $stock;
+        $this->fields["stock"] = (int)$stock;
     }
 
-    public function setAutor_Id(int $autorId)
+    public function setAutor_Id($autorId)
     {
-        if ($autorId < 1 || !is_numeric($autorId)) {
+        if (!is_numeric($autorId) || $autorId < 1) {
             throw new InvalidValueFormatException("El ID del autor debe ser un entero mayor a 0");
         }
-        $this->fields["autor_id"] = $autorId;
+        $this->fields["autor_id"] = (int)$autorId;
     }
 
     public function set(array $values)
@@ -146,16 +146,35 @@ class Libro extends Model
             throw new InvalidValueFormatException('Ya existe un libro con el mismo título, género, autor y editorial');
         }
 
-        $this->handleImageUpload($imageFile);
+        $this->handleImageUpload($data, $imageFile);
         $data['imagen'] = $this->fields['imagen'] ?? 'portada.png';
         $this->set($data);
 
         return $this->queryBuilder->insert($this->table, $this->fields);
     }
 
-    private function handleImageUpload(array $imageFile = []): void
+    private function handleImageUpload(array $data, array $imageFile = []): void
     {
         if (empty($imageFile) || ($imageFile['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
+            // Intentar recuperar portada de Open Library si se proporcionó un ISBN
+            if (!empty($data['isbn_cover'])) {
+                $isbn = preg_replace('/[^0-9X]/i', '', $data['isbn_cover']);
+                if (!empty($isbn)) {
+                    $url = "https://covers.openlibrary.org/b/isbn/{$isbn}-L.jpg";
+                    // Suprimir warnings en caso de que falle la descarga
+                    $imgContent = @file_get_contents($url);
+                    // OpenLibrary devuelve una imagen 1x1 GIF (aprox 43 bytes) si no la encuentra. Filtramos por > 1024 bytes.
+                    if ($imgContent !== false && strlen($imgContent) > 1024) {
+                        $imagenNombre = uniqid('libro_ol_', true) . '.jpg';
+                        $destino = __DIR__ . '/../../../public/assets/img/' . $imagenNombre;
+                        if (file_put_contents($destino, $imgContent) !== false) {
+                            $this->setImagen($imagenNombre);
+                            return;
+                        }
+                    }
+                }
+            }
+
             $this->setImagen('portada.png');
             return;
         }

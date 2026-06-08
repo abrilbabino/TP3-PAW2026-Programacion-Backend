@@ -232,9 +232,52 @@ class LibroController extends Controller
         $errores = [];
 
         try {
+            $postData = $request->post();
+
+            // Lógica para autocompletar dinámicamente: Si viene "new_Nombre", creamos el registro
+            $clasesModelos = [
+                'autor_id' => \Paw\App\Models\Autor::class,
+                'genero_id' => \Paw\App\Models\Genero::class,
+                'editorial_id' => \Paw\App\Models\Editorial::class,
+                'idioma_id' => \Paw\App\Models\Idioma::class
+            ];
+
+            foreach ($clasesModelos as $campo => $claseModelo) {
+                if (isset($postData[$campo]) && strpos($postData[$campo], 'new_') === 0) {
+                    $nuevoNombre = substr($postData[$campo], 4);
+                    
+                    $modeloEntidad = new $claseModelo();
+                    $modeloEntidad->setQueryBuilder($this->model->getQueryBuilder());
+                    
+                    // Verificamos si ya existe en la base de datos para evitar duplicados
+                    $existente = $modeloEntidad->findBy(['nombre' => $nuevoNombre]);
+                    
+                    if (!empty($existente)) {
+                        $nuevoId = $existente[0]['id'];
+                    } else {
+                        // Usamos el Modelo para validar y guardar
+                        $modeloEntidad->set(['nombre' => $nuevoNombre]);
+                        $nuevoId = $modeloEntidad->save();
+
+                        // Si es un autor nuevo y tenemos su OLID, descargamos su foto
+                        if ($campo === 'autor_id' && !empty($postData['author_olid'])) {
+                            $olid = str_replace('/authors/', '', $postData['author_olid']);
+                            $imageUrl = "https://covers.openlibrary.org/a/olid/{$olid}-L.jpg";
+                            $imageData = @file_get_contents($imageUrl);
+                            // Verificamos que sea una imagen válida (>100 bytes para evitar el gif transparente 1x1 por defecto)
+                            if ($imageData && strlen($imageData) > 100) {
+                                $imagePath = __DIR__ . '/../../../public/assets/img/autor_' . $nuevoNombre . '.jpg';
+                                file_put_contents($imagePath, $imageData);
+                            }
+                        }
+                    }
+                    $postData[$campo] = (string)$nuevoId;
+                }
+            }
+
             $libro = new Libro();
             $libro->setQueryBuilder($this->model->getQueryBuilder());
-            $libro->insert($request->post(), $_FILES['imagen'] ?? []);
+            $libro->insert($postData, $_FILES['imagen'] ?? []);
 
             $libroTitulo = $request->post()['titulo'] ?? '';
             echo $this->twig->render('libro-cargado.html.twig', [
