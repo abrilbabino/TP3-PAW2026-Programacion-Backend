@@ -45,10 +45,6 @@
   white-space: normal;
 }
 
-.detalle-libro ~ section {
-  padding: 0 10%;
-}
-
 .detalle-libro > figure figcaption span {
   font-size: 1.2rem;
   color: var(--color-verde);
@@ -157,6 +153,7 @@
   gap: 0.5rem;
   border-top: 2px solid var(--color-gris-claro);
   border-bottom: 2px solid var(--color-gris-claro);
+  padding: 0 0.5rem;
 }
 
 .descripcion-autor figure img {
