@@ -11,6 +11,7 @@ use Paw\App\Models\GeneroCollection;
 use Paw\App\Models\IdiomaCollection;
 use Paw\Core\Exceptions\InvalidValueFormatException;
 use Paw\App\Core\Vista;
+use Paw\Core\Request;
 
 class LibroController extends Controller
 {
@@ -185,6 +186,12 @@ class LibroController extends Controller
 
     public function create()
     {
+        $userSession = Request::session('user');
+        if (!$userSession || ($userSession['rol'] ?? '') !== 'staff') {
+            header('Location: /catalogo');
+            exit;
+        }
+
         $request = $this->request;
         $menu = $this->menu;
         $redes = $this->redes;
@@ -207,6 +214,12 @@ class LibroController extends Controller
 
     public function store()
     {
+        $userSession = Request::session('user');
+        if (!$userSession || ($userSession['rol'] ?? '') !== 'staff') {
+            header('Location: /catalogo');
+            exit;
+        }
+
         $request = $this->request;
         $menu = $this->menu;
         $redes = $this->redes;

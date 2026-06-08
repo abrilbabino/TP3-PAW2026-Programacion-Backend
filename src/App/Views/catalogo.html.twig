@@ -14,10 +14,12 @@
     <section class="barra-resultados">
         <p>Mostrando <strong>{{ libros|length }}</strong> resultados</p>
         <nav class="barra-resultados__acciones" aria-label="Acciones del catálogo">
+          {% if session.user.rol|default('') == 'staff' %}
           <a href="/crear-libro" class="btn-descargar">
             <span class="material-symbols-outlined">add</span>
             AGREGAR LIBRO
           </a>
+          {% endif %}
           {# Para reconstruir query string en Twig podríamos pasar the query o usar app.request #}
           <a href="/catalogo?{{ query_string }}&format=csv" class="btn-descargar">            
             <span class="material-symbols-outlined">download</span>
