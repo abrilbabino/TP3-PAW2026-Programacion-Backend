@@ -153,6 +153,7 @@
   background-color: var(--color-violeta);
   border-radius: 20px;
   color: var(--color-fondo);
+  font-size: 1rem;
   font-family: var(--fuente-cuerpo);
   font-weight: bold;
   cursor: pointer;
@@ -208,6 +209,7 @@
   background: var(--color-magenta);
   color: var(--color-fondo);
   border-radius: 20px;
+  font-size: 1rem;
   font-family: var(--fuente-cuerpo);
   font-weight: bold;
   cursor: pointer;
@@ -217,7 +219,7 @@
 .paw-filtros-btn-limpiar:hover,
 .paw-filtros-btn-limpiar:focus-visible {
   background-color: var(--color-amarillo);
-  color: var(--color-texto);
+  color: var(--color-fondo);
 }
 
 /* GRILLA LIBROS */
