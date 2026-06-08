@@ -39,6 +39,14 @@ class Request{
 		return $_POST;
 	}
 
+	public function file($key){
+		return $_FILES[$key] ?? null;
+	}
+
+	public function files(){
+		return $_FILES;
+	}
+
 	public function paginaActual(){
 		$pagina = $_GET['pagina'] ?? 1;
 		if (!is_numeric($pagina) || $pagina < 1) {

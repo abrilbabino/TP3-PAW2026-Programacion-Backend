@@ -263,7 +263,7 @@ class LibroController extends Controller
             
             // Mantener imagen subida en caso de error de validación
             $imagenBase64 = $postData['imagen_base64'] ?? '';
-            $imageFile = $_FILES['imagen'] ?? [];
+            $imageFile = $request->file('imagen') ?? [];
             if (!empty($imageFile) && ($imageFile['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK) {
                 $imagenBase64 = \Paw\App\Models\Libro::fileToBase64($imageFile);
                 $postData['imagen_base64'] = $imagenBase64; // Inyectar al postData para el modelo
@@ -291,7 +291,7 @@ class LibroController extends Controller
                 }
             }
 
-            $libroMain->insert($postData, $_FILES['imagen'] ?? []);
+            $libroMain->insert($postData, $request->file('imagen') ?? []);
 
             $libroTitulo = $request->post()['titulo'] ?? '';
             echo $this->twig->render('libro-cargado.html.twig', [
