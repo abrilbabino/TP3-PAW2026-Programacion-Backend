@@ -67,6 +67,15 @@
         <label>Imagen de portada</label>
         <section id="portada-uploader" class="paw-uploader-container"></section>
         <p style="font-size: 0.85rem; color: #666; margin-top: 0.5rem;">Si no subís una imagen y usaste OpenLibrary, descargaremos la portada automáticamente.</p>
+        
+        <input type="hidden" name="imagen_base64" value="{{ imagenBase64|default('') }}">
+        {% if imagenBase64 is defined and imagenBase64 is not empty %}
+            <figure class="imagen-preview">
+                <img src="{{ imagenBase64 }}" width="50" height="50" alt="Vista previa">
+                <figcaption>Imagen cargada correctamente. Se enviará con el formulario.</figcaption>
+            </figure>
+        {% endif %}
+
         {% if errores.imagen is defined %}
           <span class="error">{{ errores.imagen|escape }}</span>
         {% endif %}

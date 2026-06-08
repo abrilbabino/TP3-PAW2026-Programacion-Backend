@@ -184,6 +184,27 @@ class Libro extends Model
     private function handleImageUpload(array $data, array $imageFile = []): void
     {
         if (empty($imageFile) || ($imageFile['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
+            
+            // Si la imagen se subió antes de un error de validación, la recuperamos del base64
+            if (!empty($data['imagen_base64'])) {
+                $base64parts = explode(',', $data['imagen_base64']);
+                if (count($base64parts) === 2) {
+                    $imgContent = base64_decode($base64parts[1]);
+                    $mime = str_replace('data:', '', str_replace(';base64', '', $base64parts[0]));
+                    $extension = 'jpg';
+                    if ($mime === 'image/png') $extension = 'png';
+                    elseif ($mime === 'image/webp') $extension = 'webp';
+                    elseif ($mime === 'image/gif') $extension = 'gif';
+                    
+                    $imagenNombre = uniqid('libro_', true) . '.' . $extension;
+                    $destino = __DIR__ . '/../../../public/assets/img/' . $imagenNombre;
+                    if (file_put_contents($destino, $imgContent) !== false) {
+                        $this->setImagen($imagenNombre);
+                        return;
+                    }
+                }
+            }
+
             // Intentar recuperar portada de Open Library si se proporcionó un ISBN
             if (!empty($data['isbn_cover'])) {
                 $isbn = preg_replace('/[^0-9X]/i', '', $data['isbn_cover']);
@@ -223,6 +244,16 @@ class Libro extends Model
         }
 
         $this->setImagen($imagenNombre);
+    }
+
+    public static function fileToBase64(array $imageFile): string
+    {
+        if (empty($imageFile) || ($imageFile['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
+            return '';
+        }
+        $mime = mime_content_type($imageFile['tmp_name']);
+        $base64 = base64_encode(file_get_contents($imageFile['tmp_name']));
+        return "data:{$mime};base64,{$base64}";
     }
 
     public function load($id){

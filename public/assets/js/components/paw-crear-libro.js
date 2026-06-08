@@ -116,7 +116,9 @@ class PAWCrearLibro {
                     }
                 }
                 if (descriptionStr && this.inputDescripcion) {
-                    this.inputDescripcion.value = descriptionStr.substring(0, 255);
+                    this.inputDescripcion.value = descriptionStr;
+                    // Trigger input event to let PAWValidador evaluate immediately if needed
+                    this.inputDescripcion.dispatchEvent(new Event('input', { bubbles: true }));
                 }
 
                 if (this.hiddenIsbnCover) this.hiddenIsbnCover.value = isbn;

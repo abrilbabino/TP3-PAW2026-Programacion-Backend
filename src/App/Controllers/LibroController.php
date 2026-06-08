@@ -260,6 +260,14 @@ class LibroController extends Controller
 
         try {
             $postData = $request->post();
+            
+            // Mantener imagen subida en caso de error de validación
+            $imagenBase64 = $postData['imagen_base64'] ?? '';
+            $imageFile = $_FILES['imagen'] ?? [];
+            if (!empty($imageFile) && ($imageFile['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK) {
+                $imagenBase64 = \Paw\App\Models\Libro::fileToBase64($imageFile);
+                $postData['imagen_base64'] = $imagenBase64; // Inyectar al postData para el modelo
+            }
 
             // Lógica para autocompletar dinámicamente: Si viene "new_Nombre", creamos el registro
             $clasesModelos = [
@@ -292,7 +300,16 @@ class LibroController extends Controller
             ]);
             return;
         } catch (InvalidValueFormatException $e) {
-            $errores['general'] = $e->getMessage();
+            $msg = $e->getMessage();
+            if (strpos(strtolower($msg), 'descrip') !== false) {
+                $errores['descripcion'] = $msg;
+            } elseif (strpos(strtolower($msg), 'titulo') !== false) {
+                $errores['titulo'] = $msg;
+            } elseif (strpos(strtolower($msg), 'precio') !== false) {
+                $errores['precio'] = $msg;
+            } else {
+                $errores['general'] = $msg;
+            }
         }
 
         echo $this->twig->render('crear-libro.html.twig', [
@@ -301,6 +318,7 @@ class LibroController extends Controller
             'idiomas' => $idiomas,
             'autores' => $autores,
             'errores' => $errores,
+            'imagenBase64' => $imagenBase64 ?? '',
             'app' => ['request' => $request]
         ]);
     }
