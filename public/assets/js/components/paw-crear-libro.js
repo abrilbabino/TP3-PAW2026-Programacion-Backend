@@ -86,7 +86,10 @@ class PAWCrearLibro {
     }
 
     buscarLibro() {
-        const isbn = this.inputSearch.value.trim();
+        let isbn = this.inputSearch.value.trim();
+        // Sanitizar ISBN para remover guiones, espacios o caracteres invisibles
+        isbn = isbn.replace(/[^a-zA-Z0-9X]/gi, '');
+        
         if (!isbn) {
             this.statusMsg.textContent = "Por favor, ingresá un ISBN válido.";
             this.statusMsg.style.color = "red";

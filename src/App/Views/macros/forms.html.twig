@@ -2,7 +2,7 @@
     <label for="{{ name }}">{{ label }}</label>
     <input id="{{ name }}" class="form-control {% if error %}input-invalido{% endif %}" name="{{ name }}" type="{{ type }}" value="{{ value|escape }}" {{ attributes|raw }} />
     {% if error %}
-        <span class="error">{{ error|escape }}</span>
+        <span class="msg-error">{{ error|escape }}</span>
     {% endif %}
 {% endmacro %}
 
@@ -17,7 +17,7 @@
         {% endfor %}
     </select>
     {% if error %}
-        <span class="error">{{ error|escape }}</span>
+        <span class="msg-error">{{ error|escape }}</span>
     {% endif %}
 {% endmacro %}
 
@@ -25,6 +25,6 @@
     <label for="{{ name }}">{{ label }}</label>
     <textarea id="{{ name }}" class="form-control {% if error %}input-invalido{% endif %}" name="{{ name }}" {{ attributes|raw }}>{{ value|escape }}</textarea>
     {% if error %}
-        <span class="error">{{ error|escape }}</span>
+        <span class="msg-error">{{ error|escape }}</span>
     {% endif %}
 {% endmacro %}

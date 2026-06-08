@@ -261,13 +261,7 @@ class LibroController extends Controller
         try {
             $postData = $request->post();
             
-            // Mantener imagen subida en caso de error de validación
-            $imagenBase64 = $postData['imagen_base64'] ?? '';
-            $imageFile = $request->file('imagen') ?? [];
-            if (!empty($imageFile) && ($imageFile['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK) {
-                $imagenBase64 = \Paw\App\Models\Libro::fileToBase64($imageFile);
-                $postData['imagen_base64'] = $imagenBase64; // Inyectar al postData para el modelo
-            }
+
 
             // Lógica para autocompletar dinámicamente: Si viene "new_Nombre", creamos el registro
             $clasesModelos = [
@@ -301,12 +295,30 @@ class LibroController extends Controller
             return;
         } catch (InvalidValueFormatException $e) {
             $msg = $e->getMessage();
-            if (strpos(strtolower($msg), 'descrip') !== false) {
+            $msgLower = strtolower($msg);
+            
+            if (strpos($msgLower, 'título') !== false || strpos($msgLower, 'titulo') !== false) {
+                if (strpos($msgLower, 'ya existe un libro') !== false) {
+                    $errores['general'] = $msg;
+                } else {
+                    $errores['titulo'] = $msg;
+                }
+            } elseif (strpos($msgLower, 'descripción') !== false || strpos($msgLower, 'descrip') !== false) {
                 $errores['descripcion'] = $msg;
-            } elseif (strpos(strtolower($msg), 'titulo') !== false) {
-                $errores['titulo'] = $msg;
-            } elseif (strpos(strtolower($msg), 'precio') !== false) {
+            } elseif (strpos($msgLower, 'precio') !== false) {
                 $errores['precio'] = $msg;
+            } elseif (strpos($msgLower, 'género') !== false || strpos($msgLower, 'genero') !== false) {
+                $errores['genero_id'] = $msg;
+            } elseif (strpos($msgLower, 'editorial') !== false) {
+                $errores['editorial_id'] = $msg;
+            } elseif (strpos($msgLower, 'idioma') !== false) {
+                $errores['idioma_id'] = $msg;
+            } elseif (strpos($msgLower, 'stock') !== false) {
+                $errores['stock'] = $msg;
+            } elseif (strpos($msgLower, 'autor') !== false) {
+                $errores['autor_id'] = $msg;
+            } elseif (strpos($msgLower, 'imagen') !== false) {
+                $errores['imagen'] = $msg;
             } else {
                 $errores['general'] = $msg;
             }
@@ -318,7 +330,7 @@ class LibroController extends Controller
             'idiomas' => $idiomas,
             'autores' => $autores,
             'errores' => $errores,
-            'imagenBase64' => $imagenBase64 ?? '',
+
             'app' => ['request' => $request]
         ]);
     }

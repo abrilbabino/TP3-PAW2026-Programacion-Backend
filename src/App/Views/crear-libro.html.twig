@@ -23,13 +23,13 @@
         <section class="ol-search-container">
             <label class="ol-input-group" for="isbn_search">
                 ISBN
-                <input type="text" id="isbn_search" placeholder="Ej: 9780140328721">
+                <input type="text" id="isbn_search" name="isbn_search" placeholder="Ej: 9780140328721" value="{{ app.request.post.isbn_search|default('') }}">
             </label>
             <button type="button" id="btn-openlibrary" class="btn-primario btn-ol-search">Buscar</button>
         </section>
         <span id="ol-status" class="ol-status"></span>
-        <input type="hidden" name="isbn_cover" id="isbn_cover" value="">
-        <input type="hidden" name="author_olid" id="author_olid" value="">
+        <input type="hidden" name="isbn_cover" id="isbn_cover" value="{{ app.request.post.isbn_cover|default('') }}">
+        <input type="hidden" name="author_olid" id="author_olid" value="{{ app.request.post.author_olid|default('') }}">
       </fieldset>
 
       <fieldset>
@@ -68,16 +68,10 @@
         <section id="portada-uploader" class="paw-uploader-container"></section>
         <p style="font-size: 0.85rem; color: #666; margin-top: 0.5rem;">Si no subís una imagen y usaste OpenLibrary, descargaremos la portada automáticamente.</p>
         
-        <input type="hidden" name="imagen_base64" value="{{ imagenBase64|default('') }}">
-        {% if imagenBase64 is defined and imagenBase64 is not empty %}
-            <figure class="imagen-preview">
-                <img src="{{ imagenBase64 }}" width="50" height="50" alt="Vista previa">
-                <figcaption>Imagen cargada correctamente. Se enviará con el formulario.</figcaption>
-            </figure>
-        {% endif %}
+
 
         {% if errores.imagen is defined %}
-          <span class="error">{{ errores.imagen|escape }}</span>
+          <span class="msg-error">{{ errores.imagen|escape }}</span>
         {% endif %}
       </fieldset>
 
