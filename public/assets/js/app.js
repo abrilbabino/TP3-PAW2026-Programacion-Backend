@@ -17,6 +17,7 @@ class AppPAW {
     this._initUploader();
     this._initFiltros();
     this._initAuth();
+    this._initCrearLibro();
   }
 
   _initMenu() {
@@ -205,6 +206,18 @@ class AppPAW {
                 auth.init();
             }
         );
+    }
+
+    _initCrearLibro() {
+        if (document.querySelector("#form-nuevo-libro")) {
+            PAW.cargarScript(
+                "PAW-CrearLibro-Script",
+                "/assets/js/components/paw-crear-libro.js",
+                () => {
+                    new PAWCrearLibro();
+                }
+            );
+        }
     }
 }
 
