@@ -64,10 +64,13 @@
 }
 
 .sobreNosotros-tarjeta-cuerpo h3 {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   color: var(--color-violeta);
   margin: 0 0 0.5rem 0;
   font-weight: 800;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 .sobreNosotros-tarjeta-cuerpo p {
@@ -75,6 +78,15 @@
   line-height: 1.2;
   font-weight: 500;
   color: var(--color-texto);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sobreNosotros-tarjeta.expandida .sobreNosotros-tarjeta-cuerpo p {
+  -webkit-line-clamp: unset;
 }
 
 .sobreNosotros-etiquetas {
@@ -126,5 +138,11 @@
   .img-cuadrada {
     width: 200px;
     height: 180px;
+  }
+
+  .sobreNosotros-tarjeta-cuerpo p {
+    display: block;
+    -webkit-line-clamp: unset;
+    overflow: visible;
   }
 }
