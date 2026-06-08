@@ -54,7 +54,7 @@
         {% for idioma in idiomas %}{% set opcionesIdiomas = opcionesIdiomas|merge([{'id': idioma.fields.id, 'nombre': idioma.fields.nombre}]) %}{% endfor %}
         {{ forms.select('idioma_id', 'Idioma', opcionesIdiomas, app.request.post.idioma_id|default(''), errores.idioma_id|default(''), 'required') }}
         
-        {{ forms.textarea('descripcion', 'Descripción', app.request.post.descripcion|default(''), errores.descripcion|default(''), 'maxlength="1000" required') }}
+        {{ forms.textarea('descripcion', 'Descripción', app.request.post.descripcion|default(''), errores.descripcion|default(''), 'maxlength="255" required') }}
       </fieldset>
 
       <fieldset>
