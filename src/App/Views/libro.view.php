@@ -19,18 +19,18 @@
     <main>
         <section class="detalle-libro">
             <figure>
-                <img src="/assets/img/<?= $libro->fields['imagen'] ?? 'default.png' ?>" alt="Portada <?= $libro->fields['titulo'] ?>" />
+                <img src="/assets/img/<?= htmlspecialchars($libro->fields['imagen'] ?? 'default.png', ENT_QUOTES, 'UTF-8') ?>" alt="Portada <?= htmlspecialchars($libro->fields['titulo'], ENT_QUOTES, 'UTF-8') ?>" />
                 <figcaption>
-                <h2><?= $libro->fields['titulo'] ?></h2>
+                <h2><?= htmlspecialchars($libro->fields['titulo'], ENT_QUOTES, 'UTF-8') ?></h2>
                 <span class="stock-mobile">Stock Disponible</span>
                 </figcaption>
             </figure>
 
             <article class="descripcion-libro">
                 <h2>Descripción</h2>
-                <p><?= $libro->fields['descripcion'] ?></p>
+                <p><?= htmlspecialchars($libro->fields['descripcion'], ENT_QUOTES, 'UTF-8') ?></p>
                 <h2>Autor</h2>
-                <p><?= $autor->fields['nombre'] ?></p>
+                <p><?= htmlspecialchars($autor->fields['nombre'], ENT_QUOTES, 'UTF-8') ?></p>
             </article>
 
             <section class="compra-reserva">
@@ -47,12 +47,12 @@
 
         <section class="descripcion-autor">
             <figure>
-            <img src="assets/img/<?=$autor->fields['nombre']?>.jpg" alt="Fotografía <?= $autor->fields['nombre'] ?>"/>
+            <img src="assets/img/<?= htmlspecialchars($autor->fields['nombre'], ENT_QUOTES, 'UTF-8') ?>.jpg" alt="Fotografía <?= htmlspecialchars($autor->fields['nombre'], ENT_QUOTES, 'UTF-8') ?>"/>
             </figure>
 
             <article>
-                <h3><?= $autor->fields['nombre']?></h3>
-                <p><?= $autor->fields['biografia']?></p>
+                <h3><?= htmlspecialchars($autor->fields['nombre'], ENT_QUOTES, 'UTF-8') ?></h3>
+                <p><?= htmlspecialchars($autor->fields['biografia'], ENT_QUOTES, 'UTF-8') ?></p>
             </article>
       </section>
 
@@ -62,11 +62,11 @@
                 <?php if (isset($relacionados)): ?>
                     <?php foreach ($relacionados as $relacionado): ?>
                         <article class="libro-relacionado tarjeta-libro">
-                            <a href="/detalle?id=<?= $relacionado->fields['id'] ?>">
+                            <a href="/detalle?id=<?= (int)$relacionado->fields['id'] ?>">
                                 <figure>
-                                    <img src="/assets/img/<?= $relacionado->fields['imagen'] ?? 'default.png' ?>" alt="<?= $relacionado->fields['titulo'] ?>">
+                                    <img src="/assets/img/<?= htmlspecialchars($relacionado->fields['imagen'] ?? 'default.png', ENT_QUOTES, 'UTF-8') ?>" alt="<?= htmlspecialchars($relacionado->fields['titulo'], ENT_QUOTES, 'UTF-8') ?>">
                                 </figure>
-                                <p class="tarjeta-titulo"><?= $relacionado->fields['titulo'] ?></p>
+                                <p class="tarjeta-titulo"><?= htmlspecialchars($relacionado->fields['titulo'], ENT_QUOTES, 'UTF-8') ?></p>
                                 <p class="tarjeta-autor">
                                     <?php 
                                         $nombreAutor = "Desconocido";
@@ -76,7 +76,7 @@
                                                 break;
                                             }
                                         }
-                                        echo $nombreAutor;
+                                        echo htmlspecialchars($nombreAutor, ENT_QUOTES, 'UTF-8');
                                     ?></p>
                                 <p class="tarjeta-precio">$<?= $relacionado->fields['precio'] ?></p>
                             </a>

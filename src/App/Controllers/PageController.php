@@ -9,23 +9,19 @@ class PageController extends Controller
     public function index()
     {
         $titulo = htmlspecialchars($_GET["nombre"] ?? "Inicio-PawPrints");
-        $menu = $this->menu;
-        $redes = $this->redes;
-        require $this -> viewsDir . '/index.view.php';
+        echo $this->twig->render('index.html.twig', [
+            'titulo' => $titulo,
+        ]);
     }
 
     public function sobreNosotros()
     {
-        $menu = $this->menu;
-        $redes = $this->redes;
-        require $this->viewsDir . '/sobreNosotros.view.php';
+        echo $this->twig->render('sobreNosotros.html.twig');
     }
 
     public function reservaExitosa()
     {
-        $menu = $this->menu;
-        $redes = $this->redes;
-        require $this->viewsDir . '/reserva-exitosa.view.php';
+        echo $this->twig->render('reserva-exitosa.html.twig');
     }
     
     public function agregarCarrito(){

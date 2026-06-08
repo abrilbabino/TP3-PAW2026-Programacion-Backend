@@ -11,6 +11,7 @@ use Paw\App\Models\GeneroCollection;
 use Paw\App\Models\IdiomaCollection;
 use Paw\Core\Exceptions\InvalidValueFormatException;
 use Paw\App\Core\Vista;
+use Paw\Core\Request;
 
 class LibroController extends Controller
 {
@@ -34,7 +35,16 @@ class LibroController extends Controller
         $idiomas = $this->loadCollection(IdiomaCollection::class);
         $autores = $this->loadCollection(AutorCollection::class); 
 
-        require $this->viewsDir . '/catalogo.view.php';
+        echo $this->twig->render('catalogo.html.twig', [
+            'libros' => $libros,
+            'pagination' => $pagination,
+            'generos' => $generos,
+            'editoriales' => $editoriales,
+            'idiomas' => $idiomas,
+            'autores' => $autores,
+            'query_string' => http_build_query($request->getAll()),
+            'app' => ['request' => $request]
+        ]);
     }
 
     public function apiLibros() {
@@ -105,13 +115,40 @@ class LibroController extends Controller
         exit;
     }
 
+    public function apiBuscar() {
+        header('Content-Type: application/json');
+        
+        $request = $this->request;
+        $termino = trim($request->get('q') ?? '');
+        
+        if (empty($termino)) {
+            echo json_encode(['success' => true, 'data' => []]);
+            exit;
+        }
+
+        $resultado = $this->model->buscarPorTituloPaginated($termino, 1, 5);
+        $librosData = [];
+        foreach ($resultado['items'] as $libro) {
+            $librosData[] = [
+                'id' => $libro->fields['id'],
+                'titulo' => $libro->fields['titulo']
+            ];
+        }
+
+        echo json_encode([
+            'success' => true,
+            'data' => $librosData
+        ]);
+        exit;
+    }
+
     private function loadCollection($className){
         $model = new $className;
         $model->setQueryBuilder($this->model->getQueryBuilder());
         return $model->getAll();
     }
 
-    private function loadCollectionModel($className){
+    private function loadModel($className){
         $model = new $className;
         $model->setQueryBuilder($this->model->getQueryBuilder());
         return $model;
@@ -139,7 +176,7 @@ class LibroController extends Controller
         $id    = $request->get('id');
         $libro = $this->model->get($id);
  
-        $autorModel = $this->loadCollectionModel(AutorCollection::class); 
+        $autorModel = $this->loadModel(AutorCollection::class); 
         $autor = $autorModel->get($libro->fields['autor_id']);
         $autores = $autorModel->getAll();
 
@@ -150,11 +187,38 @@ class LibroController extends Controller
  
         $relacionados = $this->model->getRelations($filtros);
  
-        require $this->viewsDir . '/libro.view.php';
+        $relacionadosRicos = [];
+        foreach ($relacionados as $rel) {
+            $nombreAutor = 'Desconocido';
+            foreach ($autores as $a) {
+                if ($a->fields['id'] == $rel->fields['autor_id']) {
+                    $nombreAutor = $a->fields['nombre'];
+                    break;
+                }
+            }
+            // Creamos un array con el objeto modelo y el nombre del autor agregado artificialmente
+            $relacionadosRicos[] = [
+                'libro' => $rel,
+                'autor_nombre' => $nombreAutor
+            ];
+        }
+
+        echo $this->twig->render('libro.html.twig', [
+            'libro' => $libro,
+            'autor' => $autor,
+            'relacionados' => $relacionadosRicos,
+            'app' => ['request' => $request]
+        ]);
     }
 
     public function create()
     {
+        $userSession = Request::session('user');
+        if (!$userSession || ($userSession['rol'] ?? '') !== 'staff') {
+            header('Location: /catalogo');
+            exit;
+        }
+
         $request = $this->request;
         $menu = $this->menu;
         $redes = $this->redes;
@@ -165,11 +229,24 @@ class LibroController extends Controller
         $autores = $this->loadCollection(AutorCollection::class);
         $errores = [];
 
-        require $this->viewsDir . '/crear-libro.view.php';
+        echo $this->twig->render('crear-libro.html.twig', [
+            'generos' => $generos,
+            'editoriales' => $editoriales,
+            'idiomas' => $idiomas,
+            'autores' => $autores,
+            'errores' => $errores,
+            'app' => ['request' => $request]
+        ]);
     }
 
     public function store()
     {
+        $userSession = Request::session('user');
+        if (!$userSession || ($userSession['rol'] ?? '') !== 'staff') {
+            header('Location: /catalogo');
+            exit;
+        }
+
         $request = $this->request;
         $menu = $this->menu;
         $redes = $this->redes;
@@ -182,18 +259,50 @@ class LibroController extends Controller
         $errores = [];
 
         try {
-            $libro = new Libro();
-            $libro->setQueryBuilder($this->model->getQueryBuilder());
-            $libro->insert($request->post(), $_FILES['imagen'] ?? []);
+            $postData = $request->post();
+
+            // Lógica para autocompletar dinámicamente: Si viene "new_Nombre", creamos el registro
+            $clasesModelos = [
+                'autor_id' => \Paw\App\Models\Autor::class,
+                'genero_id' => \Paw\App\Models\Genero::class,
+                'editorial_id' => \Paw\App\Models\Editorial::class,
+                'idioma_id' => \Paw\App\Models\Idioma::class
+            ];
+
+            $libroMain = new Libro();
+            $libroMain->setQueryBuilder($this->model->getQueryBuilder());
+
+            foreach ($clasesModelos as $campo => $claseModelo) {
+                if (isset($postData[$campo]) && strpos($postData[$campo], 'new_') === 0) {
+                    $nuevoNombre = substr($postData[$campo], 4);
+                    
+                    $modeloEntidad = $this->loadModel($claseModelo);
+                    
+                    $nuevoId = $libroMain->obtenerIdRelacion($modeloEntidad, $nuevoNombre, $postData['author_olid'] ?? null);
+                    $postData[$campo] = (string)$nuevoId;
+                }
+            }
+
+            $libroMain->insert($postData, $_FILES['imagen'] ?? []);
 
             $libroTitulo = $request->post()['titulo'] ?? '';
-            require $this->viewsDir . '/libro-cargado.view.php';
+            echo $this->twig->render('libro-cargado.html.twig', [
+                'libroTitulo' => $libroTitulo,
+                'app' => ['request' => $request]
+            ]);
             return;
         } catch (InvalidValueFormatException $e) {
             $errores['general'] = $e->getMessage();
         }
 
-        require $this->viewsDir . '/crear-libro.view.php';
+        echo $this->twig->render('crear-libro.html.twig', [
+            'generos' => $generos,
+            'editoriales' => $editoriales,
+            'idiomas' => $idiomas,
+            'autores' => $autores,
+            'errores' => $errores,
+            'app' => ['request' => $request]
+        ]);
     }
 
     public function buscar()
@@ -229,6 +338,11 @@ class LibroController extends Controller
 
         $librosJson = json_encode($librosData);
  
-        require $this->viewsDir . '/busqueda.view.php';
+        echo $this->twig->render('busqueda.html.twig', [
+            'termino' => $termino,
+            'librosJson' => $librosJson,
+            'libros' => $librosData,
+            'app' => ['request' => $request]
+        ]);
     }
 }

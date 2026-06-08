@@ -1,0 +1,102 @@
+{% extends 'layout/base.html.twig' %}
+{% import 'macros/forms.html.twig' as forms %}
+
+{% block title %}Crear Libro - PAWPrints{% endblock %}
+
+{% block main %}
+  <header>
+    <h1>Agregar Nuevo Libro</h1>
+    <p>Completá los datos para cargar el libro en el catálogo.</p>
+  </header>
+
+  <section class="Formulario">
+    <h2>Datos del libro nuevo</h2>
+    {% if errores.general is defined and errores.general is not empty %}
+      <span class="error">{{ errores.general|escape }}</span>
+    {% endif %}
+
+    <form id="form-nuevo-libro" action="/crear-libro" method="POST" enctype="multipart/form-data" novalidate>
+
+      <fieldset class="fieldset-full open-library-fieldset">
+        <legend>Autocompletar con Open Library (Opcional)</legend>
+        <p class="ol-description">Ingresá un ISBN (ej: 9780140328721) para traer los datos automáticamente de internet.</p>
+        <section class="ol-search-container">
+            <label class="ol-input-group" for="isbn_search">
+                ISBN
+                <input type="text" id="isbn_search" placeholder="Ej: 9780140328721">
+            </label>
+            <button type="button" id="btn-openlibrary" class="btn-primario btn-ol-search">Buscar</button>
+        </section>
+        <span id="ol-status" class="ol-status"></span>
+        <input type="hidden" name="isbn_cover" id="isbn_cover" value="">
+        <input type="hidden" name="author_olid" id="author_olid" value="">
+      </fieldset>
+
+      <fieldset>
+        <legend>Información del Libro</legend>
+
+        {{ forms.input('titulo', 'Título', 'text', app.request.post.titulo|default(''), errores.titulo|default(''), 'maxlength="60" required') }}
+
+        {# Mapear las colecciones a un array de objetos simples con id y nombre para el macro #}
+        {% set opcionesAutores = [] %}
+        {% for autor in autores %}{% set opcionesAutores = opcionesAutores|merge([{'id': autor.fields.id, 'nombre': autor.fields.nombre}]) %}{% endfor %}
+        {{ forms.select('autor_id', 'Autor', opcionesAutores, app.request.post.autor_id|default(''), errores.autor_id|default(''), 'required') }}
+
+        {% set opcionesGeneros = [] %}
+        {% for genero in generos %}{% set opcionesGeneros = opcionesGeneros|merge([{'id': genero.fields.id, 'nombre': genero.fields.nombre}]) %}{% endfor %}
+        {{ forms.select('genero_id', 'Género', opcionesGeneros, app.request.post.genero_id|default(''), errores.genero_id|default(''), 'required') }}
+
+        {% set opcionesEditoriales = [] %}
+        {% for editorial in editoriales %}{% set opcionesEditoriales = opcionesEditoriales|merge([{'id': editorial.fields.id, 'nombre': editorial.fields.nombre}]) %}{% endfor %}
+        {{ forms.select('editorial_id', 'Editorial', opcionesEditoriales, app.request.post.editorial_id|default(''), errores.editorial_id|default(''), 'required') }}
+
+        {% set opcionesIdiomas = [] %}
+        {% for idioma in idiomas %}{% set opcionesIdiomas = opcionesIdiomas|merge([{'id': idioma.fields.id, 'nombre': idioma.fields.nombre}]) %}{% endfor %}
+        {{ forms.select('idioma_id', 'Idioma', opcionesIdiomas, app.request.post.idioma_id|default(''), errores.idioma_id|default(''), 'required') }}
+        
+        {{ forms.textarea('descripcion', 'Descripción', app.request.post.descripcion|default(''), errores.descripcion|default(''), 'maxlength="1000" required') }}
+      </fieldset>
+
+      <fieldset>
+        <legend>Inventario y portada</legend>
+
+        {{ forms.input('precio', 'Precio', 'number', app.request.post.precio|default(''), errores.precio|default(''), 'step="0.01" min="0" required') }}
+
+        {{ forms.input('stock', 'Stock', 'number', app.request.post.stock|default(''), errores.stock|default(''), 'step="1" min="0" required') }}
+
+        <label>Imagen de portada</label>
+        <section id="portada-uploader" class="paw-uploader-container"></section>
+        <p style="font-size: 0.85rem; color: #666; margin-top: 0.5rem;">Si no subís una imagen y usaste OpenLibrary, descargaremos la portada automáticamente.</p>
+        {% if errores.imagen is defined %}
+          <span class="error">{{ errores.imagen|escape }}</span>
+        {% endif %}
+      </fieldset>
+
+      <button type="submit" class="btn-submit btn-primario">Agregar Libro</button>
+    </form>
+  </section>
+
+  <!-- Modal de Confirmación -->
+  <aside id="confirm-panel" class="login-panel confirm-panel">
+      <header class="login-header">
+      <h2>Confirmar Guardado</h2>
+      <button type="button" class="login-cerrar" id="btn-cancel-confirm">
+          <span class="material-symbols-outlined">close</span>
+      </button>
+      </header>
+
+      <section class="confirm-content">
+          <p id="confirm-msg-text" class="confirm-msg-text">¿Estás seguro de que deseas agregar este libro al catálogo?</p>
+          <p id="confirm-warning-text" class="confirm-warning-text" style="display: none;">
+              <span class="material-symbols-outlined confirm-warning-icon">warning</span>
+              El autocompletador puede generar entidades que NO existían en tu base de datos. Por favor verificar bien antes de guardar.
+          </p>
+      </section>
+
+      <section class="confirm-actions">
+          <button type="button" class="btn-secundario btn-confirm-cancel" id="btn-cancel-confirm-2">Cancelar</button>
+          <button type="button" class="btn-primario btn-confirm-accept" id="btn-accept-confirm">Aceptar</button>
+      </section>
+  </aside>
+
+{% endblock %}

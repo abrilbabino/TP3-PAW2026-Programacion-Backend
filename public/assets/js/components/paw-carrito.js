@@ -19,6 +19,14 @@ class PAWCarrito {
     this.crearBoton();
     this.crearEstructura();
     this.registrarEventos();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('abrir_carrito') && urlParams.get('abrir_carrito') === 'true') {
+      this.abrirCarrito();
+      urlParams.delete('abrir_carrito');
+      const newUrl = window.location.pathname + (urlParams.toString() ? '?' + urlParams.toString() : '');
+      window.history.replaceState({}, document.title, newUrl);
+    }
   }
 
   // crearBoton: Construye el disparador del carrito. 
@@ -48,8 +56,18 @@ class PAWCarrito {
   // Construye el panel lateral y el overlay en memoria.
   // Los inyecta directamente en el document.body  para garantizar que el CSS los posicione por encima de toda la aplicación.
   crearEstructura() {
-    // Si ya existe en el DOM, no lo volvemos a crear
-    if (document.querySelector('.carrito-panel')) return;
+    // Si ya existe en el DOM, no lo volvemos a crear, pero conectamos las variables
+    if (document.querySelector('.carrito-panel')) {
+      this.carritoPanel = document.querySelector('.carrito-panel');
+      this.closeBtn = this.carritoPanel.querySelector('.carrito-cerrar');
+      
+      this.fondoOverlay = document.querySelector('.fondo-carrito');
+      if (!this.fondoOverlay) {
+        this.fondoOverlay = PAW.nuevoElemento("div", "", { class: "fondo-carrito" });
+        document.body.appendChild(this.fondoOverlay);
+      }
+      return;
+    }
 
     // Overlay de fondo
     this.fondoOverlay = PAW.nuevoElemento("div", "", {
@@ -135,6 +153,47 @@ class PAWCarrito {
         this.cerrarCarrito();
       });
     }
+
+    // Interceptar formularios de agregar al carrito (AJAX)
+    document.addEventListener('submit', (e) => {
+      const form = e.target.closest('form[action="/agregarCarrito"]');
+      if (form) {
+        e.preventDefault();
+        const formData = new FormData(form);
+        
+        fetch('/agregarCarrito', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.status === 'unauthorized') {
+            // Abrir modal de login
+            const loginTrigger = document.querySelector('label[for="mostrar-login"]');
+            if (loginTrigger) loginTrigger.click();
+          } else if (data.status === 'success') {
+            // Recargar página con parámetro para abrir el carrito
+            const url = new URL(window.location.href);
+            url.searchParams.set('abrir_carrito', 'true');
+            window.location.href = url.toString();
+          }
+        })
+        .catch(err => console.error("Error agregando al carrito:", err));
+      }
+    });
+
+    // Auto-actualizar carrito cuando cambia la cantidad
+    document.addEventListener('change', (e) => {
+      if (e.target.matches('.carrito-item-input')) {
+        const form = e.target.closest('form[data-paw-actualizar-carrito="true"]');
+        if (form) {
+          form.submit();
+        }
+      }
+    });
   }
 
   // abrirCarrito / cerrarCarrito: Modifican el estado lógico y actualizan el DOM utilizando classList.add/remove. 

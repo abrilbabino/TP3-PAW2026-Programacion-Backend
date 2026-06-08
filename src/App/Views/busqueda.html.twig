@@ -1,0 +1,22 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block title %}Resultados Búsqueda - PawPrints{% endblock %}
+
+{% block main_attributes %}class="busqueda"{% endblock %}
+
+{% block main %}
+  <header>
+      <h1>Resultado de búsqueda</h1>
+  </header>
+  
+  {% if libros is empty %}
+      <p class="resultado-busqueda">No se encuentran resultados para "<strong>{{ termino|escape }}</strong>"</p>
+  {% else %}
+      <p class="resultado-busqueda">Mostrando los resultados para "<strong>{{ termino|escape }}</strong>"</p>
+  {% endif %}
+  
+  <section data-paw-resultados-busqueda='{{ librosJson|escape('html_attr') }}' data-items-por-pagina="6">
+      <section class="grilla-libros"></section>
+      <nav class="paginacion"></nav>
+  </section>
+{% endblock %}

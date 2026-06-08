@@ -51,42 +51,86 @@ class PAWVisualizacion {
     }
 
     crearTarjetaLibro(libro) {
-        const articulo = PAW.nuevoElemento("article", "", { class: "tarjeta-libro" });
+        const articulo = PAW.nuevoElemento("article", "", {
+            class: "tarjeta-libro",
+            itemprop: "itemListElement",
+            itemscope: "",
+            itemtype: "https://schema.org/ListItem"
+        });
+
+        const wrapperBook = PAW.nuevoElemento("div", "", {
+            itemprop: "item",
+            itemscope: "",
+            itemtype: "https://schema.org/Book",
+            style: "display: contents"
+        });
 
         const img = PAW.nuevoElemento("img", "", {
             src: `/assets/img/${libro.imagen}`,
             alt: libro.titulo,
+            itemprop: "image",
         });
 
-        const titulo = PAW.nuevoElemento("p", "", { class: "tarjeta-titulo" });
-        const tituloFuerte = PAW.nuevoElemento("strong", libro.titulo, {});
-        titulo.appendChild(tituloFuerte);
+        const titulo = PAW.nuevoElemento("p", "", { class: "tarjeta-titulo", itemprop: "name" });
+        titulo.appendChild(document.createTextNode(libro.titulo));
 
-        const autor = PAW.nuevoElemento("p", "", { class: "tarjeta-autor" });
-        const autorEm = PAW.nuevoElemento("em", "Autor: ", {});
-        autor.appendChild(autorEm);
-        autor.appendChild(document.createTextNode(libro.autor_nombre || "Desconocido"));
+        const autor = PAW.nuevoElemento("p", "", {
+            class: "tarjeta-autor",
+            itemprop: "author",
+            itemscope: "",
+            itemtype: "https://schema.org/Person"
+        });
+        autor.appendChild(document.createTextNode("Autor: "));
+        const autorNombreSpan = PAW.nuevoElemento("span", "", { itemprop: "name" });
+        autorNombreSpan.appendChild(document.createTextNode(libro.autor_nombre));
+        autor.appendChild(autorNombreSpan);
 
-        const precioVal = parseFloat(libro.precio).toFixed(2);
+        const precioVal = typeof libro.precio === 'string' ? parseFloat(libro.precio).toFixed(2) : Number(libro.precio).toFixed(2);
         const precio = PAW.nuevoElemento("p", "", { class: "tarjeta-precio" });
         const precioEm = PAW.nuevoElemento("em", "Precio: ", {});
         precio.appendChild(precioEm);
         precio.appendChild(document.createTextNode(`$${precioVal}`));
 
-        const overlay = PAW.nuevoElemento("div", "", { class: "overlay" });
-        const descripcion = PAW.nuevoElemento("p", libro.descripcion || "", {});
-        const link = PAW.nuevoElemento("a", "Ver más", {
-            href: `/detalle?id=${libro.id}`,
-            class: "btn-primario"
+        const offers = PAW.nuevoElemento("div", "", {
+            itemprop: "offers",
+            itemscope: "",
+            itemtype: "https://schema.org/Offer",
+            style: "display: contents"
         });
-        overlay.appendChild(descripcion);
-        overlay.appendChild(link);
+        const priceCurrency = PAW.nuevoElemento("meta", "", {
+            itemprop: "priceCurrency",
+            content: "ARS"
+        });
+        const price = PAW.nuevoElemento("meta", "", {
+            itemprop: "price",
+            content: precioVal
+        });
+        offers.appendChild(priceCurrency);
+        offers.appendChild(price);
 
-        const formulario = PAW.nuevoElemento("form", "", {
-            class: "boton-agregarCarrito",
-            action: "/agregarCarrito",
-            method: "POST",
+        const overlay = PAW.nuevoElemento("div", "", { class: "overlay" });
+        const pDesc = PAW.nuevoElemento("p", "", { itemprop: "description" });
+        pDesc.appendChild(document.createTextNode(libro.descripcion || "Sin descripción"));
+        const btnVerMas = PAW.nuevoElemento("a", "Ver más", {
+            class: "btn-primario",
+            href: `/detalle?id=${libro.id}`,
         });
+        overlay.appendChild(pDesc);
+        overlay.appendChild(btnVerMas);
+
+        const formAdd = PAW.nuevoElemento("form", "", {
+            method: "POST",
+            action: `/agregarCarrito`,
+            "data-paw-carrito-form": "true",
+        });
+        
+        const inputId = PAW.nuevoElemento("input", "", {
+            type: "hidden",
+            name: "libro_id",
+            value: libro.id
+        });
+        formAdd.appendChild(inputId);
+
         const boton = PAW.nuevoElemento("button", "", {
             type: "submit",
             class: "btn-add-carrito",
@@ -96,14 +140,17 @@ class PAWVisualizacion {
         });
         icono.textContent = "add_circle";
         boton.appendChild(icono);
-        formulario.appendChild(boton);
+        formAdd.appendChild(boton);
 
-        articulo.appendChild(img);
-        articulo.appendChild(titulo);
-        articulo.appendChild(autor);
-        articulo.appendChild(precio);
-        articulo.appendChild(overlay);
-        articulo.appendChild(formulario);
+        wrapperBook.appendChild(img);
+        wrapperBook.appendChild(titulo);
+        wrapperBook.appendChild(autor);
+        wrapperBook.appendChild(precio);
+        wrapperBook.appendChild(offers);
+        wrapperBook.appendChild(overlay);
+        wrapperBook.appendChild(formAdd);
+
+        articulo.appendChild(wrapperBook);
 
         return articulo;
     }

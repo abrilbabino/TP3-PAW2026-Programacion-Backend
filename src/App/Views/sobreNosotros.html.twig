@@ -1,0 +1,129 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block title %}PawPrints - Sobre Nosotros{% endblock %}
+
+{% block main_attributes %}class="sobreNosotros-contenedor" itemscope itemtype="https://schema.org/Organization"{% endblock %}
+
+{% block main %}
+  <meta itemprop="name" content="PAWPrints" />
+  <meta itemprop="description" content="PAWPrints es una librería física y en línea comprometida con la difusión de la literatura y el servicio comunitario." />
+
+  <header class="sobreNosotros-encabezado">
+    <h1 itemprop="name">Sobre PawPrints</h1>
+    <p>
+      Aprende más sobre nuestra historia, misión y servicios a la comunidad
+    </p>
+  </header>
+
+  <section class="sobreNosotros-seccion">
+    <h2>Nuestra historia</h2>
+    <section class="sobreNosotros-contenedor-tarjetas">
+      <article class="sobreNosotros-tarjeta">
+        <img
+          src="/assets/img/nuestroOrigen.png"
+          alt="Origen de nuestra librería"
+          class="img-cuadrada"
+        />
+        <section class="sobreNosotros-tarjeta-cuerpo">
+          <h3>Nuestros Orígenes</h3>
+          <p>Fundada en 2004 empezamos como...</p>
+        </section>
+      </article>
+    </section>
+  </section>
+
+  <section class="sobreNosotros-seccion">
+    <h2>Nuestra misión</h2>
+    <section class="sobreNosotros-contenedor-tarjetas">
+      <article class="sobreNosotros-tarjeta">
+        <img
+          src="/assets/img/nuestraMision.png"
+          alt="Nuestra Declaración de Misión"
+          class="img-cuadrada"
+        />
+        <section class="sobreNosotros-tarjeta-cuerpo">
+          <h3>Declaración</h3>
+          <p>Lo que nos impulsa a servir a nuestra comunidad y ...</p>
+        </section>
+      </article>
+    </section>
+  </section>
+
+  <section class="sobreNosotros-seccion">
+    <h2>Nuestros servicios</h2>
+    <section class="sobreNosotros-contenedor-tarjetas">
+      <article class="sobreNosotros-tarjeta">
+        <img
+          src="/assets/img/serviciosComunitario.png"
+          alt="Eventos Comunitarios"
+          class="img-cuadrada"
+        />
+        <section class="sobreNosotros-tarjeta-cuerpo">
+          <h3>Servicios Comunitarios</h3>
+          <p>Organizamos lecturas de libros semanales...</p>
+          <footer class="sobreNosotros-etiquetas">
+            <small>Eventos</small>
+            <small>Talleres</small>
+          </footer>
+        </section>
+      </article>
+
+      <article class="sobreNosotros-tarjeta">
+        <img
+          src="/assets/img/recomendacionLibros.png"
+          alt="Recomendaciones de Libros"
+          class="img-cuadrada"
+        />
+        <section class="sobreNosotros-tarjeta-cuerpo">
+          <h3>Recomendaciones de Libros</h3>
+          <p>Nuestro personal ofrece recomendaciones...</p>
+          <footer class="sobreNosotros-etiquetas">
+            <small>Servicio Personalizado</small>
+          </footer>
+        </section>
+      </article>
+    </section>
+  </section>
+
+  <section class="sobreNosotros-seccion">
+    <h2>Nuestros fundadores</h2>
+    <section class="sobreNosotros-contenedor-tarjetas">
+      <article class="sobreNosotros-tarjeta" itemprop="founder" itemscope itemtype="https://schema.org/Person">
+        <img
+          src="https://randomuser.me/api/portraits/women/68.jpg"
+          alt="Abril Babino"
+          class="img-cuadrada"
+          itemprop="image"
+        />
+        <section class="sobreNosotros-tarjeta-cuerpo">
+          <h3 itemprop="name">Abril Babino</h3>
+          <p>Fundador de PAWPrints. Apasionado por la lectura y la tecnología.</p>
+        </section>
+      </article>
+      <article class="sobreNosotros-tarjeta" itemprop="founder" itemscope itemtype="https://schema.org/Person">
+        <img
+          src="https://randomuser.me/api/portraits/women/90.jpg"
+          alt="Naiara Collazo"
+          class="img-cuadrada"
+          itemprop="image"
+        />
+        <section class="sobreNosotros-tarjeta-cuerpo">
+          <h3 itemprop="name">Naiara Collazo</h3>
+          <p>Co-fundador de PAWPrints. Encargado de la curaduría y relaciones con la comunidad.</p>
+        </section>
+      </article>
+      <article class="sobreNosotros-tarjeta" itemprop="founder" itemscope itemtype="https://schema.org/Person">
+        <img
+          src="https://randomuser.me/api/portraits/men/44.jpg"
+          alt="Tobias Avila"
+          class="img-cuadrada"
+          itemprop="image"
+        />
+        <section class="sobreNosotros-tarjeta-cuerpo">
+          <h3 itemprop="name">Tobias Avila</h3>
+          <p>Co-fundador de PAWPrints. Responsable de la gestión operativa y el desarrollo tecnológico de la plataforma.</p>
+        </section>
+      </article>
+    </section>
+  </section>
+{% endblock %}

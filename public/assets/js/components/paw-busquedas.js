@@ -49,7 +49,7 @@ class PAWBusquedas {
   // Asocia el guardado al submit y controla la visibilidad con focus/blur.
   // El setTimeout en el evento blur retrasa la ocultación 200ms para permitir que los eventos click en los enlaces del historial se procesen antes de desaparecer el contenedor.
   registrarEventos() {
-    this.formulario.addEventListener("submit", () => {
+    this.formulario.addEventListener("submit", (e) => {
       const termino = this.input.value.trim();
       if (termino) this.guardar(termino);
     });

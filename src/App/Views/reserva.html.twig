@@ -1,0 +1,38 @@
+{% extends 'layout/base.html.twig' %}
+{% import 'macros/forms.html.twig' as forms %}
+
+{% block title %}PawPrints - Reserva{% endblock %}
+
+{% block main %}
+  <header>
+    <h1>Reserva de Libros</h1>
+    <p>Solicitá tu reserva a continuación</p>
+  </header>
+
+  <section class="Formulario">
+    <h2>Formulario de Reserva</h2>
+
+    <form id="form-reserva" action="/reserva/procesar-reserva" method="POST">
+
+      <fieldset>
+        <legend>Datos Personales</legend>
+
+        {{ forms.input('nombre', 'Nombre', 'text', app.request.get('nombre') ?? session.user.nombre_completo|default(''), errores.nombre|default(''), 'required') }}
+
+        {{ forms.input('email', 'Email', 'email', app.request.get('email') ?? session.user.email|default(''), errores.email|default(''), 'required') }}
+
+        {{ forms.input('tel', 'Teléfono', 'tel', app.request.get('tel') ?? '', errores.tel|default('')) }}
+      </fieldset>
+
+      <fieldset>
+        <legend>Detalles</legend>
+
+        {{ forms.input('cantidad', 'Cantidad', 'number', app.request.get('cantidad') ?? '1', errores.cantidad|default(''), 'min="1" max="5" required') }}
+
+        {{ forms.input('libro', 'Título', 'text', app.request.get('libro') ?? '', errores.libro|default(''), 'required') }}
+      </fieldset>
+
+      <button type="submit" class="btn-primario">Reservar</button>
+    </form>
+  </section>
+{% endblock %}

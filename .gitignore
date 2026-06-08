@@ -9,3 +9,10 @@
 .DS_Store
 
 /logs/*.log
+
+# Caché de Twig
+/src/App/views/cache/
+
+# Imágenes subidas dinámicamente o descargadas de la API
+/public/assets/img/libro_*
+/public/assets/img/autor_*

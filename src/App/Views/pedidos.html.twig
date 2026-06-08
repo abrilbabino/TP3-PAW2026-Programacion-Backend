@@ -1,0 +1,53 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block title %}Listado de Pedidos - PawPrints{% endblock %}
+
+{% block main_attributes %}{% endblock %}
+
+{% block main %}
+    <header>
+        <h1>Pedidos Registrados</h1>
+        <p>Área exclusiva para el personal de la empresa.</p>
+    </header>
+
+    <section class="page-container">
+        <article class="pedidos-container">
+        {% if pedidos is empty %}
+            <section class="empty-state">
+                <span class="material-symbols-outlined empty-icon">inbox</span>
+                <h2>No hay pedidos registrados</h2>
+                <p>Aún no se han realizado reservas en el sistema.</p>
+            </section>
+        {% else %}
+            <figure class="table-responsive">
+                <table class="table-pedidos">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Fecha</th>
+                            <th>Cliente</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Libro Solicitado</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pedido in pedidos %}
+                            <tr>
+                                <td data-label="ID">#{{ pedido.id }}</td>
+                                <td data-label="Fecha">{{ pedido.fecha|date("d/m/Y H:i") }}</td>
+                                <td data-label="Cliente"><strong>{{ pedido.nombre|escape }}</strong></td>
+                                <td data-label="Email"><a href="mailto:{{ pedido.email|escape }}">{{ pedido.email|escape }}</a></td>
+                                <td data-label="Teléfono">{{ pedido.telefono|escape }}</td>
+                                <td data-label="Libro Solicitado"><em>{{ pedido.libro|escape }}</em></td>
+                                <td data-label="Cantidad" class="text-center"><span class="badge">{{ pedido.cantidad }}</span></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </figure>
+        {% endif %}
+        </article>
+    </section>
+{% endblock %}

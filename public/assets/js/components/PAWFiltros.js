@@ -2,7 +2,7 @@ class PAWFiltros {
     constructor(container, opciones = {}) {
         this.container = typeof container === 'string' ? document.getElementById(container) : container;
         this.opciones = {
-            urlAPI: "/api/libros",
+            urlAPI: opciones.urlAPI || "/api/libros",
             itemsPorPagina: opciones.itemsPorPagina || 6,
             ...opciones,
         };
@@ -102,7 +102,11 @@ class PAWFiltros {
         this.container.appendChild(barraOpciones);
 
         // 5. Crear Grilla (Área: libros)
-        this.contenedorLibros = PAW.nuevoElemento("section", "", { class: "grilla-libros" });
+        this.contenedorLibros = PAW.nuevoElemento("section", "", {
+            class: "grilla-libros",
+            itemscope: "",
+            itemtype: "https://schema.org/ItemList"
+        });
         this.container.appendChild(this.contenedorLibros);
 
         // 6. Crear Paginación (Área: paginacion)

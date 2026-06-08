@@ -60,6 +60,7 @@ class AuthController extends Controller
             'nombre_usuario' => $username,
             'email'          => $email,
             'nombre_completo' => $name,
+            'rol'            => 'cliente',
         ]);
 
         echo json_encode(['status' => 'success']);

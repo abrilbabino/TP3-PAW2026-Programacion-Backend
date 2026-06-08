@@ -17,6 +17,20 @@ class AppPAW {
     this._initUploader();
     this._initFiltros();
     this._initAuth();
+    this._initCrearLibro();
+    this._initAutocomplete();
+  }
+
+  _initAutocomplete() {
+    if (document.querySelector("#libro")) {
+      PAW.cargarScript(
+        "PAW-Autocomplete-Script",
+        "/assets/js/components/paw-autocomplete.js",
+        () => {
+          new PAWAutocomplete("#libro", "/api/libros/buscar");
+        }
+      );
+    }
   }
 
   _initMenu() {
@@ -205,6 +219,18 @@ class AppPAW {
                 auth.init();
             }
         );
+    }
+
+    _initCrearLibro() {
+        if (document.querySelector("#form-nuevo-libro")) {
+            PAW.cargarScript(
+                "PAW-CrearLibro-Script",
+                "/assets/js/components/paw-crear-libro.js",
+                () => {
+                    new PAWCrearLibro();
+                }
+            );
+        }
     }
 }
 
