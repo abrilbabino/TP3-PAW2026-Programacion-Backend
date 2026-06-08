@@ -71,12 +71,10 @@ admindemo123
 ```
 
 ## Ngrok
-_Para probar la aplicación con todas sus funcionalidades activas (incluyendo el servicio de correo):_  
 La aplicación se encuentra disponible de forma temporal a través de un túnel de ngrok.  
 **Solicitud de acceso**: Por favor, contactar para obtener el enlace activo de la sesión actual.
 
 ## Autores
-
 Abril Babino  
 Naiara Collazo  
 Tobias Avila

@@ -183,7 +183,7 @@
 }
 
 /* LIBROS RELACIONADOS */
-.detalle-libro ~ section h2 {
+.libros-relacionados h2 {
   font-size: 1.5rem;
   font-weight: 800;
   color: var(--color-texto);
